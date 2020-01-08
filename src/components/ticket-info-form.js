@@ -74,13 +74,57 @@ class TicketInfoForm extends React.Component {
         if (ticketType.quantity_2_sell > 0 && now >= ticketType.sales_start_date && now <= ticketType.sales_end_date) {
             return (
                 <div className="ticket-info-wrapper">
+                  <hr/>
                     <div className="row">
                         <div className="col-md-12">
                             <h3>{ticketType.name} {T.translate("step_two.tickets")} {orderedTickets.length > 0 ? `(${orderedTickets.length})` : ''}</h3>
                         </div>
                     </div>
                     { orderedTickets.map((tix, i) => (                  
-                        <div className="row field-wrapper" key={`tix_${ticketType.id}_${i}`}>                                          
+                        <div className="row field-wrapper" key={`tix_${ticketType.id}_${i}`}>
+                          <div className="ticket-desktop">
+                            <div className="ticket-number">
+                                <label>{T.translate("step_two.ticket")} #{i+1}</label>
+                            </div>
+                            <div className="ticket-data">
+                              <div className="row-ticket">
+                                <div className="col-md-4">
+                                  <p>{T.translate("step_two.code")}</p>
+                                </div>
+                                <div className="col-md-6">
+                                  <Input
+                                      className="form-control"
+                                      placeholder={T.translate("step_two.placeholders.coupon")}
+                                      error={this.hasErrors(`tix_coupon_${tix.tempId}`)}
+                                      onChange={this.ticketInfoChange.bind(this, tix.tempId, i, 'promo_code')}
+                                      value={tix.promo_code ? tix.promo_code : ''}
+                                  />
+                                </div>
+                                <div className="col-md-2">
+                                  <a href="" onClick={this.removeTicket.bind(this, tix.tempId)}>
+                                      <i className="fa fa-trash-o" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                              <div className="row-ticket">
+                                <div className="col-md-4">
+                                  <p>{T.translate("step_two.assign")}</p>
+                                </div>
+                                <div className="col-md-6">
+                                  <Input
+                                      className="form-control email"
+                                      placeholder={T.translate("step_two.placeholders.email")}
+                                      error={this.hasErrors(`tix_email_${tix.tempId}`)}
+                                      onChange={this.ticketInfoChange.bind(this, tix.tempId, i, 'attendee_email')}
+                                      value={
+                                        (i === 0 && order.tickets.length === 1 && !firstTicket) ? 
+                                      tix.attendee_email = order.email : tix.attendee_email ? tix.attendee_email : '' }
+                                  />
+                                </div>
+                              </div>
+                            </div>      
+                          </div>
+                          <div className="ticket-mobile">
                             <div className="col-md-4">
                                 <label>{T.translate("step_two.ticket")} #{i+1}</label>
                             </div>
@@ -107,6 +151,7 @@ class TicketInfoForm extends React.Component {
                                     <i className="fa fa-trash-o" aria-hidden="true"></i>
                                 </a>
                             </div>
+                          </div>
                         </div>
                     ))}
 

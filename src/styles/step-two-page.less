@@ -25,6 +25,31 @@
         color: #A4C7E6;
       }
     }
+    
+    .ticket-number {
+      margin: 0 15px;
+    }
+    .ticket-data {
+      .row-ticket {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: -15px;
+        input {
+          border-radius: 4px 4px 0px 0px;
+        }        
+      }  
+      .row-ticket:last-child {        
+        margin-bottom: 0px;
+        input {
+          border-radius: 0px 0px 4px 4px;
+        }
+      }
+    }
+  }
+  .ticket-info-wrapper {
+    h3 {
+      margin-top: 0px;
+    }
   }
 }
 
@@ -34,6 +59,17 @@
       .required {
         display: none;
       }
+    }
+    .ticket-desktop {
+      display: none;
+    }
+  }
+}
+
+@media(min-width: 768px) {
+  .step-two {    
+    .ticket-mobile {
+      display: none;
     }
   }
 }
