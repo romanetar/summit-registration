@@ -52,13 +52,14 @@
     "company"           : "Company",
     "tickets"           : "Tickets",
     "ticket"            : "Ticket",
+    "asterisks"         : "** Tickets can be assign later",
     "code"              : "Promo Code",
-    "assign"            : "Assign this ticket to:",
+    "assign"            : "Assign to: **",
     "add_ticket"        : "Add additional tickets to this order",
     "no_tickets"        : "No tickets selected.",
     "placeholders": {
-      "coupon"          : "Apply a Promo Code to this ticket (Optional)",
-      "email"           : "Enter Email (Optional: you can assign this ticket later)"
+      "coupon"          : "(Optional)",
+      "email"           : "Attendee Email (Optional)"
     }
   },
   "step_three": {
