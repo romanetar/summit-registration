@@ -13,13 +13,11 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import T from "i18n-react/dist/i18n-react";
 import cloneDeep from "lodash.clonedeep";
 import OrderSummary from "../components/order-summary";
-import EventInfo from "../components/event-info";
 import StepRow from '../components/step-row';
 import SubmitButtons from "../components/submit-buttons";
-import { saveOrderDetails, handleOrderChange, validateStripe } from '../actions/order-actions'
+import { handleOrderChange, validateStripe } from '../actions/order-actions'
 import {findElementPos} from "openstack-uicore-foundation/lib/methods";
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import PaymentInfoForm from "../components/payment-info-form";
@@ -196,7 +194,6 @@ const mapStateToProps = ({ loggedUserState, summitState, orderState }) => ({
 export default connect (
     mapStateToProps,
     {
-        saveOrderDetails,
         handleOrderChange,
         validateStripe
     }

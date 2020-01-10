@@ -19,7 +19,6 @@ import StepOnePage from '../pages/step-one-page'
 import StepTwoPage from '../pages/step-two-page'
 import StepThreePage from '../pages/step-three-page'
 import StepFourPage from '../pages/step-four-page'
-import NotFoundSummit from '../components/not-found-summit';
 
 class PrimaryLayout extends React.Component {
   
@@ -45,8 +44,7 @@ class PrimaryLayout extends React.Component {
     }
 
     render(){
-        let { location, match, summit, summitLoader } = this.props;
-        let summitSlug = this.props.match.params.summit_slug;
+        let { match, summit, summitLoader } = this.props;        
 
         if (!summitLoader && (Object.entries(summit).length === 0 && summit.constructor === Object)) {                    
           return <div>

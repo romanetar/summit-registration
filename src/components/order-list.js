@@ -83,8 +83,6 @@ class OrderList extends React.Component {
 
     handleOrderStatus(order){
 
-      let { summits } = this.props;
-
       const status = [
         { 
           text: 'TICKET(S) ASSIGNED AND ISSUED',

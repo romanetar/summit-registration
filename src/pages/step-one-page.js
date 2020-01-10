@@ -15,7 +15,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import T from "i18n-react/dist/i18n-react";
 import moment from "moment";
-import EventInfo from "../components/event-info";
 import TicketInput from "../components/ticket-input";
 import StepRow from '../components/step-row';
 import SubmitButtons from "../components/submit-buttons";
@@ -82,8 +81,7 @@ class StepOnePage extends React.Component {
             <div className="step-one">
                 {(now >= summit.registration_begin_date && 
                   now <= summit.registration_end_date && 
-                  now < summit.end_date && 
-                  summit.ticket_types.length) ?
+                  now < summit.end_date) ?
                   <React.Fragment>
                     <StepRow step={this.step} />
                     <div className="row">

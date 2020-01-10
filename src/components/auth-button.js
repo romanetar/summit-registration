@@ -12,7 +12,6 @@
  **/
 
 import React from 'react'
-import { NavLink } from 'react-router-dom'
 import T from 'i18n-react/dist/i18n-react'
 import history from '../history'
 import URI from 'urijs';
@@ -106,7 +105,6 @@ AuthButton extends React.Component {
     render() {
         let {isLoggedUser, doLogin, member} = this.props;
         let profile_pic = member ? member.pic : '';
-        let {showLogOut} = this.state;
 
         if (isLoggedUser) {
             return (

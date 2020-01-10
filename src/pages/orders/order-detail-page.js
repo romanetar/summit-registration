@@ -62,9 +62,6 @@ class OrderDetailPage extends React.Component {
 
   handleTicketStatus(ticket){
 
-    let { summit } = this.props;
-    let summitExtraQuestions = summit.order_extra_questions;
-
     const status = [
       { 
         text: 'UNASSIGNED',

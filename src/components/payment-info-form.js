@@ -13,12 +13,10 @@
 
 import React from 'react'
 import T from 'i18n-react/dist/i18n-react'
-import { findElementPos } from 'openstack-uicore-foundation/lib/methods'
 import { CardNumberElement,
          CardExpiryElement,
          CardCvcElement,
          injectStripe } from 'react-stripe-elements';
-import { Input } from 'openstack-uicore-foundation/lib/components'
 
 
 class PaymentInfoForm extends React.Component {

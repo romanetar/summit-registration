@@ -13,13 +13,12 @@
 
 import React from 'react'
 import T from "i18n-react/dist/i18n-react";
-import { Input, Dropdown, CheckboxList, TextArea, CheckBox, RadioList  } from 'openstack-uicore-foundation/lib/components'
+import { Input } from 'openstack-uicore-foundation/lib/components'
 import QuestionAnswersInput from './questions-answer-input';
 
 import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
 
 import '../styles/ticket-assign-form.less';
-import moment from 'moment';
 
 class TicketAssignForm extends React.Component {
 

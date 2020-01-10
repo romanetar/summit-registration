@@ -13,7 +13,6 @@
 
 import React from 'react'
 import T from 'i18n-react/dist/i18n-react'
-import { findElementPos } from 'openstack-uicore-foundation/lib/methods'
 import { Input } from 'openstack-uicore-foundation/lib/components'
 
 
@@ -63,7 +62,7 @@ class TicketInfoForm extends React.Component {
 
 
     render() {
-        let {order, onChange, ticketType, summit} = this.props;
+        let {order, ticketType, summit} = this.props;
         let {firstTicket} = this.state;
         let orderedTickets = order.tickets.filter(tix => {
           let tixId = tix.type_id ? tix.type_id : tix.ticket_type_id;

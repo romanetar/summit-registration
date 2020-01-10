@@ -12,9 +12,6 @@
  **/
 
 import React from 'react';
-import { connect } from 'react-redux';
-import T from "i18n-react/dist/i18n-react";
-import { Dropdown } from 'openstack-uicore-foundation/lib/components'
 import history from '../history';
 import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
 
@@ -72,7 +69,7 @@ export default class SummitCard extends React.Component {
     }
 
     render(){
-      let {summit, size, bgColor, fontColor, lastHours, soldOut, image} = this.props;      
+      let {summit, image} = this.props;      
 
         return (
             <div className="summit-card">

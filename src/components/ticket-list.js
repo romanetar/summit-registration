@@ -12,12 +12,11 @@
  **/
 
 import React from 'react'
-import T from 'i18n-react/dist/i18n-react'
 import { Pagination } from 'react-bootstrap';
 
 import TicketPopup from "../components/ticket-popup";
 
-import { daysBetweenDates, getDayNumberFromDate, getFormatedDate, getFormatedTime } from '../utils/helpers';
+import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
 
 class TicketList extends React.Component {
     constructor(props) {

@@ -16,12 +16,8 @@ import { connect } from 'react-redux';
 import T from "i18n-react/dist/i18n-react";
 import { Link } from 'react-router-dom';
 import OrderSummary from "../components/order-summary";
-import EventInfo from "../components/event-info";
-import BasicInfoForm from '../components/basic-info-form';
-import TicketInfoForm from '../components/ticket-info-form';
 import StepRow from '../components/step-row';
-import { saveOrderDetails, handleOrderChange } from '../actions/order-actions'
-import {findElementPos} from "openstack-uicore-foundation/lib/methods";
+import { handleOrderChange } from '../actions/order-actions'
 
 
 import '../styles/step-four-page.less';
@@ -174,7 +170,6 @@ const mapStateToProps = ({ loggedUserState, summitState, orderState }) => ({
 export default connect (
     mapStateToProps,
     {
-        saveOrderDetails,
         handleOrderChange
     }
 )(StepFourPage);

@@ -15,7 +15,7 @@ import React from 'react'
 import T from 'i18n-react/dist/i18n-react'
 import cloneDeep from "lodash.clonedeep";
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import { Input, Dropdown, CheckboxList, TextArea } from 'openstack-uicore-foundation/lib/components'
+import { Input } from 'openstack-uicore-foundation/lib/components'
 import validator from "validator"
 
 import TicketAssignForm from '../components/ticket-assign-form';
