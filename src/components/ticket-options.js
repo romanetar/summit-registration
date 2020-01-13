@@ -32,8 +32,8 @@ class TicketOptions extends React.Component {
 
     handleTicketName(ticket) {
       let {summit} = this.props;
-      let ticketName = summit.ticket_types.find(t => t.id === ticket.ticket_type_id).name;      
-      return ticketName;
+      let ticketName = summit.ticket_types.find(t => t.id === ticket.ticket_type_id);
+      return ticketName.name ? ticketName.name : null;
     }
 
     handleTicketDate(ticket) {
