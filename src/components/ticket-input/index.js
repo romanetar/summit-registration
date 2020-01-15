@@ -68,7 +68,7 @@ export default class TicketInput extends React.Component {
                                         <div className="quantity-value" style={{opacity : t.quantity_2_sell > 0 ? '1' : '0.4'}}>{quantity}</div>
                                         <button className="btn btn-default" onClick={this.addTicket.bind(this, t.id)} 
                                           disabled={(t.max_quantity_per_order > 0 && t.max_quantity_per_order <= quantity) ||
-                                          (quantity >= t.quantity_2_sell - t.quantity_sold)}>
+                                          (quantity >= t.quantity_2_sell)}>
                                             <i className="fa fa-plus"></i>
                                         </button>
                                     </div>
@@ -82,7 +82,7 @@ export default class TicketInput extends React.Component {
                                   <div className="sold-out-text">
                                     {T.translate("step_one.sold_out")}
                                   </div>
-                                }                                        
+                                }
                             </div>
                         </div>
                       )

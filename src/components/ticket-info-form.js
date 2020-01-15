@@ -170,7 +170,7 @@ class TicketInfoForm extends React.Component {
                             <button className="btn btn-primary" onClick={this.addTicket.bind(this, ticketType.id)}
                             disabled={(
                                 ticketType.max_quantity_per_order > 0 && ticketType.max_quantity_per_order <= orderedTickets.length) 
-                                || (orderedTickets.length >= ticketType.quantity_2_sell - ticketType.quantity_sold)}>
+                                || (orderedTickets.length >= ticketType.quantity_2_sell)}>
                                 {T.translate("step_two.add_ticket")}
                             </button>
                         </div>

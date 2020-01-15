@@ -18,7 +18,6 @@ import { Dropdown } from 'openstack-uicore-foundation/lib/components'
 import history from '../history';
 import SummitCard from './summit-card';
 
-
 export default class NotFoundSummit extends React.Component {
 
     constructor(props){

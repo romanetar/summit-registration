@@ -81,7 +81,7 @@ class StepOnePage extends React.Component {
             <div className="step-one">
                 {(now >= summit.registration_begin_date && 
                   now <= summit.registration_end_date && 
-                  now < summit.end_date) ?
+                  now < summit.end_date) && summit.ticket_types.length > 0 ?
                   <React.Fragment>
                     <StepRow step={this.step} />
                     <div className="row">
