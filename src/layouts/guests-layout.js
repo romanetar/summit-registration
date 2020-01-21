@@ -30,7 +30,7 @@ class GuestsLayout extends React.Component {
       tempTicket: {
         attendee_email: '',
         attendee_first_name: '',
-        attendee_surname: '',
+        attendee_last_name: '',
         attendee_company: '',
         disclaimer_accepted: null,
         extra_questions: []
@@ -58,10 +58,10 @@ class GuestsLayout extends React.Component {
     }
 
     componentDidUpdate() {
-      let {attendee_email, attendee_first_name, attendee_surname, attendee_company, disclaimer_accepted, extra_questions} = this.state.tempTicket;
+      let {attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions} = this.state.tempTicket;
       let {owner} = this.props.ticket;      
-      if(owner && !attendee_email && (!attendee_first_name || !attendee_surname || !attendee_company || !disclaimer_accepted || !extra_questions)) {
-        let {email, first_name, surname, company, disclaimer_accepted_date, extra_questions} = owner;
+      if(owner && !attendee_email && (!attendee_first_name || !attendee_last_name || !attendee_company || !disclaimer_accepted || !extra_questions)) {
+        let {email, first_name, last_name, company, disclaimer_accepted_date, extra_questions} = owner;
         let formattedQuestions = [];
         extra_questions.map(q => {
           let question = {question_id: q.question_id, answer: q.value};
@@ -70,7 +70,7 @@ class GuestsLayout extends React.Component {
         this.setState({tempTicket: { 
           attendee_email: email, 
           attendee_first_name: first_name, 
-          attendee_surname: surname, 
+          attendee_last_name: last_name, 
           attendee_company: company,
           disclaimer_accepted: disclaimer_accepted_date ? true : false,
           extra_questions: formattedQuestions}});                        
@@ -100,18 +100,14 @@ class GuestsLayout extends React.Component {
 
     handleTicketUpdate(ticket){
       let ticketHash = this.props.match.params.ticket_hash;
-      let { attendee_first_name, attendee_surname, attendee_company, disclaimer_accepted, share_contact_info, extra_questions } = ticket;
-      this.props.assignTicketByHash(attendee_first_name, attendee_surname, attendee_company, disclaimer_accepted, share_contact_info, extra_questions, ticketHash);
+      let { attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, share_contact_info, extra_questions } = ticket;
+      this.props.assignTicketByHash(attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, share_contact_info, extra_questions, ticketHash);
     }
   
     handleChange(ev) {
       let ticket = cloneDeep(this.props.ticket);
       let errors = cloneDeep(this.props.errors);
       let {value, id} = ev.target;
-
-      if(ev.target.id === 'attendee_last_name') {
-        id = 'attendee_surname';
-      }
 
       if (ev.target.type == 'checkbox') {
         value = ev.target.checked;        
@@ -153,14 +149,14 @@ class GuestsLayout extends React.Component {
     }
 
     handlePopupSave() {
-      let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_surname}} = this.state;
+      let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_last_name}} = this.state;
       let {summit:{registration_disclaimer_mandatory}} = this.props;
 
       let mandatoryExtraQuestions = this.handleMandatoryExtraQuestions();
-      let saveEnabled = attendee_first_name && attendee_surname && mandatoryExtraQuestions;
+      let saveEnabled = attendee_first_name && attendee_last_name && mandatoryExtraQuestions;
       
       if (registration_disclaimer_mandatory) {
-        saveEnabled = attendee_first_name && attendee_surname && mandatoryExtraQuestions && disclaimer_accepted;
+        saveEnabled = attendee_first_name && attendee_last_name && mandatoryExtraQuestions && disclaimer_accepted;
       }
 
       // return the reverse value for disabled prop

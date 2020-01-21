@@ -223,14 +223,14 @@ class TicketAssignForm extends React.Component {
               </div>
               <div className="col-sm-8">
                 {readOnly ? 
-                  <span>{ticket.attendee_surname}</span>
+                  <span>{ticket.attendee_last_name}</span>
                   :
                   <Input
-                    id="attendee_surname"
+                    id="attendee_last_name"
                     className="form-control"
-                    error={this.hasErrors('attendee_surname')}
+                    error={this.hasErrors('attendee_last_name')}
                     onChange={onChange}
-                    value={ticket.attendee_surname}
+                    value={ticket.attendee_last_name}
                   />
                 }
               </div>
@@ -239,14 +239,14 @@ class TicketAssignForm extends React.Component {
             <div>{T.translate("ticket_popup.edit_last_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
               <div>
                 {readOnly ? 
-                  <span>{ticket.attendee_surname}</span>
+                  <span>{ticket.attendee_last_name}</span>
                   :
                   <Input
-                    id="attendee_surname"
+                    id="attendee_last_name"
                     className="form-control"
-                    error={this.hasErrors('attendee_surname')}
+                    error={this.hasErrors('attendee_last_name')}
                     onChange={onChange}
-                    value={ticket.attendee_surname}
+                    value={ticket.attendee_last_name}
                   />
                 }
               </div>

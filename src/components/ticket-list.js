@@ -107,7 +107,7 @@ class TicketList extends React.Component {
         return status[0];
       } else if(this.handlePastSummit(ticket)) {
         return status[6];
-      } else if (!ticket.owner.first_name || !ticket.owner.surname) {
+      } else if (!ticket.owner.first_name || !ticket.owner.last_name) {
         return status[1];
       } else if (ticket.owner && ticket.owner.status === "Complete") {
         return status[2];
@@ -126,13 +126,13 @@ class TicketList extends React.Component {
 
     handleTicketUpdate(ticket){
 
-      let { attendee_first_name, attendee_surname, attendee_company, attendee_email, extra_questions, disclaimer_accepted, owner } = ticket;
+      let { attendee_first_name, attendee_last_name, attendee_company, attendee_email, extra_questions, disclaimer_accepted, owner } = ticket;
       let { member } = this.props;
       
       if(owner.email !== attendee_email) {
           this.props.removeAttendee(ticket);
       } else if(owner.email === member.email) {
-          this.props.editOwnedTicket(attendee_email, attendee_first_name, attendee_surname, attendee_company, disclaimer_accepted, extra_questions);      
+          this.props.editOwnedTicket(attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions);      
       }
             
     }

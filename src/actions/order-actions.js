@@ -196,7 +196,7 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
       stripe.handleCardPayment(
         reservation.payment_gateway_client_token, card, {
               payment_method_data: {
-                  billing_details: {name: `${purchaseOrder.first_name} ${purchaseOrder.surname}`}
+                  billing_details: {name: `${purchaseOrder.first_name} ${purchaseOrder.last_name}`}
               }
           }
       ).then((result) => {

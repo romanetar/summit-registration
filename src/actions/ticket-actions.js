@@ -144,7 +144,7 @@ export const selectTicket = (ticket, ticketList = false, ticketRefresh) => (disp
 export const handleTicketChange = (ticket, errors = {}) => (dispatch, getState) => {    
 
     // if (validator.isEmpty(ticket.attendee_first_name)) errors.attendee_first_name = 'Please enter your First Name.';
-    // if (validator.isEmpty(ticket.attendee_surname)) errors.attendee_surname = 'Please enter your Last Name.';
+    // if (validator.isEmpty(ticket.attendee_last_name)) errors.attendee_last_name = 'Please enter your Last Name.';
     // if (!validator.isEmail(ticket.attendee_email)) errors.attendee_email = 'Please enter a valid Email.';    
 
     /*ticket.tickets.forEach(tix => {
@@ -279,7 +279,7 @@ export const removeAttendee = (tempTicket, fromTicket = false) => (dispatch, get
 
   let {attendee_email, reassign_email} = tempTicket;
   if(reassign_email) attendee_email = reassign_email;
-  let emptyName, emptySurname = ''
+  let emptyFirstName, emptyLastName = ''
 
   return deleteRequest(
       null,
@@ -288,7 +288,7 @@ export const removeAttendee = (tempTicket, fromTicket = false) => (dispatch, get
       {},
       authErrorHandler
   )(params)(dispatch).then(() => {
-      dispatch(assignAttendee(attendee_email, emptyName, emptySurname, orderId, fromTicket));
+      dispatch(assignAttendee(attendee_email, emptyFirstName, emptyLastName, orderId, fromTicket));
     }).catch((e) => {
       console.log('error', e)
       dispatch(stopLoading());

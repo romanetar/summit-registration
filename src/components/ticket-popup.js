@@ -36,7 +36,7 @@ class TicketPopup extends React.Component {
           tempTicket: {
             attendee_email: '',
             attendee_first_name: '',
-            attendee_surname: '',
+            attendee_last_name: '',
             attendee_company: '',
             reassign_email: '',
             disclaimer_accepted: null,
@@ -67,7 +67,7 @@ class TicketPopup extends React.Component {
       document.body.style.overflow = "hidden";
       let {owner} = this.props.ticket;
       if(owner) {
-        let {email, first_name, surname, company, disclaimer_accepted_date, extra_questions} = owner;
+        let {email, first_name, last_name, company, disclaimer_accepted_date, extra_questions} = owner;
         let formattedQuestions = [];
         extra_questions.map(q => {
           let question = {question_id: q.question_id, answer: q.value};
@@ -76,7 +76,7 @@ class TicketPopup extends React.Component {
         this.setState({tempTicket: { 
           attendee_email: email, 
           attendee_first_name: first_name, 
-          attendee_surname: surname,
+          attendee_last_name: last_name,
           attendee_company: company,
           disclaimer_accepted: disclaimer_accepted_date ? true : false, 
           extra_questions: formattedQuestions,
@@ -143,7 +143,7 @@ class TicketPopup extends React.Component {
     handleTicketAssign(self) {
       if(self){        
         const { email, first_name, last_name } = this.props.member;
-        this.props.updateTicket({attendee_email: email, attendee_first_name: first_name, attendee_surname: last_name});
+        this.props.updateTicket({attendee_email: email, attendee_first_name: first_name, attendee_last_name: last_name});
         this.props.closePopup();
       } else {
         let { tempTicket } = this.state;
@@ -162,7 +162,7 @@ class TicketPopup extends React.Component {
             return {
               tempTicket: {                    
                 attendee_first_name: prevState.tempTicket.attendee_first_name,
-                attendee_surname: prevState.tempTicket.surname,
+                attendee_last_name: prevState.tempTicket.last_name,
                 extra_questions: prevState.tempTicket.extra_questions,
                 attendee_email: email,
                 errors: prevState.tempTicket.errors
@@ -174,7 +174,7 @@ class TicketPopup extends React.Component {
             return {
               tempTicket: {                    
                 attendee_first_name: prevState.tempTicket.attendee_first_name,
-                attendee_surname: prevState.tempTicket.attendee_surname,
+                attendee_last_name: prevState.tempTicket.attendee_last_name,
                 attendee_company: prevState.tempTicket.attendee_company,
                 extra_questions: prevState.tempTicket.extra_questions,
                 attendee_email: email,
@@ -189,7 +189,7 @@ class TicketPopup extends React.Component {
             tempTicket: {                    
               attendee_email: prevState.tempTicket.attendee_email,
               attendee_first_name: prevState.tempTicket.attendee_first_name,
-              attendee_surname: prevState.tempTicket.surname,
+              attendee_last_name: prevState.tempTicket.last_name,
               attendee_company: prevState.tempTicket.company,
               extra_questions: prevState.tempTicket.extra_questions,
               reassign_email: prevState.tempTicket.reassign_email,
@@ -242,14 +242,14 @@ class TicketPopup extends React.Component {
     }
 
     handlePopupSave() {
-      let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_surname, attendee_email, errors}} = this.state;
+      let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_last_name, attendee_email, errors}} = this.state;
       let {summit:{registration_disclaimer_mandatory}, member} = this.props;
 
       let mandatoryExtraQuestions = this.handleMandatoryExtraQuestions();
-      let saveEnabled = errors && errors.attendee_email === '' && attendee_first_name && attendee_surname && errors.constructor === Object && mandatoryExtraQuestions;
+      let saveEnabled = errors && errors.attendee_email === '' && attendee_first_name && attendee_last_name && errors.constructor === Object && mandatoryExtraQuestions;
       
       if (registration_disclaimer_mandatory && member.email === attendee_email) {
-        saveEnabled = errors.attendee_email === '' && attendee_first_name && attendee_surname && mandatoryExtraQuestions && disclaimer_accepted;
+        saveEnabled = errors.attendee_email === '' && attendee_first_name && attendee_last_name && mandatoryExtraQuestions && disclaimer_accepted;
       }
 
       // return the reverse value for disabled prop
@@ -260,10 +260,6 @@ class TicketPopup extends React.Component {
       
       let ticket = this.state.tempTicket;
       let {value, id} = ev.target;
-
-      if(ev.target.id === 'attendee_last_name') {
-        id = 'attendee_surname';
-      }
 
       if (ev.target.type == 'checkbox') {
         value = ev.target.checked;        
