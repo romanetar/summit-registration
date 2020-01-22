@@ -37,7 +37,7 @@ export default class NotFoundSummit extends React.Component {
     }
 
     render(){
-      let {slug, summits} = this.props;
+      let {summits} = this.props;
       let {selectedSummit} = this.state;
 
       summits = summits.filter(s => s.slug 
