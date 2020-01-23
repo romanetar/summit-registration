@@ -60,6 +60,12 @@
     "placeholders": {
       "coupon"          : "(Optional)",
       "email"           : "Attendee Email (Optional)"
+    },
+    "validator": {
+      "first_name"      : "Please enter your First Name.",
+      "last_name"       : "Please enter your Last Name.",
+      "company"         : "Please enter your Company.",
+      "email"           : "Please enter a valid Email."
     }
   },
   "step_three": {
@@ -81,6 +87,13 @@
       "cardNumber"       : "Please enter a valid Credit Card.",
       "cardExpiry"       : "Please enter the card expiration.",
       "cardCvc"          : "Please enter the card cvc."
+    },
+    "validator": {
+      "billing_country"  : "Please enter the billing Country.",
+      "billing_address"  : "Please enter the billing Address.",
+      "billing_city"     : "Please enter the billing City.",
+      "billing_state"    : "Please enter the billing State.",
+      "billing_zipcode"  : "Please enter the billing ZipCode."      
     }
   },
   "step_four": {

@@ -58,24 +58,25 @@ export const handleOrderChange = (order, errors = {}) => (dispatch, getState) =>
     let {currentStep} = order;
 
     if(currentStep === 2) {
-        if (validator.isEmpty(order.first_name)) errors.first_name = 'Please enter your First Name.';
-        if (validator.isEmpty(order.last_name)) errors.last_name = 'Please enter your Last Name.';
-        if (!validator.isEmail(order.email)) errors.email = 'Please enter a valid Email.';        
+        if (validator.isEmpty(order.first_name)) errors.first_name = T.translate("step_two.validator.first_name");
+        if (validator.isEmpty(order.last_name)) errors.last_name = T.translate("step_two.validator.last_name");
+        if (validator.isEmpty(order.company)) errors.company = T.translate("step_two.validator.company");
+        if (!validator.isEmail(order.email)) errors.email = T.translate("step_two.validator.email");
 
         order.tickets.forEach(tix => {
-           if (tix.promo_code && tix.promo_code == 'NOTACOUPON') errors[`tix_coupon_${tix.tempId}`] = 'Coupon not valid.';
-           else delete(errors[`tix_coupon_${tix.tempId}`]);
+          //  if (tix.promo_code && tix.promo_code == 'NOTACOUPON') errors[`tix_coupon_${tix.tempId}`] = 'Coupon not valid.';
+          //  else delete(errors[`tix_coupon_${tix.tempId}`]);
 
-           if (tix.attendee_email && !validator.isEmail(tix.attendee_email)) errors[`tix_email_${tix.tempId}`] = 'Please enter a valid Email.';
+           if (tix.attendee_email && !validator.isEmail(tix.attendee_email)) errors[`tix_email_${tix.tempId}`] = T.translate("step_two.validator.email");
            else delete(errors[`tix_email_${tix.tempId}`]);
         });        
         dispatch(createAction(CHANGE_ORDER)({order, errors}));
     } else if(currentStep === 3) {     
-        if (validator.isEmpty(order.billing_country)) errors.billing_country = "Please enter the billing Country.";
-        if (validator.isEmpty(order.billing_address)) errors.billing_address = "Please enter the billing Address.";
-        if (validator.isEmpty(order.billing_city)) errors.billing_city = "Please enter the billing City.";
-        if (validator.isEmpty(order.billing_state)) errors.billing_state = "Please enter the billing State.";
-        if (validator.isEmpty(order.billing_zipcode)) errors.billing_zipcode = "Please enter the billing ZipCode.";
+        if (validator.isEmpty(order.billing_country)) errors.billing_country = T.translate("step_three.validator.billing_country");
+        if (validator.isEmpty(order.billing_address)) errors.billing_address = T.translate("step_three.validator.billing_address");
+        if (validator.isEmpty(order.billing_city)) errors.billing_city = T.translate("step_three.validator.billing_city");
+        if (validator.isEmpty(order.billing_state)) errors.billing_state = T.translate("step_three.validator.billing_state");
+        if (validator.isEmpty(order.billing_zipcode)) errors.billing_zipcode = T.translate("step_three.validator.billing_zipcode");
         dispatch(createAction(CHANGE_ORDER)({order, errors}));
     } else {
         dispatch(createAction(CHANGE_ORDER)({order, errors}));
