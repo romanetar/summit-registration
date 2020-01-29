@@ -379,7 +379,7 @@ export const getTicketByHash = (hash) => (dispatch, getState) => {
   return getRequest(
       null,
       createAction(GET_TICKET_BY_HASH),
-      `${window.API_BASE_URL}/api/public/v1/summits/all/orders/orders/all/tickets/${hash}`,
+      `${window.API_BASE_URL}/api/public/v1/summits/all/orders/all/tickets/${hash}`,
       null,
   )(params)(dispatch).then((ticket) => {     
       dispatch(selectSummitById(ticket.response.owner.summit_id, true));      
@@ -404,7 +404,7 @@ export const assignTicketByHash = (attendee_first_name, attendee_last_name, atte
   return putRequest(
     null,
     createAction(ASSIGN_TICKET_BY_HASH),
-    `${window.API_BASE_URL}/api/public/v1/summits/all/orders/orders/all/tickets/${hash}`,
+    `${window.API_BASE_URL}/api/public/v1/summits/all/orders/all/tickets/${hash}`,
     normalizedEntity,
     authErrorHandler
   )(params)(dispatch).then(() => {
@@ -422,7 +422,7 @@ export const regenerateTicketHash = (formerHash) => (dispatch, getState) => {
   return putRequest(
       null,
       createAction(REGENERATE_TICKET_HASH),
-      `${window.API_BASE_URL}/api/public/v1/summits/all/orders/orders/all/tickets/${formerHash}/regenerate`,
+      `${window.API_BASE_URL}/api/public/v1/summits/all/orders/all/tickets/${formerHash}/regenerate`,
       authErrorHandler
   )()(dispatch).then(() => {
       Swal.fire("SUCCESS", T.translate("guests.hash_regenerated"), "success");
@@ -438,7 +438,7 @@ export const getTicketPDFByHash = (hash) => (dispatch, getState) => {
   
   dispatch(startLoading());
 
-  const apiUrl = `${window.API_BASE_URL}/api/public/v1/summits/all/orders/orders/all/tickets/${hash}/pdf`;
+  const apiUrl = `${window.API_BASE_URL}/api/public/v1/summits/all/orders/all/tickets/${hash}/pdf`;
 
   let link = document.createElement('a');  
   link.href = apiUrl;
