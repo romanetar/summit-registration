@@ -79,7 +79,7 @@ class GuestsLayout extends React.Component {
       let {attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions} = this.state.tempTicket;
       let {ownerId} = this.state;
       let {owner} = this.props.ticket;
-      if((owner && owner.id !== ownerId) || (owner && ! attendee_email && (!attendee_first_name || !attendee_last_name || !attendee_company || !disclaimer_accepted || !extra_questions))) {
+      if((owner && owner.id !== ownerId) || (owner && !attendee_email && (!attendee_first_name || !attendee_last_name || !attendee_company || !disclaimer_accepted || !extra_questions))) {
         let {email, first_name, last_name, company, disclaimer_accepted_date, extra_questions} = owner;
         let formattedQuestions = [];
         extra_questions.map(q => {
