@@ -27,6 +27,7 @@ class GuestsLayout extends React.Component {
     super(props);
 
     this.state = {
+      ownerId: 0,
       tempTicket: {
         attendee_email: '',
         attendee_first_name: '',
@@ -40,6 +41,7 @@ class GuestsLayout extends React.Component {
     this.handleTicketDownload = this.handleTicketDownload.bind(this);
     this.handleTicketCancel = this.handleTicketCancel.bind(this);    
     this.handleReassignDate = this.handleReassignDate.bind(this);
+    this.handleTicketSave = this.handleTicketSave.bind(this);
     this.handleTicketUpdate = this.handleTicketUpdate.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handlePopupSave = this.handlePopupSave.bind(this);
@@ -58,23 +60,7 @@ class GuestsLayout extends React.Component {
     }
 
     componentDidUpdate() {
-      let {attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions} = this.state.tempTicket;
-      let {owner} = this.props.ticket;      
-      if(owner && !attendee_email && (!attendee_first_name || !attendee_last_name || !attendee_company || !disclaimer_accepted || !extra_questions)) {
-        let {email, first_name, last_name, company, disclaimer_accepted_date, extra_questions} = owner;
-        let formattedQuestions = [];
-        extra_questions.map(q => {
-          let question = {question_id: q.question_id, answer: q.value};
-          formattedQuestions.push(question);
-        })        
-        this.setState({tempTicket: { 
-          attendee_email: email, 
-          attendee_first_name: first_name, 
-          attendee_last_name: last_name, 
-          attendee_company: company,
-          disclaimer_accepted: disclaimer_accepted_date ? true : false,
-          extra_questions: formattedQuestions}});                        
-      }
+      this.handleTicketUpdate();
     }
 
     componentWillReceiveProps(newProps) {
@@ -84,7 +70,34 @@ class GuestsLayout extends React.Component {
       if (newHash != oldHash) {
           if (newHash) {
               this.props.getTicketByHash(newHash);
+              this.handleTicketUpdate();
           }
+      }
+    }
+
+    handleTicketUpdate() {
+      let {attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions} = this.state.tempTicket;
+      let {ownerId} = this.state;
+      let {owner} = this.props.ticket;
+      if((owner && owner.id !== ownerId) || (owner && ! attendee_email && (!attendee_first_name || !attendee_last_name || !attendee_company || !disclaimer_accepted || !extra_questions))) {
+        let {email, first_name, last_name, company, disclaimer_accepted_date, extra_questions} = owner;
+        let formattedQuestions = [];
+        extra_questions.map(q => {
+          let question = {question_id: q.question_id, answer: q.value};
+          formattedQuestions.push(question);
+        })        
+        this.setState(
+          {
+            tempTicket: { 
+            attendee_email: email, 
+            attendee_first_name: first_name, 
+            attendee_last_name: last_name, 
+            attendee_company: company,
+            disclaimer_accepted: disclaimer_accepted_date ? true : false,
+            extra_questions: formattedQuestions
+            },
+            ownerId: owner.id
+          });
       }
     }
 
@@ -98,7 +111,7 @@ class GuestsLayout extends React.Component {
       this.props.refundTicket(ticketHash);
     }
 
-    handleTicketUpdate(ticket){
+    handleTicketSave(ticket){
       let ticketHash = this.props.match.params.ticket_hash;
       let { attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, share_contact_info, extra_questions } = ticket;
       this.props.assignTicketByHash(attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, share_contact_info, extra_questions, ticketHash);
@@ -181,7 +194,7 @@ class GuestsLayout extends React.Component {
       
       let loading = ticketLoading && summitLoading;
 
-      if(!loading && !owner && !invalidHash) {        
+      if(!loading && (!owner || !ticket) && !invalidHash) {        
         return (
           <div>
             Ticket not found
@@ -239,7 +252,7 @@ class GuestsLayout extends React.Component {
                     <div className="col-md-12">                      
                         <button className="btn btn-primary continue-btn" 
                           disabled={this.handlePopupSave()} 
-                          onClick={() =>this.handleTicketUpdate(tempTicket)}>
+                          onClick={() =>this.handleTicketSave(tempTicket)}>
                             {T.translate("guests.save")}
                         </button>
                     </div>
