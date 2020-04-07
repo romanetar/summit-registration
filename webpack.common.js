@@ -11,7 +11,11 @@ module.exports = {
             title: 'Production',
             template: './src/index.ejs'
         }),
-        new Dotenv()
+        new Dotenv(
+            {
+                expand: true
+            }
+        )
     ],
     module: {
         rules: [
