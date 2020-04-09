@@ -37,14 +37,13 @@ export default class NotFoundSummit extends React.Component {
     }
 
     render(){
-      let {summits} = this.props;
+      let {summits, now} = this.props;
       let {selectedSummit} = this.state;
-      let epoch = Math.round(+new Date()/1000);
-      summits = summits.filter(s => s.slug 
+      summits = summits.filter(s => s.slug
         && s.registration_begin_date 
-        && s.registration_begin_date < epoch
+        && s.registration_begin_date < now
         && s.registration_end_date
-        && s.registration_end_date > epoch).map(s => ({...s, value: s.slug, label: s.name}));
+        && s.registration_end_date > now).map(s => ({...s, value: s.slug, label: s.name}));
 
         return (
             <div className="not-found-summit">

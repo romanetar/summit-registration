@@ -31,7 +31,7 @@ import T from 'i18n-react';
 import history from './history'
 import URI from "urijs";
 import SelectSummitPage from './pages/select-summit-page'
-
+import Timer from './components/timer';
 
 // here is set by default user lang as en
 let language = (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
@@ -87,6 +87,7 @@ class App extends React.PureComponent {
       return (
           <Router history={history}>
               <div className="container">
+                  <Timer/>
                   <AjaxLoader show={ this.props.loading } size={ 120 }/>
                   <div className="header row">
                       <div className="header-top">                          

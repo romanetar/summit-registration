@@ -64,20 +64,18 @@ class TicketAssignForm extends React.Component {
     }
 
     handleFormatReassignDate(days) {
-      let {summit} = this.props;
+      let {summit, now} = this.props;
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date
       if(days) {
-        let epoch = Math.round(+new Date()/1000);
-        return daysBetweenDates(epoch, reassign_date, summit.time_zone.name).length;
+        return daysBetweenDates(now, reassign_date, summit.time_zone.name).length;
       }
       return getFormatedDate(reassign_date, summit.time_zone_id);
     }
 
     render() {
 
-      let {guest, ownedTicket, ticket, onChange, extraQuestions, status, summit, orderOwned, readOnly } = this.props;
+      let {guest, ownedTicket, ticket, onChange, extraQuestions, status, summit, orderOwned, readOnly, now } = this.props;
       let {extra_questions, input_email} = this.state;
-      let epoch = Math.round(+new Date()/1000);
 
         return (
           <div className="ticket-assign-form">
@@ -328,7 +326,7 @@ class TicketAssignForm extends React.Component {
                 </div>
               </React.Fragment>
             }
-            {!guest && orderOwned && summit.start_date > epoch &&
+            {!guest && orderOwned && summit.start_date > now &&
               <React.Fragment>
                 <div className="row field-wrapper">
                   <div className="col-sm-4"></div>

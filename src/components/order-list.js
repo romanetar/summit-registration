@@ -185,16 +185,15 @@ class OrderList extends React.Component {
     }
 
     handlePastSummit(order) {
-      let {summits} = this.props;
+      debugger;
+      let {summits, now} = this.props;
       let summit = summits.find(s => s.id === order.summit_id);
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
-      let epoch = Math.round(+new Date()/1000);
-      return epoch > reassign_date ? true : false;
+      return now > reassign_date ? true : false;
     }
 
     getSummitName(order) {
       let {summits} = this.props;
-
       let name = summits.find(s => s.id === order.summit_id).name;      
       return name;
     }
@@ -233,8 +232,8 @@ class OrderList extends React.Component {
               <div className="orders-list">
                   {orders.map(o => {
                     return (
-                      <React.Fragment>
-                      <div className="order-list-desktop" key={o.id} onClick={() => this.handleOrderSelect(o)}>
+                      <React.Fragment key={o.id} >
+                      <div className="order-list-desktop" onClick={() => this.handleOrderSelect(o)}>
                           <div className={`order ${this.handleOrderStatus(o).orderClass} p-2 col-sm-8 col-sm-offset-2`}>                   
                               <div className="col-sm-1">
                                   <i className={`fa fa-2x ${this.handleOrderStatus(o).icon} ${this.handleOrderStatus(o).class}`}></i>                             
@@ -260,7 +259,7 @@ class OrderList extends React.Component {
                               </div>
                           </div>
                       </div>
-                      <div className="order-list-mobile" key={o.id} onClick={() => this.handleOrderSelect(o)}>
+                      <div className="order-list-mobile" onClick={() => this.handleOrderSelect(o)}>
                           <div className={`order ${this.handleOrderStatus(o).orderClass} p-2 col-sm-8 col-sm-offset-2`}>                   
                               <div className="col-sm-1">
                                   <i className={`fa fa-2x ${this.handleOrderStatus(o).icon} ${this.handleOrderStatus(o).class}`}></i>                             

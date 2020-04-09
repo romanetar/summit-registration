@@ -19,6 +19,7 @@ import TicketInput from "../components/ticket-input";
 import StepRow from '../components/step-row';
 import SubmitButtons from "../components/submit-buttons";
 import { handleOrderChange, handleResetOrder } from '../actions/order-actions'
+import {getNow} from '../actions/timer-actions';
 
 import history from '../history';
 
@@ -75,15 +76,15 @@ class StepOnePage extends React.Component {
     render(){
 
         let {summit, order} = this.props;
-        let epoch = Math.round(+new Date()/1000);
+        let now = this.props.getNow();
         // filter tickets types
-        let ticketsTypesToSell = summit.ticket_types.filter( tt =>  epoch >= tt.sales_start_date && epoch <= tt.sales_end_date );
+        let ticketsTypesToSell = summit.ticket_types.filter( tt =>  now >= tt.sales_start_date && now <= tt.sales_end_date );
 
         return (
             <div className="step-one">
-                {(epoch >= summit.registration_begin_date &&
-                    epoch <= summit.registration_end_date &&
-                    epoch < summit.end_date) && ticketsTypesToSell.length > 0 ?
+                {(now >= summit.registration_begin_date &&
+                    now <= summit.registration_end_date &&
+                    now < summit.end_date) && ticketsTypesToSell.length > 0 ?
                   <React.Fragment>
                     <StepRow step={this.step} />
                     <div className="row">
@@ -101,8 +102,8 @@ class StepOnePage extends React.Component {
                                         add={this.handleAddTicket}
                                         substract={this.handleSubstractTicket}
                                     />                                                                      
-                                  {epoch >= summit.end_date &&
-                                  epoch <= summit.registration_begin_date &&
+                                  {now >= summit.end_date &&
+                                  now <= summit.registration_begin_date &&
                                     history.push('/a/member/orders')
                                   }
                                 </div>
@@ -135,7 +136,8 @@ export default connect (
     mapStateToProps,
     {
         handleOrderChange,
-        handleResetOrder
+        handleResetOrder,
+        getNow
     }
 )(StepOnePage);
 

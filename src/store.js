@@ -17,10 +17,12 @@ import baseReducer from './reducers/base-reducer'
 import summitReducer from './reducers/summit-reducer'
 import orderReducer from './reducers/order-reducer'
 import ticketReducer from './reducers/ticket-reducer'
+import timerReducer from "./reducers/timer-reducer";
 
 import thunk from 'redux-thunk';
 import { persistStore, persistCombineReducers } from 'redux-persist'
-import storage from 'redux-persist/es/storage' // default: localStorage if web, AsyncStorage if react-native
+import storage from 'redux-persist/es/storage'
+// default: localStorage if web, AsyncStorage if react-native
 
 const config = {
   key: 'root_registration',
@@ -33,6 +35,7 @@ const reducers = persistCombineReducers(config, {
   summitState: summitReducer,
   orderState: orderReducer,
   ticketState: ticketReducer,
+  timerState: timerReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -41,10 +44,10 @@ const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 const onRehydrateComplete = () => {
     // repopulate access token on global access variable
-    window.accessToken = store.getState().loggedUserState.accessToken;
-    window.idToken = store.getState().loggedUserState.idToken;
+    window.accessToken  = store.getState().loggedUserState.accessToken;
+    window.idToken      = store.getState().loggedUserState.idToken;
     window.sessionState = store.getState().loggedUserState.sessionState;
-}
+};
 
 export const persistor = persistStore(store, null, onRehydrateComplete);
 export default store;

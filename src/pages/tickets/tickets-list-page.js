@@ -18,7 +18,10 @@ import T from "i18n-react/dist/i18n-react";
 import '../../styles/tickets-list-page.less';
 import TicketList from '../../components/ticket-list';
 
-import { getUserTickets, selectTicket, getTicketPDF, editOwnedTicket, handleTicketChange, refundTicket, resendNotification, removeAttendee } from '../../actions/ticket-actions';
+import { getUserTickets, selectTicket, getTicketPDF, editOwnedTicket, handleTicketChange, refundTicket,
+    resendNotification, removeAttendee } from '../../actions/ticket-actions';
+
+import {getNow} from '../../actions/timer-actions';
 
 class TicketsListPage extends React.Component {
 
@@ -98,6 +101,7 @@ class TicketsListPage extends React.Component {
                   loadingSummits={loadingSummits}
                   errors={errors}
                   pageChange={this.handlePageChange}
+                  now={this.props.getNow()}
                 />
             </div>
           );
@@ -142,7 +146,8 @@ export default connect (
       handleTicketChange,
       refundTicket,
       removeAttendee,
-      resendNotification
+      resendNotification,
+      getNow,
     }
 )(TicketsListPage);
   

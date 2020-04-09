@@ -25,6 +25,8 @@ import { daysBetweenDates, getFormatedDate } from '../../utils/helpers';
 
 import '../../styles/order-detail-page.less';
 
+import {getNow} from '../../actions/timer-actions';
+
 class OrderDetailPage extends React.Component {
 
   constructor(props) {
@@ -165,8 +167,7 @@ class OrderDetailPage extends React.Component {
   handlePastSummit() {
     let {summit} = this.props;    
     let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
-    let epoch = Math.round(+new Date()/1000);
-    return epoch > reassign_date ? true : false;
+    return this.props.getNow() > reassign_date ? true : false;
   }
 
   handleChange(ev) {
@@ -233,7 +234,7 @@ class OrderDetailPage extends React.Component {
   render() {
       let {order, summit, ticket, errors, extraQuestions, member, orderLoading, summitLoading} = this.props;
       let {showPopup} = this.state;
-      let epoch = Math.round(+new Date()/1000);
+      let now = this.props.getNow();
 
       let loading = summitLoading || orderLoading;
 
@@ -261,8 +262,8 @@ class OrderDetailPage extends React.Component {
                                 s.id === t.ticket_type_id ?
                                 <React.Fragment>
                                 <div className="ticket-list-desktop">
-                                    <div className="row" key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && epoch > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
-                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? epoch > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-12 col-sm-offset-1`}>
+                                    <div className="row" key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
+                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-12 col-sm-offset-1`}>
                                           <div className="col-sm-1">
                                             <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                                           </div>
@@ -285,8 +286,8 @@ class OrderDetailPage extends React.Component {
                                     </div> 
                                 </div>
                                 <div className="ticket-list-mobile">
-                                    <div key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && epoch > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
-                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? epoch > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2`}>
+                                    <div key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
+                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2`}>
                                           <div className="col-xs-1">
                                             <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                                           </div>
@@ -318,8 +319,8 @@ class OrderDetailPage extends React.Component {
                     </div>                      
                   </div>
                   <div className="col-md-4">
-                      <OrderSummary order={order} summit={summit} type={'desktop'}/>
-                      <TicketOptions summit={summit} cancelOrder={this.handleOrderCancel}/>
+                      <OrderSummary order={order} summit={summit} type={'desktop'} now={this.props.getNow()} />
+                      <TicketOptions now={this.props.getNow()} summit={summit} cancelOrder={this.handleOrderCancel} />
                   </div>
               </div>
               {showPopup ?  
@@ -340,6 +341,7 @@ class OrderDetailPage extends React.Component {
                   removeAttendee={this.handleTicketRemoveAttendee}
                   summit={summit}
                   errors={errors}
+                  now={this.props.getNow()}
                 />  
               : null  
               }
@@ -373,6 +375,7 @@ export default connect(
       handleTicketChange,
       refundTicket,
       removeAttendee,
-      resendNotification
+      resendNotification,
+      getNow,
     }
 )(OrderDetailPage);

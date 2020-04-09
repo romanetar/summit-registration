@@ -81,8 +81,7 @@ class TicketOptions extends React.Component {
 
     render() {
 
-      let {guest, summit, ticket} = this.props;
-      let epoch = Math.round(+new Date()/1000);
+      let {guest, summit, ticket, now} = this.props;
 
         return (
             <div className="order-info-wrapper">
@@ -98,7 +97,7 @@ class TicketOptions extends React.Component {
                   </div>
                 </React.Fragment>
                 }
-                {!guest && summit.start_date > epoch &&
+                {!guest && summit.start_date > now &&
                 <div className="row">
                     <div className="col-md-12">                        
                         <a onClick={this.props.cancelOrder} className="cancel">{T.translate("order_info.cancel_order")}</a>
