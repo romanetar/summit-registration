@@ -47,9 +47,6 @@ export default class TicketInput extends React.Component {
             <div className="ticket-input-box">
                 {ticketTypes.map(t => {
                     let quantity = selection.filter(sel => sel.type_id == t.id).length;                    
-                    let now = summit.timestamp;
-
-                    if (now >= t.sales_start_date && now <= t.sales_end_date) {
                       return (
                         <div className={`ticket-wrapper ${t.quantity_2_sell == 0 ? 'sold_out' : ''} ${quantity == 0 ? 'no-tickets' :''}`} key={`ttype_${t.id}`}>
                             <div className="row">
@@ -86,9 +83,6 @@ export default class TicketInput extends React.Component {
                             </div>
                         </div>
                       )
-                    } else {
-                      return null;
-                    }                    
                 })}
             </div>
         );

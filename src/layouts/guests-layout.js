@@ -189,7 +189,7 @@ class GuestsLayout extends React.Component {
     
     render() {
       let {ticket: {owner, invalidHash, completed}, ticket, errors, ticketLoading, summitLoading, summit, summit:{order_extra_questions}, summits} = this.props;
-      let now = summit.timestamp;
+      let epoch = Math.round(+new Date()/1000);
       let {tempTicket} = this.state;
       
       let loading = ticketLoading && summitLoading;
@@ -247,7 +247,7 @@ class GuestsLayout extends React.Component {
                   loading={loading}
                 />
               </div>
-              {now < this.handleReassignDate() &&
+              {epoch < this.handleReassignDate() &&
                 <div className="row submit-buttons-wrapper">
                     <div className="col-md-12">                      
                         <button className="btn btn-primary continue-btn" 

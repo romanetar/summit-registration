@@ -165,8 +165,8 @@ class OrderDetailPage extends React.Component {
   handlePastSummit() {
     let {summit} = this.props;    
     let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
-    let now = summit.timestamp;
-    return now > reassign_date ? true : false;
+    let epoch = Math.round(+new Date()/1000);
+    return epoch > reassign_date ? true : false;
   }
 
   handleChange(ev) {
@@ -233,7 +233,7 @@ class OrderDetailPage extends React.Component {
   render() {
       let {order, summit, ticket, errors, extraQuestions, member, orderLoading, summitLoading} = this.props;
       let {showPopup} = this.state;
-      let now = summit.timestamp;
+      let epoch = Math.round(+new Date()/1000);
 
       let loading = summitLoading || orderLoading;
 
@@ -261,8 +261,8 @@ class OrderDetailPage extends React.Component {
                                 s.id === t.ticket_type_id ?
                                 <React.Fragment>
                                 <div className="ticket-list-desktop">
-                                    <div className="row" key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
-                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-12 col-sm-offset-1`}>        
+                                    <div className="row" key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && epoch > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
+                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? epoch > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-12 col-sm-offset-1`}>
                                           <div className="col-sm-1">
                                             <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                                           </div>
@@ -285,8 +285,8 @@ class OrderDetailPage extends React.Component {
                                     </div> 
                                 </div>
                                 <div className="ticket-list-mobile">
-                                    <div key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
-                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2`}>        
+                                    <div key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && epoch > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
+                                      <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? epoch > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2`}>
                                           <div className="col-xs-1">
                                             <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                                           </div>

@@ -75,13 +75,15 @@ class StepOnePage extends React.Component {
     render(){
 
         let {summit, order} = this.props;
-        let now = summit.timestamp;
+        let epoch = Math.round(+new Date()/1000);
+        // filter tickets types
+        let ticketsTypesToSell = summit.ticket_types.filter( tt =>  epoch >= tt.sales_start_date && epoch <= tt.sales_end_date );
 
         return (
             <div className="step-one">
-                {(now >= summit.registration_begin_date && 
-                  now <= summit.registration_end_date && 
-                  now < summit.end_date) && summit.ticket_types.length > 0 ?
+                {(epoch >= summit.registration_begin_date &&
+                    epoch <= summit.registration_end_date &&
+                    epoch < summit.end_date) && ticketsTypesToSell.length > 0 ?
                   <React.Fragment>
                     <StepRow step={this.step} />
                     <div className="row">
@@ -93,14 +95,14 @@ class StepOnePage extends React.Component {
                                 <div className="col-md-12">
 
                                     <TicketInput
-                                        ticketTypes={summit.ticket_types}
+                                        ticketTypes={ticketsTypesToSell}
                                         summit={summit}
                                         selection={order.tickets}
                                         add={this.handleAddTicket}
                                         substract={this.handleSubstractTicket}
                                     />                                                                      
-                                  {now >= summit.end_date &&
-                                  now <= summit.registration_begin_date &&
+                                  {epoch >= summit.end_date &&
+                                  epoch <= summit.registration_begin_date &&
                                     history.push('/a/member/orders')
                                   }
                                 </div>

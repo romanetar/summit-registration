@@ -68,9 +68,10 @@ class TicketInfoForm extends React.Component {
           let tixId = tix.type_id ? tix.type_id : tix.ticket_type_id;
           return tixId == ticketType.id
         });
-        let now = summit.timestamp;
 
-        if (ticketType.quantity_2_sell > 0 && now >= ticketType.sales_start_date && now <= ticketType.sales_end_date) {
+        let epoch = Math.round(+new Date()/1000);
+
+        if (ticketType.quantity_2_sell > 0 && epoch >= ticketType.sales_start_date && epoch <= ticketType.sales_end_date) {
             return (
                 <div className="ticket-info-wrapper">
                   <hr/>

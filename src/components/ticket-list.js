@@ -192,10 +192,11 @@ class TicketList extends React.Component {
     }
 
     handlePastSummit(ticket) {
-      let {summits, now} = this.props;      
+      let {summits} = this.props;
+      let epoch = Math.round(+new Date()/1000);
       let summit = summits.find(s => s.id === ticket.order.summit_id);
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;      
-      return now > reassign_date ? true : false;
+      return epoch > reassign_date ? true : false;
     }
 
     handleTicketCancel() {
@@ -218,7 +219,7 @@ class TicketList extends React.Component {
     render() {
       let { tickets, selectedTicket, extraQuestions, loading, errors, summits, lastPage, currentPage, member, summit, loadingSummits } = this.props;
       let { showPopup } = this.state;
-      let now = summit.timestamp;
+      let epoch = Math.round(+new Date()/1000);
 
       if(loading) {
         return (
@@ -230,8 +231,8 @@ class TicketList extends React.Component {
             <div className="list-desktop">
               {tickets.map((t) => {
                 return (
-                  <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-8 col-sm-offset-2`} key={t.id} 
-                    onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
+                  <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? epoch > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-8 col-sm-offset-2`} key={t.id}
+                    onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && epoch > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
                       <div className="col-sm-1">
                           <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                       </div>
@@ -257,8 +258,8 @@ class TicketList extends React.Component {
             <div className="list-mobile">
               {tickets.map((t) => {
                 return (
-                  <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-8 col-sm-offset-2`} key={t.id} 
-                  onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
+                  <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? epoch > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-8 col-sm-offset-2`} key={t.id}
+                  onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && epoch > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
                       <div className="col-sm-1">
                           <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                       </div>

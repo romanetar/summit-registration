@@ -317,7 +317,7 @@ class TicketPopup extends React.Component {
       let {extraQuestions, status, ticket: {owner, badge, ticket_type_id}, fromTicketList, summit, orderOwned, member, loading} = this.props;
       let {showPopup, tempTicket, tempTicket: {reassign_email, errors}, popupCase, cleanFields} = this.state;
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
-      let now = summit.timestamp;
+      let epoch = Math.round(+new Date()/1000);
 
         return (!loading &&
         <div className='popup-bg'>
@@ -337,17 +337,17 @@ class TicketPopup extends React.Component {
                     <TabList className="popup-tabs">
                         {status.text === 'UNASSIGNED' && <Tab>{T.translate("ticket_popup.tab_assign")}</Tab>}
                         <Tab>
-                          {now > reassign_date ? 
+                          {epoch > reassign_date ?
                           `${T.translate("ticket_popup.tab_edit_read_only")}`
                           : 
                           `${T.translate("ticket_popup.tab_edit")}` }</Tab>
                         {status.text !== 'UNASSIGNED' && 
-                          now < reassign_date && 
+                          epoch < reassign_date &&
                           (!fromTicketList || (fromTicketList && orderOwned)) &&
                           <Tab>{T.translate("ticket_popup.tab_reassign")}</Tab>
                         }
                         {status.text !== 'UNASSIGNED' && 
-                          (!fromTicketList && member.email !== owner.email && now < reassign_date) && 
+                          (!fromTicketList && member.email !== owner.email && epoch < reassign_date) &&
                           <Tab>{T.translate("ticket_popup.tab_notify")}</Tab>
                         }
                     </TabList>
@@ -390,13 +390,13 @@ class TicketPopup extends React.Component {
                             ownedTicket={fromTicketList || owner? owner.email === member.email : false }
                             orderOwned={orderOwned}
                             extraQuestions={extraQuestions}
-                            readOnly={now > reassign_date}
+                            readOnly={epoch > reassign_date}
                             onChange={this.handleChange} 
                             cancelTicket={this.handleTicketCancel}
                             summit={summit}
                             errors={errors}/>
                         </div>
-                        {now < reassign_date && 
+                        {epoch < reassign_date &&
                         <div className="popup-footer-save">
                           <button 
                               className="btn btn-primary" 
@@ -407,7 +407,7 @@ class TicketPopup extends React.Component {
                         </div>
                         }
                     </TabPanel>
-                    {status.text !== 'UNASSIGNED' && now < reassign_date && (!fromTicketList || (fromTicketList && orderOwned)) &&
+                    {status.text !== 'UNASSIGNED' && epoch < reassign_date && (!fromTicketList || (fromTicketList && orderOwned)) &&
                       <TabPanel ref={this.popUpPanelRef} className="popup-panel popup-panel--reassign">
                         <div className="popup-scroll">
                           <div className="ticket-reassign-form">
@@ -440,7 +440,7 @@ class TicketPopup extends React.Component {
                         </div>
                       </TabPanel>
                     }
-                    {status.text !== 'UNASSIGNED' && (!fromTicketList && member.email !== owner.email && now < reassign_date) &&
+                    {status.text !== 'UNASSIGNED' && (!fromTicketList && member.email !== owner.email && epoch < reassign_date) &&
                       <TabPanel ref={this.popUpPanelRef} className="popup-panel popup-panel--notify">
                         <div className="popup-scroll">
                           <div className="ticket-notify-form">
