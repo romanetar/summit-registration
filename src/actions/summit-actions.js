@@ -129,7 +129,7 @@ export const getSuggestedSummits = () => (dispatch, getState) => {
   return getRequest(
     dispatch(startLoading()),
     createAction(GET_SUGGESTED_SUMMITS),
-    `${window.API_BASE_URL}/api/public/v1/summits`,
+    `${window.API_BASE_URL}/api/public/v1/summits/all`,
     authErrorHandler
     )(params)(dispatch).then(() => {
         dispatch(stopLoading());

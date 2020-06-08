@@ -21,6 +21,8 @@ import TicketOptions from '../components/ticket-options';
 
 import { getTicketByHash, getTicketPDFByHash, refundTicket, regenerateTicketHash, handleTicketChange, assignTicketByHash } from '../actions/ticket-actions'
 
+import {getNow} from '../actions/timer-actions';
+
 class GuestsLayout extends React.Component {
 
   constructor(props) {
@@ -189,7 +191,7 @@ class GuestsLayout extends React.Component {
     
     render() {
       let {ticket: {owner, invalidHash, completed}, ticket, errors, ticketLoading, summitLoading, summit, summit:{order_extra_questions}, summits} = this.props;
-      let now = summit.timestamp;
+      let now = this.props.getNow();
       let {tempTicket} = this.state;
       
       let loading = ticketLoading && summitLoading;
@@ -234,11 +236,19 @@ class GuestsLayout extends React.Component {
           !loading &&
             <div>
               <div className="col-sm-8 guest-layout">                
-                <TicketAssignForm ticket={tempTicket} onChange={this.handleChange} extraQuestions={order_extra_questions} errors={errors} guest={true} summit={summit}/>
+                <TicketAssignForm
+                    now={this.props.getNow()}
+                    ticket={tempTicket}
+                    onChange={this.handleChange}
+                    extraQuestions={order_extra_questions}
+                    errors={errors}
+                    guest={true}
+                    summit={summit}/>
               </div>
               <div className="col-sm-4">
                 <TicketOptions 
-                  guest={true}                  
+                  guest={true}
+                  now={this.props.getNow()}
                   downloadTicket={this.handleTicketDownload} 
                   cancelTicket={this.handleTicketCancel}
                   ticket={ticket}
@@ -284,6 +294,7 @@ export default connect(
     refundTicket,
     regenerateTicketHash,
     handleTicketChange,
-    assignTicketByHash
+    assignTicketByHash,
+    getNow
   }
 )(GuestsLayout);

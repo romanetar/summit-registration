@@ -20,6 +20,8 @@ import OrderList from '../../components/order-list';
 import { getUserOrders, selectOrder } from '../../actions/order-actions';
 import { selectSummit } from '../../actions/summit-actions';
 
+import {getNow} from '../../actions/timer-actions';
+
 class OrdersListPage extends React.Component {
 
   constructor(props){
@@ -59,7 +61,9 @@ class OrdersListPage extends React.Component {
                 selectSummit={selectSummit}
                 selectOrder={selectOrder} 
                 loading={loading}
-                pageChange={this.handlePageChange} />}
+                pageChange={this.handlePageChange}
+                now={this.props.getNow()}
+            />}
           </div>
         );
     }
@@ -80,6 +84,7 @@ export default connect (
   {
     getUserOrders,
     selectOrder,
-    selectSummit
+    selectSummit,
+    getNow
   }
 )(OrdersListPage);

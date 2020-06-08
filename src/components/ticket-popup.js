@@ -314,10 +314,9 @@ class TicketPopup extends React.Component {
 
     render() {
 
-      let {extraQuestions, status, ticket: {owner, badge, ticket_type_id}, fromTicketList, summit, orderOwned, member, loading} = this.props;
+      let {extraQuestions, status, ticket: {owner, badge, ticket_type_id}, fromTicketList, summit, orderOwned, member, loading, now} = this.props;
       let {showPopup, tempTicket, tempTicket: {reassign_email, errors}, popupCase, cleanFields} = this.state;
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
-      let now = summit.timestamp;
 
         return (!loading &&
         <div className='popup-bg'>
@@ -337,17 +336,17 @@ class TicketPopup extends React.Component {
                     <TabList className="popup-tabs">
                         {status.text === 'UNASSIGNED' && <Tab>{T.translate("ticket_popup.tab_assign")}</Tab>}
                         <Tab>
-                          {now > reassign_date ? 
+                          {now > reassign_date ?
                           `${T.translate("ticket_popup.tab_edit_read_only")}`
                           : 
                           `${T.translate("ticket_popup.tab_edit")}` }</Tab>
                         {status.text !== 'UNASSIGNED' && 
-                          now < reassign_date && 
+                          now < reassign_date &&
                           (!fromTicketList || (fromTicketList && orderOwned)) &&
                           <Tab>{T.translate("ticket_popup.tab_reassign")}</Tab>
                         }
                         {status.text !== 'UNASSIGNED' && 
-                          (!fromTicketList && member.email !== owner.email && now < reassign_date) && 
+                          (!fromTicketList && member.email !== owner.email && now < reassign_date) &&
                           <Tab>{T.translate("ticket_popup.tab_notify")}</Tab>
                         }
                     </TabList>
@@ -396,7 +395,7 @@ class TicketPopup extends React.Component {
                             summit={summit}
                             errors={errors}/>
                         </div>
-                        {now < reassign_date && 
+                        {now < reassign_date &&
                         <div className="popup-footer-save">
                           <button 
                               className="btn btn-primary" 

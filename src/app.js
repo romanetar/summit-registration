@@ -31,7 +31,7 @@ import T from 'i18n-react';
 import history from './history'
 import URI from "urijs";
 import SelectSummitPage from './pages/select-summit-page'
-
+import Timer from './components/timer';
 
 // here is set by default user lang as en
 let language = (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
@@ -54,7 +54,6 @@ window.API_BASE_URL        = process.env['API_BASE_URL'];
 window.OAUTH2_CLIENT_ID    = process.env['OAUTH2_CLIENT_ID'];
 window.SCOPES              = process.env['SCOPES'];
 window.ALLOWED_USER_GROUPS = process.env['ALLOWED_USER_GROUPS'];
-window.STRIPE_PRIVATE_KEY  = process.env['STRIPE_PRIVATE_KEY'];
 window.SUPPORT_EMAIL       = process.env['SUPPORT_EMAIL'];
 
 class App extends React.PureComponent {
@@ -88,6 +87,7 @@ class App extends React.PureComponent {
       return (
           <Router history={history}>
               <div className="container">
+                  <Timer/>
                   <AjaxLoader show={ this.props.loading } size={ 120 }/>
                   <div className="header row">
                       <div className="header-top">                          

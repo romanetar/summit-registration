@@ -18,6 +18,8 @@ import NotFoundSummit from '../components/not-found-summit';
 
 import {getSuggestedSummits, selectPurchaseSummit} from '../actions/summit-actions';
 
+import {getNow} from '../actions/timer-actions';
+
 
 //import '../styles/not-found-page.less';
 
@@ -53,7 +55,7 @@ class SelectSummitPage extends React.Component {
 
         return (
             <div>
-              {!loading &&  <NotFoundSummit slug={slug} summits={suggestedSummits} selectPurchaseSummit={this.handleSummitSelect}/>}
+              {!loading &&  <NotFoundSummit slug={slug} now={this.props.getNow()} summits={suggestedSummits} selectPurchaseSummit={this.handleSummitSelect}/>}
             </div>
         );
     }
@@ -68,7 +70,8 @@ export default connect(
   mapStateToProps,
   {
       getSuggestedSummits,
-      selectPurchaseSummit
+      selectPurchaseSummit,
+      getNow
   }
 )(SelectSummitPage);
 

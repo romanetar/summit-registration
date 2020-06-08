@@ -143,7 +143,16 @@ class StepThreePage extends React.Component {
 
     render(){
         let {summit, order, errors, stripeForm} = this.props;
-        let {card, stripe, dirty} = this.state;      
+        let {card, stripe, dirty} = this.state;
+        let publicKey = null;
+        for(let profile of summit.payment_profiles){
+            if(profile.application_type == 'Registration'){
+                publicKey = profile.test_mode_enabled ? profile.test_publishable_key : profile.live_publishable_key;
+                break;
+            }
+        }
+
+        console.log(`stripe publisable key ${publicKey}`)
 
         return (
             <div className="step-three">
@@ -152,7 +161,7 @@ class StepThreePage extends React.Component {
                     <div className="row">
                         <div className="col-md-8">
                         {order.reservation.discount_amount !== order.reservation.raw_amount &&
-                            <StripeProvider apiKey={window.STRIPE_PRIVATE_KEY}>
+                            <StripeProvider apiKey={publicKey}>
                                 <Elements>
                                     <PaymentInfoForm 
                                         onChange={this.handleStripe} 

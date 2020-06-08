@@ -22,7 +22,7 @@ import StepRow from '../components/step-row';
 import SubmitButtons from "../components/submit-buttons";
 import { handleOrderChange } from '../actions/order-actions'
 import {findElementPos} from "openstack-uicore-foundation/lib/methods";
-
+import {getNow} from '../actions/timer-actions';
 
 import '../styles/step-two-page.less';
 
@@ -150,6 +150,7 @@ class StepTwoPage extends React.Component {
                         <BasicInfoForm order={order} errors={dirty? errors : {}} onChange={this.handleChange} member={member}/>
                         {summit.ticket_types.map((t,i) => (
                             <TicketInfoForm
+                                now={this.props.getNow()}
                                 key={`tixinfo_${t.ticket_type_id}_${i}`}
                                 ticketType={t}
                                 order={order}
@@ -185,7 +186,8 @@ const mapStateToProps = ({ loggedUserState, summitState, orderState }) => ({
 export default connect (
     mapStateToProps,
     {
-        handleOrderChange
+        handleOrderChange,
+        getNow
     }
 )(StepTwoPage);
 

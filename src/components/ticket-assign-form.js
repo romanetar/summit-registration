@@ -64,23 +64,18 @@ class TicketAssignForm extends React.Component {
     }
 
     handleFormatReassignDate(days) {
-      let {summit} = this.props;
+      let {summit, now} = this.props;
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date
       if(days) {
-        let now = summit.timestamp;
-        return daysBetweenDates(now, reassign_date, summit.time_zone.name).length;        
-      } else {
-        return getFormatedDate(reassign_date, summit.time_zone_id);
-      }      
-
+        return daysBetweenDates(now, reassign_date, summit.time_zone.name).length;
+      }
+      return getFormatedDate(reassign_date, summit.time_zone_id);
     }
-
 
     render() {
 
-      let {guest, ownedTicket, ticket, onChange, extraQuestions, status, summit, orderOwned, readOnly } = this.props;
+      let {guest, ownedTicket, ticket, onChange, extraQuestions, status, summit, orderOwned, readOnly, now } = this.props;
       let {extra_questions, input_email} = this.state;
-      let now = summit.timestamp;
 
         return (
           <div className="ticket-assign-form">
