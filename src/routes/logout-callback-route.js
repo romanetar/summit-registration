@@ -18,13 +18,13 @@ class LogOutCallbackRoute extends React.Component {
 
     constructor(props){
         super(props);
-        // control variable to avoid double api call
     }
+
     componentWillMount() {
 
     }
 
-    render() {
+    componentDidMount() {
         let storedState = window.localStorage.getItem('post_logout_state');
         window.localStorage.removeItem('post_logout_state');
         console.log(`retrieved state ${storedState}`);
@@ -36,7 +36,26 @@ class LogOutCallbackRoute extends React.Component {
             return (<p>Invalid State</p>);
 
         doLogout();
+        // try to retrieve the post logout back url
+        let backUrl = window.localStorage.getItem('post_logout_back_uri');
+        window.localStorage.removeItem('post_logout_back_uri');
+
+        if(backUrl){
+            console.log(`LogOutCallbackRoute::render backUrl ${backUrl}`);
+            history.push(LogOutCallbackRoute.postProcessBackUrl(backUrl));
+            return null;
+        }
         history.push("/");
+    }
+
+    static postProcessBackUrl(backUrl){
+        // special case, force relogin
+        let detailUrl     = '/a/member/orders/detail';
+        if(backUrl === detailUrl) backUrl = '/a/member/orders';
+        return backUrl;
+    }
+
+    render() {
         return null;
     }
 }

@@ -10,12 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-
 import React from 'react'
 import T from 'i18n-react/dist/i18n-react'
 import history from '../history'
 import URI from 'urijs';
-
 
 export default class 
 AuthButton extends React.Component {
@@ -33,6 +31,7 @@ AuthButton extends React.Component {
         this.handleMemberMenu = this.handleMemberMenu.bind(this);
         this.onTicketClick = this.onTicketClick.bind(this);
         this.onOrderClick = this.onOrderClick.bind(this);
+        this.onLogOutClick = this.onLogOutClick.bind(this);
     }
 
     toggleLogOut(ev) {
@@ -54,8 +53,15 @@ AuthButton extends React.Component {
       this.setState({showLogOut: !this.state.showLogOut}, () => history.push('/a/member/tickets'));
     }
 
+    onLogOutClick(){
+        let { initLogOut } = this.props;
+        // save current location, for further redirect logic
+        window.localStorage.setItem('post_logout_back_uri', new URI(window.location.href).pathname());
+        initLogOut();
+    }
+
     render() {
-        let {isLoggedUser, doLogin, member, initLogOut } = this.props;
+        let {isLoggedUser, doLogin, member } = this.props;
         let profile_pic = member ? member.pic : '';
 
         if (isLoggedUser) {
@@ -76,7 +82,7 @@ AuthButton extends React.Component {
                             </span>
                         </React.Fragment>
                         }
-                        <span className="dropdown-item" onClick={() => { initLogOut(); }}>
+                        <span className="dropdown-item" onClick={() => { this.onLogOutClick(); }}>
                             {T.translate("landing.sign_out")}
                         </span>
                         <span className="dropdown-item" onClick={() => { this.props.clearState(); }}>
