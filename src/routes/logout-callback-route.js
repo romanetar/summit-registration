@@ -18,11 +18,12 @@ class LogOutCallbackRoute extends React.Component {
 
     constructor(props){
         super(props);
+
+        this.state = {
+           error: null
+        };
     }
 
-    componentWillMount() {
-
-    }
 
     componentDidMount() {
         let storedState = window.localStorage.getItem('post_logout_state');
@@ -30,10 +31,16 @@ class LogOutCallbackRoute extends React.Component {
         console.log(`retrieved state ${storedState}`);
         let { doLogout, location, history } = this.props;
         let query = URI.parseQuery(location.search);
-        if(!query.hasOwnProperty("state"))
-            return (<p>Invalid Method</p>);
-        if(query["state"] != storedState)
-            return (<p>Invalid State</p>);
+
+        if(!query.hasOwnProperty("state")) {
+            this.setState({...this.state, error: 'Missing State.'});
+            return;
+        }
+
+        if(query["state"] !== storedState) {
+            this.setState({...this.state, error: 'Invalid State.'});
+            return;
+        }
 
         doLogout();
         // try to retrieve the post logout back url
@@ -43,7 +50,7 @@ class LogOutCallbackRoute extends React.Component {
         if(backUrl){
             console.log(`LogOutCallbackRoute::render backUrl ${backUrl}`);
             history.push(LogOutCallbackRoute.postProcessBackUrl(backUrl));
-            return null;
+            return;
         }
         history.push("/");
     }
@@ -56,6 +63,9 @@ class LogOutCallbackRoute extends React.Component {
     }
 
     render() {
+        if(this.state.error != null){
+            return (<p>${this.state.error}</p>)
+        }
         return null;
     }
 }
