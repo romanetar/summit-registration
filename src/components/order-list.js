@@ -185,7 +185,6 @@ class OrderList extends React.Component {
     }
 
     handlePastSummit(order) {
-      debugger;
       let {summits, now} = this.props;
       let summit = summits.find(s => s.id === order.summit_id);
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;

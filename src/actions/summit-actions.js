@@ -187,7 +187,6 @@ export const selectPurchaseSummit = (slug) => (dispatch, getState) => {
 }
 
 export const selectSummitById = (id) => (dispatch, getState) => {
-
   let { summitState: {summits} } = getState();
   
   let selectedSummit = summits.filter(s => s.id === id)[0];
@@ -199,7 +198,6 @@ export const selectSummitById = (id) => (dispatch, getState) => {
   } else {
     dispatch(getSummitById(id, true));
   }
-
 }
 
 

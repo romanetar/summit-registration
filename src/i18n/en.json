@@ -200,5 +200,9 @@
     "success_title"                   : "Request Submitted",
     "success_text"                    : "An email notification has been sent to",
     "success_button"                  : "Got it"
+  },
+  "invitees": {
+    "validation_error": "Invitation error",
+    "entity_not_found": "Invitation not found"
   }
 }
