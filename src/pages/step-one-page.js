@@ -80,7 +80,7 @@ class StepOnePage extends React.Component {
         // filter tickets types
         let ticketsTypesToSell = summit.ticket_types.filter( tt =>
             // if ticket does not has sales start/end date set could be sell all the registration period
-            (tt.sales_start_date === 0  &&  tt.sales_end_date === 0) ||
+            (tt.sales_start_date === null  &&  tt.sales_end_date === null) ||
             (now >= tt.sales_start_date && now <= tt.sales_end_date)
         );
 
