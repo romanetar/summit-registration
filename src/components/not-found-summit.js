@@ -40,6 +40,7 @@ export default class NotFoundSummit extends React.Component {
       let {summits, now} = this.props;
       let {selectedSummit} = this.state;
       summits = summits.filter(s => s.slug
+        && !s.invite_only_registration
         && s.registration_begin_date 
         && s.registration_begin_date < now
         && s.registration_end_date

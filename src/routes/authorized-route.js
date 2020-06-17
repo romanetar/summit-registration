@@ -17,6 +17,15 @@ import { OPSessionChecker } from "openstack-uicore-foundation/lib/components";
 
 class AuthorizedRoute extends React.Component {
 
+    componentDidMount() {
+        let {isLoggedUser, doLogin } = this.props;
+        // here we test the is logged condition due its triggers a state change
+        console.log(`AuthorizedRoute::componentDidMount  isLoggedUser ${isLoggedUser}`);
+        if(!isLoggedUser){
+            doLogin();
+        }
+    }
+
     render() {
         let { component: Component, isLoggedUser, doLogin, backUrl, purchaseSummit, ...rest } = this.props;
         return (
@@ -38,9 +47,8 @@ class AuthorizedRoute extends React.Component {
                             <Component purchaseSummit={purchaseSummit} {...props} />
                         </React.Fragment>
                     );
-                } else {
-                    doLogin()
                 }
+                return null;
             }}
             />
         )

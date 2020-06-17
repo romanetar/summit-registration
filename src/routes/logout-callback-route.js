@@ -18,28 +18,54 @@ class LogOutCallbackRoute extends React.Component {
 
     constructor(props){
         super(props);
-        // control variable to avoid double api call
-    }
-    componentWillMount() {
 
+        this.state = {
+           error: null
+        };
     }
 
-    render() {
-        console.log('render logout route')
+
+    componentDidMount() {
         let storedState = window.localStorage.getItem('post_logout_state');
         window.localStorage.removeItem('post_logout_state');
         console.log(`retrieved state ${storedState}`);
-        let backUrl = window.localStorage.getItem('post_logout_back_uri');
-        window.localStorage.removeItem('post_logout_back_uri');
         let { doLogout, location, history } = this.props;
         let query = URI.parseQuery(location.search);
-        if(!query.hasOwnProperty("state"))
-            return (<p>Invalid Method</p>);
-        if(query["state"] != storedState)
-            return (<p>Invalid State</p>);
+
+        if(!query.hasOwnProperty("state")) {
+            this.setState({...this.state, error: 'Missing State.'});
+            return;
+        }
+
+        if(query["state"] !== storedState) {
+            this.setState({...this.state, error: 'Invalid State.'});
+            return;
+        }
 
         doLogout();
-        backUrl ? history.push(backUrl) : history.push("/");
+        // try to retrieve the post logout back url
+        let backUrl = window.localStorage.getItem('post_logout_back_uri');
+        window.localStorage.removeItem('post_logout_back_uri');
+
+        if(backUrl){
+            console.log(`LogOutCallbackRoute::render backUrl ${backUrl}`);
+            history.push(LogOutCallbackRoute.postProcessBackUrl(backUrl));
+            return;
+        }
+        history.push("/");
+    }
+
+    static postProcessBackUrl(backUrl){
+        // special case, force relogin
+        let detailUrl     = '/a/member/orders/detail';
+        if(backUrl === detailUrl) backUrl = '/a/member/orders';
+        return backUrl;
+    }
+
+    render() {
+        if(this.state.error != null){
+            return (<p>${this.state.error}</p>)
+        }
         return null;
     }
 }

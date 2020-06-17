@@ -18,6 +18,7 @@ import summitReducer from './reducers/summit-reducer'
 import orderReducer from './reducers/order-reducer'
 import ticketReducer from './reducers/ticket-reducer'
 import timerReducer from "./reducers/timer-reducer";
+import InvitationReducer from './reducers/invitation-reducer';
 
 import thunk from 'redux-thunk';
 import { persistStore, persistCombineReducers } from 'redux-persist'
@@ -36,6 +37,7 @@ const reducers = persistCombineReducers(config, {
   orderState: orderReducer,
   ticketState: ticketReducer,
   timerState: timerReducer,
+  invitationState: InvitationReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

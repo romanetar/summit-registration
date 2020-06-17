@@ -26,13 +26,17 @@ export const defaultCurrentTime = () => {
     return Math.round(+new Date()/1000);
 };
 
+export const timerErrorHandler = (err, res) => (dispatch, state) => {
+
+};
+
 export const getCurrentTime = () => (dispatch, getState) => {
 
     return getRequest(
         null,
         createAction(TIMER_INIT),
         `https://timeintervalsince1970.appspot.com/`,
-        authErrorHandler
+        timerErrorHandler
     )({})(dispatch)
     .catch(e => {
         console.log(e);
