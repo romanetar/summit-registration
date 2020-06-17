@@ -78,7 +78,11 @@ class StepOnePage extends React.Component {
         let {summit, order} = this.props;
         let now = this.props.getNow();
         // filter tickets types
-        let ticketsTypesToSell = summit.ticket_types.filter( tt =>  now >= tt.sales_start_date && now <= tt.sales_end_date );
+        let ticketsTypesToSell = summit.ticket_types.filter( tt =>
+            // if ticket does not has sales start/end date set could be sell all the registration period
+            (tt.sales_start_date === 0  &&  tt.sales_end_date === 0) ||
+            (now >= tt.sales_start_date && now <= tt.sales_end_date)
+        );
 
         return (
             <div className="step-one">
