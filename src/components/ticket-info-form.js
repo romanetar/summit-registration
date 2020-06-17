@@ -71,7 +71,7 @@ class TicketInfoForm extends React.Component {
 
         // if sales_start_date == ticketType.sales_end_date == null then the ticket type could be sell all the registration period
 
-        if (ticketType.quantity_2_sell > 0 && ( (ticketType.sales_start_date === null && ticketType.sales_end_date === null) || (now >= ticketType.sales_start_date && now <= ticketType.sales_end_date )) ) {
+        if (ticketType.quantity_2_sell > 0 && ( (ticketType.sales_start_date == ticketType.sales_end_date == null) || (now >= ticketType.sales_start_date && now <= ticketType.sales_end_date )) ) {
             return (
                 <div className="ticket-info-wrapper">
                   <hr/>
