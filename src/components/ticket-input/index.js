@@ -39,8 +39,15 @@ export default class TicketInput extends React.Component {
         this.props.substract(ticketTypeId);
     }
 
+
     render() {
+
         let {selection, ticketTypes, summit} = this.props;
+
+        const renderPromoTillDate = (ticketType) => {
+            return ticketType.sales_end_date == null ? '':
+            `${T.translate("step_one.expiration")} ${getFormatedDate(ticketType.sales_end_date, summit.time_zone_id)}`
+        };
 
         return (
             ticketTypes && 
@@ -74,8 +81,9 @@ export default class TicketInput extends React.Component {
                                 </div>
                             </div>
                             <div className="ticket-expiration">
-                                {t.quantity_2_sell > 0 ? 
-                                  `${T.translate("step_one.expiration")} ${getFormatedDate(t.sales_end_date, summit.time_zone_id)}` :
+                                {t.quantity_2_sell > 0 ?
+                                  renderPromoTillDate(t)
+                                  :
                                   <div className="sold-out-text">
                                     {T.translate("step_one.sold_out")}
                                   </div>
