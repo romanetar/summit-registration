@@ -18,7 +18,6 @@ import {GET_INVITATION_BY_HASH, GET_INVITATION_BY_HASH_ERROR} from "../actions/i
 const DEFAULT_STATE = {
     loading: false,
     selectedInvitation: null,
-    errors: null,
 };
 
 const InvitationReducer = (state = DEFAULT_STATE, action) => {
@@ -35,12 +34,6 @@ const InvitationReducer = (state = DEFAULT_STATE, action) => {
             break;
         case GET_INVITATION_BY_HASH:
             return {...state, selectedInvitation: payload.response};
-        case GET_INVITATION_BY_HASH_ERROR:
-            if (payload.status === 412) {
-                let {errors} = payload.body;
-                return {...state, selectedInvitation: null, errors, loading: false};
-            }
-            return {...state, selectedInvitation: null, loading: false};
         default:
             return state;
             break;

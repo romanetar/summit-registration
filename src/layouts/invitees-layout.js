@@ -34,7 +34,7 @@ class InviteesLayout extends React.Component {
     }
 
     render(){
-        let { match, invitation, summit, errors} = this.props;
+        let { match, invitation, summit} = this.props;
         if(invitation != null && !invitation.is_accepted && Object.entries(summit).length > 0){
             return(
             <div className="primary-layout">
@@ -50,26 +50,13 @@ class InviteesLayout extends React.Component {
             </div>
             );
         }
-        if(errors != null){
-            return (
-                <div>
-                    {`${T.translate("invitees.validation_error")}`}<br/>
-                    {`${errors[0]}`}
-                </div>
-            );
-        }
-        return (
-            <div>
-                {`${T.translate("invitees.entity_not_found")}`}
-            </div>
-        );
+        return null;
     }
 }
 
 const mapStateToProps = ({ summitState, invitationState  }) => ({
     summit: summitState.purchaseSummit,
     invitation: invitationState.selectedInvitation,
-    errors: invitationState.errors
 });
 
 export default connect(
