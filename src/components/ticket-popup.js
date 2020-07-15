@@ -163,6 +163,7 @@ class TicketPopup extends React.Component {
               tempTicket: {                    
                 attendee_first_name: prevState.tempTicket.attendee_first_name,
                 attendee_last_name: prevState.tempTicket.last_name,
+                attendee_company: prevState.tempTicket.attendee_company,
                 extra_questions: prevState.tempTicket.extra_questions,
                 attendee_email: email,
                 errors: prevState.tempTicket.errors
@@ -242,14 +243,14 @@ class TicketPopup extends React.Component {
     }
 
     handlePopupSave() {
-      let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_last_name, attendee_email, errors}} = this.state;
+      let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_last_name, attendee_company, attendee_email, errors}} = this.state;
       let {summit:{registration_disclaimer_mandatory}, member} = this.props;
 
       let mandatoryExtraQuestions = this.handleMandatoryExtraQuestions();
-      let saveEnabled = errors && errors.attendee_email === '' && attendee_first_name && attendee_last_name && errors.constructor === Object && mandatoryExtraQuestions;
+      let saveEnabled = errors && errors.attendee_email === '' && attendee_first_name && attendee_last_name && attendee_company && errors.constructor === Object && mandatoryExtraQuestions;
       
       if (registration_disclaimer_mandatory && member.email === attendee_email) {
-        saveEnabled = errors.attendee_email === '' && attendee_first_name && attendee_last_name && mandatoryExtraQuestions && disclaimer_accepted;
+        saveEnabled = errors.attendee_email === '' && attendee_first_name && attendee_last_name && attendee_company && mandatoryExtraQuestions && disclaimer_accepted;
       }
 
       // return the reverse value for disabled prop

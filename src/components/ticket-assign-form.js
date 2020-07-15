@@ -250,7 +250,7 @@ class TicketAssignForm extends React.Component {
             null
             :
             <div className="row field-wrapper">
-              <div className="col-sm-4">{T.translate("ticket_popup.edit_company")}</div>
+              <div className="col-sm-4">{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
               <div className="col-sm-8">
                 {readOnly ? 
                   <span>{ticket.attendee_company}</span>
@@ -267,7 +267,7 @@ class TicketAssignForm extends React.Component {
             </div>
             }
             <div className="field-wrapper-mobile">
-              <div>{T.translate("ticket_popup.edit_company")}</div>
+              <div>{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
               <div>
                 {readOnly ? 
                   <span>{ticket.attendee_company}</span>
