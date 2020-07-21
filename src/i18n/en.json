@@ -52,7 +52,7 @@
     "company"           : "Company",
     "tickets"           : "Tickets",
     "ticket"            : "Ticket",
-    "asterisks"         : "** Tickets can be assign later",
+    "asterisks"         : "** Tickets can be assigned later",
     "code"              : "Promo Code",
     "assign"            : "Assign to: **",
     "add_ticket"        : "Add additional tickets to this order",
