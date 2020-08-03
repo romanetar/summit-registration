@@ -328,7 +328,6 @@ class OrderDetailPage extends React.Component {
                   ticket={ticket}
                   member={member}
                   orderOwned={true}
-                  member={member}
                   status={this.handleTicketStatus(ticket)}
                   onChange={this.handleChange}
                   extraQuestions={extraQuestions}

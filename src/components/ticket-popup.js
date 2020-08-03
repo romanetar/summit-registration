@@ -328,8 +328,10 @@ class TicketPopup extends React.Component {
                     <p>{this.handleTicketRole(badge)}</p>
                     <p className={`status ${status.class}`}>{status.text}</p>
                   </div>
-                  <div className="popup-icons">                     
-                    <i onClick={() => this.props.downloadTicket()} className="fa fa-file-pdf-o"></i>
+                  <div className="popup-icons">
+                    {!summit.is_virtual &&
+                      <i onClick={() => this.props.downloadTicket()} className="fa fa-file-pdf-o"></i>
+                    }
                     <i onClick={() => this.props.closePopup()} className="fa fa-times"></i>                    
                   </div>
               </div>

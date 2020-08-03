@@ -1,5 +1,5 @@
 /**
- * Copyright 2019
+ * Copyright 2020
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,14 +27,14 @@ const DEFAULT_STATE = {
     loading: false,
     purchaseSummit: {},
     selectedSummit: {
-      refund_policy: null
+      refund_policy: null,
     },
     summits: [],
     suggestedSummits: []
-}
+};
 
 const summitReducer = (state = DEFAULT_STATE, action) => {
-    const { type, payload } = action
+    const { type, payload } = action;
 
     switch(type){
         case LOGOUT_USER:
@@ -53,12 +53,12 @@ const summitReducer = (state = DEFAULT_STATE, action) => {
                     entity[key] = (entity[key] == null) ? '' : entity[key] ;
                 }
             }
+            // from now on, all shows/summits are marked as virtual
             if(payload.response) {
               let cachedSummits = [...new Set(state.summits.filter(s => s.id !== entity.id))];              
-              return {...state, purchaseSummit: entity, summits: [ ...cachedSummits, entity ]};
-            } else {
-              return {...state, purchaseSummit: entity, summits: [ ...cachedSummits ]};
+              return {...state, purchaseSummit: {...entity, is_virtual: true}, summits: [ ...cachedSummits, entity ]};
             }
+            return {...state, purchaseSummit: {...entity, is_virtual: true}, summits: [ ...cachedSummits ]};
             break;
         case SUMMIT_NOT_FOUND:
             return {...state, purchaseSummit: {}};
@@ -66,18 +66,19 @@ const summitReducer = (state = DEFAULT_STATE, action) => {
             return {...state, purchaseSummit: payload };
         case GET_SUMMIT_BY_ID:
             let summit = payload.response;
-            return {...state, summits: [ ...state.summits, summit ]}
+            return {...state, summits: [ ...state.summits, summit ]};
         case SELECT_SUMMIT:
-            return {...state, selectedSummit: payload};
+            // from now on, all shows/summits are marked as virtual
+            return {...state, selectedSummit: {...payload, is_virtual: true}};
             break;
         case GET_SUMMIT_REFUND_POLICY:
-            return {...state, selectedSummit: { ...state.selectedSummit, refund_policy: payload.response}}
+            return {...state, selectedSummit: { ...state.selectedSummit, refund_policy: payload.response}};
         case GET_SUGGESTED_SUMMITS:
-            return {...state, suggestedSummits: payload.response.data}
+            return {...state, suggestedSummits: payload.response.data};
         default:
             return state;
             break;
     }
-}
+};
 
 export default summitReducer
