@@ -35,6 +35,7 @@ export const SUMMIT_NOT_FOUND          = 'SUMMIT_NOT_FOUND';
 export const SELECT_PURCHASE_SUMMIT    = 'SELECT_PURCHASE_SUMMIT';
 export const GET_SUGGESTED_SUMMITS     = 'GET_SUGGESTED_SUMMITS';
 export const GET_SUMMIT_REFUND_POLICY  = 'GET_SUMMIT_REFUND_POLICY';
+export const RECEIVE_MARKETING_SETTINGS  = 'RECEIVE_MARKETING_SETTINGS';
 
 export const handleResetReducers = () => (dispatch, getState) => {
   dispatch(createAction(LOGOUT_USER)({}));
@@ -57,6 +58,7 @@ export const getSummitBySlug = (slug, updateSummit) => (dispatch, getState) => {
           if(updateSummit) {
             dispatch(createAction(SELECT_SUMMIT)(payload.response, false));
           }
+          dispatch(setMarketingSettings(payload.response.id));
           dispatch(stopLoading());
         }
     ).catch(e => {
@@ -184,7 +186,7 @@ export const selectPurchaseSummit = (slug) => (dispatch, getState) => {
   dispatch(createAction(SELECT_PURCHASE_SUMMIT)(summit));
 
   history.push(`/a/${slug}/`);
-}
+};
 
 export const selectSummitById = (id) => (dispatch, getState) => {
   let { summitState: {summits} } = getState();
@@ -198,7 +200,31 @@ export const selectSummitById = (id) => (dispatch, getState) => {
   } else {
     dispatch(getSummitById(id, true));
   }
-}
+};
+
+export const setMarketingSettings = (summitId) => (dispatch) => {
+    let params = {
+        per_page: 100,
+        page: 1
+    };
+
+    return getRequest(
+        null,
+        createAction(RECEIVE_MARKETING_SETTINGS),
+        `${window.MARKETING_API_BASE_URL}/api/public/v1/config-values/all/shows/${summitId}`,
+        authErrorHandler
+    )(params)(dispatch).then(({response}) => {
+        if (typeof document !== 'undefined' && response) {
+            response.data.forEach(setting => {
+                if (getComputedStyle(document.documentElement).getPropertyValue(`--${setting.key}`)) {
+                    document.documentElement.style.setProperty(`--${setting.key}`, setting.value);
+                    document.documentElement.style.setProperty(`--${setting.key}50`, `${setting.value}50`);
+                }
+            });
+        }
+
+    });
+};
 
 
 export const customErrorHandler = (err, res) => (dispatch, state) => {
