@@ -260,7 +260,7 @@ class OrderDetailPage extends React.Component {
                             {order.tickets.map(t => {
                               return (
                                 s.id === t.ticket_type_id ?
-                                <React.Fragment>
+                                <React.Fragment key={t.id}>
                                 <div className="ticket-list-desktop">
                                     <div className="row" key={t.id} onClick={() => {t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded" || (this.handleTicketStatus(t).text === "UNASSIGNED" && now > this.handleReassignDate(t)) ? null: this.togglePopup(t)}}>
                                       <div className={`ticket ${this.handleTicketStatus(t).text === "UNASSIGNED" ? now > this.handleReassignDate(t) ? 'disabled' : this.handleTicketStatus(t).orderClass : this.handleTicketStatus(t).orderClass} p-2 col-sm-12 col-sm-offset-1`}>

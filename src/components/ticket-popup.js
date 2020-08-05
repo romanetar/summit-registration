@@ -396,6 +396,7 @@ class TicketPopup extends React.Component {
                             onChange={this.handleChange} 
                             cancelTicket={this.handleTicketCancel}
                             summit={summit}
+                            now={now}
                             errors={errors}/>
                         </div>
                         {now < reassign_date &&
