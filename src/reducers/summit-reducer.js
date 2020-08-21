@@ -24,7 +24,7 @@ import {
 
 
 const DEFAULT_STATE = {
-    loading: false,
+    loading: true,
     purchaseSummit: {},
     selectedSummit: {
       refund_policy: null,
