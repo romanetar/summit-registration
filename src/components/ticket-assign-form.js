@@ -13,338 +13,353 @@
 
 import React from 'react'
 import T from "i18n-react/dist/i18n-react";
-import { Input } from 'openstack-uicore-foundation/lib/components'
+import {Input} from 'openstack-uicore-foundation/lib/components'
 import QuestionAnswersInput from './questions-answer-input';
 
-import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
+import {daysBetweenDates, getFormatedDate} from '../utils/helpers';
 
 import '../styles/ticket-assign-form.less';
 
 class TicketAssignForm extends React.Component {
 
     constructor(props) {
-      super(props);
+        super(props);
+        this.state = {
+            extra_questions: [],
+            input_email: false,
+            disclaimer_checked: null,
+        };
 
-      this.state = {        
-        extra_questions : [],
-        input_email: false,
-        disclaimer_checked: null,
-      };
+        this.handleFormatReassignDate = this.handleFormatReassignDate.bind(this);
+        this._innerOnChange = this._innerOnChange.bind(this);
+    }
 
-      this.handleFormatReassignDate = this.handleFormatReassignDate.bind(this);
-
+    _innerOnChange(ev){
+        this.props.onChange(ev, this.props.ticket);
     }
 
     componentDidMount() {
-      let {extra_questions} = this.state;
-      let {ticket} = this.props;
-      
-      if(!ticket.extra_questions && extra_questions.length === 0) {
-        
-        let {extraQuestions} = this.props;
-        
-        extraQuestions.map((q, index) => {
-          extra_questions[index] = { question_id: q.id, answer: ''};
-        })
-  
-        this.setState(() => ({
-          extra_questions: extra_questions,
-          disclaimer_checked: ticket.disclaimer_checked_date ? true : false
-        }));
-      } 
+        let {extra_questions} = this.state;
+        let {ticket} = this.props;
+
+        if (!ticket.extra_questions && extra_questions.length === 0) {
+
+            let {extraQuestions} = this.props;
+
+            extraQuestions.map((q, index) => {
+                extra_questions[index] = {question_id: q.id, answer: ''};
+            })
+
+            this.setState(() => ({
+                extra_questions: extra_questions,
+                disclaimer_checked: ticket.disclaimer_checked_date ? true : false
+            }));
+        }
     }
 
     hasErrors(field) {
-      let {ticket:{errors}} = this.props;
-      if(errors && field in errors) {
-          return errors[field];
-      }
+        let {ticket: {errors}} = this.props;
+        if (errors && field in errors) {
+            return errors[field];
+        }
 
-      return '';
+        return '';
     }
 
     handleFormatReassignDate(days) {
-      let {summit, now} = this.props;
-      let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date
-      if(days) {
-        return daysBetweenDates(now, reassign_date, summit.time_zone.name).length;
-      }
-      return getFormatedDate(reassign_date, summit.time_zone_id);
+        let {summit, now} = this.props;
+        let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date
+        if (days) {
+            return daysBetweenDates(now, reassign_date, summit.time_zone.name).length;
+        }
+        return getFormatedDate(reassign_date, summit.time_zone_id);
     }
 
     render() {
 
-      let {guest, ownedTicket, ticket, onChange, extraQuestions, status, summit, orderOwned, readOnly, now } = this.props;
-      let {extra_questions, input_email} = this.state;
+        let {guest, ownedTicket, ticket, extraQuestions, status, summit, orderOwned, readOnly, now} = this.props;
+        let showCancel = true;
+        if(this.props.hasOwnProperty('showCancel'))
+            showCancel = this.props.showCancel;
+
+        let {extra_questions, input_email} = this.state;
 
         return (
-          <div className="ticket-assign-form">
-            <div className="row popup-basic-info">
-              <div className="col-sm-6">{T.translate("ticket_popup.edit_basic_info")}</div>
-              <div className="col-sm-6">
-                {!readOnly && T.translate("ticket_popup.edit_required")}
-              </div>
-            </div>
-            <div className="row field-wrapper">
-              <div className="col-sm-4">
-                {T.translate("ticket_popup.edit_email")}
-                {!readOnly && T.translate("ticket_popup.edit_required_star")}
+            <div className="ticket-assign-form">
+                <div className="row popup-basic-info">
+                    <div className="col-sm-6">{T.translate("ticket_popup.edit_basic_info")}</div>
+                    <div className="col-sm-6">
+                        {!readOnly && T.translate("ticket_popup.edit_required")}
+                    </div>
                 </div>
-              <div className="col-sm-8">
-                {status === 'UNASSIGNED' ?
-                  <span>
+                <div className="row field-wrapper">
+                    <div className="col-sm-4">
+                        {T.translate("ticket_popup.edit_email")}
+                        {!readOnly && T.translate("ticket_popup.edit_required_star")}
+                    </div>
+                    <div className="col-sm-8">
+                        {status === 'UNASSIGNED' ?
+                            <span>
                     {input_email ?
-                    <React.Fragment>
-                      <Input
-                        id="attendee_email"
-                        className="form-control"                              
-                        error={this.hasErrors('attendee_email')}
-                        onChange={onChange}
-                        value={ticket.attendee_email}
-                      />
-                    </React.Fragment>
-                    :
-                    <React.Fragment>
-                      <button className="btn btn-primary" onClick={() => this.setState({input_email: true})}>
-                        {T.translate("ticket_popup.assign_this")}
-                      </button>                    
-                      <p>{T.translate("ticket_popup.assign_expire")} {this.handleFormatReassignDate(true)} {T.translate("ticket_popup.assign_days")} ({this.handleFormatReassignDate(false)})</p>
-                    </React.Fragment>
-                    }
-                    
-                  </span>
-                  :
-                  <React.Fragment>
-                    {input_email ? 
-                        <Input
-                          id="attendee_email"
-                          className="form-control"                              
-                          error={this.hasErrors('attendee_email')}
-                          onChange={onChange}
-                          value={ticket.attendee_email}
-                        />
+                        <React.Fragment>
+                            <Input
+                                id="attendee_email"
+                                className="form-control"
+                                error={this.hasErrors('attendee_email')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_email}
+                            />
+                        </React.Fragment>
                         :
-                        <span>{ticket.attendee_email}
-                            {!guest && !readOnly && orderOwned && <span onClick={() => this.setState({input_email: true})}> | <u>Change</u></span>} 
-                        </span>
-                    }                    
-                  </React.Fragment>                  
-                }
-              </div>
-            </div>
-            <div className="field-wrapper-mobile">
-            <div>{T.translate("ticket_popup.edit_email")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
-              <div>
-                {status === 'UNASSIGNED' ?
-                  <span>
-                    {input_email ?
-                    <React.Fragment>
-                      <Input
-                        id="attendee_email"
-                        className="form-control"                              
-                        error={this.hasErrors('attendee_email')}
-                        onChange={onChange}
-                        value={ticket.attendee_email}
-                      />
-                    </React.Fragment>
-                    :
-                    <React.Fragment>
-                      <button className="btn btn-primary" onClick={() => this.setState({input_email: true})}>
-                        {T.translate("ticket_popup.assign_this")}
-                      </button>                    
-                      <p>{T.translate("ticket_popup.assign_expire")} {this.handleFormatReassignDate(true)} {T.translate("ticket_popup.assign_days")} ({this.handleFormatReassignDate(false)})</p>
-                    </React.Fragment>
+                        <React.Fragment>
+                            <button className="btn btn-primary" onClick={() => this.setState({input_email: true})}>
+                                {T.translate("ticket_popup.assign_this")}
+                            </button>
+                            <p>{T.translate("ticket_popup.assign_expire")} {this.handleFormatReassignDate(true)} {T.translate("ticket_popup.assign_days")} ({this.handleFormatReassignDate(false)})</p>
+                        </React.Fragment>
                     }
                     
                   </span>
-                  :
-                  <React.Fragment>
-                    {input_email ? 
-                        <Input
-                          id="attendee_email"
-                          className="form-control"                              
-                          error={this.hasErrors('attendee_email')}
-                          onChange={onChange}
-                          value={ticket.attendee_email}
-                        />
-                        :                        
-                        <span>{ticket.attendee_email}
-                            {!guest && !readOnly && orderOwned && <span onClick={() => this.setState({input_email: true})}> | <u>Change</u></span>} 
-                        </span> 
-                    }                    
-                  </React.Fragment>                  
-                }
-              </div>
-            </div>
-            <div className="row field-wrapper">
-              <div className="col-sm-4">
-                {T.translate("ticket_popup.edit_first_name")}
-                {!readOnly && T.translate("ticket_popup.edit_required_star")}
-              </div>
-              <div className="col-sm-8">
-                {readOnly ? 
-                  <span>{ticket.attendee_first_name}</span>
-                  :
-                  <Input
-                    id="attendee_first_name"
-                    className="form-control"
-                    error={this.hasErrors('attendee_first_name')}
-                    onChange={onChange}
-                    value={ticket.attendee_first_name}
-                  />
-                }                
-              </div>
-            </div>
-            <div className="field-wrapper-mobile">
-              <div>{T.translate("ticket_popup.edit_first_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
-              <div>
-                {readOnly ? 
-                  <span>{ticket.attendee_first_name}</span>
-                  :
-                  <Input
-                    id="attendee_first_name"
-                    className="form-control"
-                    error={this.hasErrors('attendee_first_name')}
-                    onChange={onChange}
-                    value={ticket.attendee_first_name}
-                  />
-                }                
-              </div>
-            </div>
-            <div className="row field-wrapper">
-              <div className="col-sm-4">
-                {T.translate("ticket_popup.edit_last_name")}
-                {!readOnly && T.translate("ticket_popup.edit_required_star")}
-              </div>
-              <div className="col-sm-8">
-                {readOnly ? 
-                  <span>{ticket.attendee_last_name}</span>
-                  :
-                  <Input
-                    id="attendee_last_name"
-                    className="form-control"
-                    error={this.hasErrors('attendee_last_name')}
-                    onChange={onChange}
-                    value={ticket.attendee_last_name}
-                  />
-                }
-              </div>
-            </div>
-            <div className="field-wrapper-mobile">
-            <div>{T.translate("ticket_popup.edit_last_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
-              <div>
-                {readOnly ? 
-                  <span>{ticket.attendee_last_name}</span>
-                  :
-                  <Input
-                    id="attendee_last_name"
-                    className="form-control"
-                    error={this.hasErrors('attendee_last_name')}
-                    onChange={onChange}
-                    value={ticket.attendee_last_name}
-                  />
-                }
-              </div>
-            </div>
-            {readOnly && !ticket.attendee_company ?
-            null
-            :
-            <div className="row field-wrapper">
-              <div className="col-sm-4">{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
-              <div className="col-sm-8">
-                {readOnly ? 
-                  <span>{ticket.attendee_company}</span>
-                  :
-                  <Input
-                    id="attendee_company"
-                    className="form-control"
-                    error={this.hasErrors('attendee_company')}
-                    onChange={onChange}
-                    value={ticket.attendee_company}
-                  />
-                }                
-              </div>
-            </div>
-            }
-            <div className="field-wrapper-mobile">
-              <div>{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
-              <div>
-                {readOnly ? 
-                  <span>{ticket.attendee_company}</span>
-                  :
-                  <Input
-                    id="attendee_company"
-                    className="form-control"
-                    error={this.hasErrors('attendee_company')}
-                    onChange={onChange}
-                    value={ticket.attendee_company}
-                  />
-                }                
-              </div>
-            </div>
-            {extraQuestions && extraQuestions.length > 0 && 
-            <React.Fragment>
-              <hr/>
-              <div className="row popup-basic-info">
-                <div className="col-sm-6">{T.translate("ticket_popup.edit_preferences")}</div>
-                <div className="col-sm-6"></div>
-              </div>
-              <QuestionAnswersInput
-                  id="extra_questions"
-                  answers={ticket.extra_questions}
-                  questions={extraQuestions}
-                  questions_type={'Ticket'}
-                  readOnly={readOnly}
-                  onChange={onChange}
-              />                        
-            </React.Fragment>
-            }
-            {(guest || ownedTicket) && (summit.registration_disclaimer_mandatory && summit.registration_disclaimer_content) &&
-              <React.Fragment>
-                <hr/>
-                <div className="row field-wrapper">
-                  <div className="col-md-12">
-                      <div className="form-check abc-checkbox">
-                          <input type="checkbox" id="disclaimer_accepted" checked={ticket.disclaimer_accepted}
-                                  disabled={readOnly} onChange={onChange} className="form-check-input" />
-                          <label className="form-check-label" htmlFor="disclaimer_accepted">
-                              {summit.registration_disclaimer_content}
-                          </label>
-                      </div>
-                  </div>
+                            :
+                            <React.Fragment>
+                                {input_email ?
+                                    <Input
+                                        id="attendee_email"
+                                        className="form-control"
+                                        error={this.hasErrors('attendee_email')}
+                                        onChange={this._innerOnChange}
+                                        value={ticket.attendee_email}
+                                    />
+                                    :
+                                    <span>{ticket.attendee_email}
+                                        {!guest && !readOnly && orderOwned && <span
+                                            onClick={() => this.setState({input_email: true})}> | <u>Change</u></span>}
+                        </span>
+                                }
+                            </React.Fragment>
+                        }
+                    </div>
                 </div>
                 <div className="field-wrapper-mobile">
-                  <div>
-                      <div className="form-check abc-checkbox">
-                          <input type="checkbox" id="disclaimer_accepted" checked={ticket.disclaimer_accepted}
-                                  disabled={readOnly} onChange={onChange} className="form-check-input" />
-                          <label className="form-check-label" htmlFor="disclaimer_accepted">
-                              {summit.registration_disclaimer_content}
-                          </label>
-                      </div>
-                  </div>
+                    <div>{T.translate("ticket_popup.edit_email")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
+                    <div>
+                        {status === 'UNASSIGNED' ?
+                            <span>
+                    {input_email ?
+                        <React.Fragment>
+                            <Input
+                                id="attendee_email"
+                                className="form-control"
+                                error={this.hasErrors('attendee_email')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_email}
+                            />
+                        </React.Fragment>
+                        :
+                        <React.Fragment>
+                            <button className="btn btn-primary" onClick={() => this.setState({input_email: true})}>
+                                {T.translate("ticket_popup.assign_this")}
+                            </button>
+                            <p>{T.translate("ticket_popup.assign_expire")} {this.handleFormatReassignDate(true)} {T.translate("ticket_popup.assign_days")} ({this.handleFormatReassignDate(false)})</p>
+                        </React.Fragment>
+                    }
+                    
+                  </span>
+                            :
+                            <React.Fragment>
+                                {input_email ?
+                                    <Input
+                                        id="attendee_email"
+                                        className="form-control"
+                                        error={this.hasErrors('attendee_email')}
+                                        onChange={this._innerOnChange}
+                                        value={ticket.attendee_email}
+                                    />
+                                    :
+                                    <span>{ticket.attendee_email}
+                                        {!guest && !readOnly && orderOwned && <span
+                                            onClick={() => this.setState({input_email: true})}> | <u>Change</u></span>}
+                        </span>
+                                }
+                            </React.Fragment>
+                        }
+                    </div>
                 </div>
-              </React.Fragment>
-            }
-            {!guest && orderOwned && summit.start_date > now &&
-              <React.Fragment>
                 <div className="row field-wrapper">
-                  <div className="col-sm-4"></div>
-                  <div className="col-sm-8">
-                    <h4 className="popup-cancel-ticket" onClick={this.props.cancelTicket}>{T.translate("ticket_popup.cancel_ticket")}</h4>
-                    <p></p>                  
-                  </div>
+                    <div className="col-sm-4">
+                        {T.translate("ticket_popup.edit_first_name")}
+                        {!readOnly && T.translate("ticket_popup.edit_required_star")}
+                    </div>
+                    <div className="col-sm-8">
+                        {readOnly ?
+                            <span>{ticket.attendee_first_name}</span>
+                            :
+                            <Input
+                                id="attendee_first_name"
+                                className="form-control"
+                                error={this.hasErrors('attendee_first_name')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_first_name}
+                            />
+                        }
+                    </div>
                 </div>
                 <div className="field-wrapper-mobile">
-                  <div></div>
-                  <div>
-                    <h4 className="popup-cancel-ticket" onClick={this.props.cancelTicket}>{T.translate("ticket_popup.cancel_ticket")}</h4>
-                    <p></p>                  
-                  </div>
+                    <div>{T.translate("ticket_popup.edit_first_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
+                    <div>
+                        {readOnly ?
+                            <span>{ticket.attendee_first_name}</span>
+                            :
+                            <Input
+                                id="attendee_first_name"
+                                className="form-control"
+                                error={this.hasErrors('attendee_first_name')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_first_name}
+                            />
+                        }
+                    </div>
                 </div>
-              </React.Fragment>
-            }
-          </div>
+                <div className="row field-wrapper">
+                    <div className="col-sm-4">
+                        {T.translate("ticket_popup.edit_last_name")}
+                        {!readOnly && T.translate("ticket_popup.edit_required_star")}
+                    </div>
+                    <div className="col-sm-8">
+                        {readOnly ?
+                            <span>{ticket.attendee_last_name}</span>
+                            :
+                            <Input
+                                id="attendee_last_name"
+                                className="form-control"
+                                error={this.hasErrors('attendee_last_name')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_last_name}
+                            />
+                        }
+                    </div>
+                </div>
+                <div className="field-wrapper-mobile">
+                    <div>{T.translate("ticket_popup.edit_last_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
+                    <div>
+                        {readOnly ?
+                            <span>{ticket.attendee_last_name}</span>
+                            :
+                            <Input
+                                id="attendee_last_name"
+                                className="form-control"
+                                error={this.hasErrors('attendee_last_name')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_last_name}
+                            />
+                        }
+                    </div>
+                </div>
+                {readOnly && !ticket.attendee_company ?
+                    null
+                    :
+                    <div className="row field-wrapper">
+                        <div
+                            className="col-sm-4">{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
+                        <div className="col-sm-8">
+                            {readOnly ?
+                                <span>{ticket.attendee_company}</span>
+                                :
+                                <Input
+                                    id="attendee_company"
+                                    className="form-control"
+                                    error={this.hasErrors('attendee_company')}
+                                    onChange={this._innerOnChange}
+                                    value={ticket.attendee_company}
+                                />
+                            }
+                        </div>
+                    </div>
+                }
+                <div className="field-wrapper-mobile">
+                    <div>{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
+                    <div>
+                        {readOnly ?
+                            <span>{ticket.attendee_company}</span>
+                            :
+                            <Input
+                                id="attendee_company"
+                                className="form-control"
+                                error={this.hasErrors('attendee_company')}
+                                onChange={this._innerOnChange}
+                                value={ticket.attendee_company}
+                            />
+                        }
+                    </div>
+                </div>
+                {extraQuestions && extraQuestions.length > 0 &&
+                <React.Fragment>
+                    <hr/>
+                    <div className="row popup-basic-info">
+                        <div className="col-sm-6">{T.translate("ticket_popup.edit_preferences")}</div>
+                        <div className="col-sm-6"></div>
+                    </div>
+                    <QuestionAnswersInput
+                        id={`${ticket.id}_extra_questions`}
+                        answers={ticket.extra_questions}
+                        ticket={ticket}
+                        questions={extraQuestions}
+                        questions_type={'Ticket'}
+                        readOnly={readOnly}
+                        onChange={this._innerOnChange}
+                    />
+                </React.Fragment>
+                }
+                {(guest || ownedTicket) && (summit.registration_disclaimer_mandatory && summit.registration_disclaimer_content) &&
+                <React.Fragment>
+                    <hr/>
+                    <div className="row field-wrapper">
+                        <div className="col-md-12">
+                            <div className="form-check abc-checkbox">
+                                <input type="checkbox" id={`${ticket.id}_disclaimer_accepted`} checked={ticket.disclaimer_accepted}
+                                       disabled={readOnly} onChange={this._innerOnChange} className="form-check-input"/>
+                                <label className="form-check-label" htmlFor={`${ticket.id}_disclaimer_accepted`}>
+                                    {summit.registration_disclaimer_content}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="field-wrapper-mobile">
+                        <div>
+                            <div className="form-check abc-checkbox">
+                                <input type="checkbox"
+
+                                       id={`${ticket.id}_disclaimer_accepted`} checked={ticket.disclaimer_accepted}
+                                       disabled={readOnly} onChange={this._innerOnChange} className="form-check-input"/>
+                                <label className="form-check-label" htmlFor={`${ticket.id}_disclaimer_accepted`}>
+                                    {summit.registration_disclaimer_content}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </React.Fragment>
+                }
+                {showCancel && !guest && orderOwned && summit.start_date > now &&
+                <React.Fragment>
+                    <div className="row field-wrapper">
+                        <div className="col-sm-4"></div>
+                        <div className="col-sm-8">
+                            <h4 className="popup-cancel-ticket"
+                                onClick={this.props.cancelTicket}>{T.translate("ticket_popup.cancel_ticket")}</h4>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div className="field-wrapper-mobile">
+                        <div></div>
+                        <div>
+                            <h4 className="popup-cancel-ticket"
+                                onClick={this.props.cancelTicket}>{T.translate("ticket_popup.cancel_ticket")}</h4>
+                            <p></p>
+                        </div>
+                    </div>
+                </React.Fragment>
+                }
+            </div>
         );
     }
 }

@@ -32,7 +32,7 @@ import {
 } from 'openstack-uicore-foundation/lib/methods';
 import { selectSummitById } from "./summit-actions";
 import { getUserSummits } from '../actions/summit-actions';
-import { getUserOrders } from "./order-actions";
+import {CLEAR_RESERVATION, getUserOrders} from "./order-actions";
 
 import Swal from 'sweetalert2';
 
@@ -203,6 +203,7 @@ export const assignAttendee = (attendee_email, attendee_first_name, attendee_las
   });
 }
 
+
 export const editOwnedTicket = (attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions, updateOrder = false) => (dispatch, getState) => {  
 
   let { loggedUserState, orderState: { selectedOrder }, ticketState: { selectedTicket } } = getState();
@@ -233,8 +234,7 @@ export const editOwnedTicket = (attendee_email, attendee_first_name, attendee_la
     dispatch(stopLoading());
     return (e);
   });
-
-}
+};
 
 export const resendNotification = () => (dispatch, getState) => {
   

@@ -22,11 +22,10 @@ export default class QuestionAnswersInput extends React.Component {
 
     constructor(props) {
         super(props);
-
         let answers = props.questions.map(q => {
-            let defaultValue = (q.type == 'CheckBox') ? 'false' : '';
+            let defaultValue = (q.type === 'CheckBox') ? 'false' : '';
 
-            let answer = props.answers.find(ans => ans.question_id == q.id);            
+            let answer = props.answers.find(ans => ans.question_id === q.id);
             let value = answer ? answer.answer : defaultValue;            
             return ({question_id: q.id, answer: value});
         });
@@ -42,17 +41,24 @@ export default class QuestionAnswersInput extends React.Component {
     handleChange(ev) {
         let {value, id} = ev.target;
 
-        if (ev.target.type == 'checkbox') {
+        // split compose id ( ticket_id + '_' + question_id )
+        id = id.toString();
+
+        if(id.includes("_")){
+            id = id.split("_")[1];
+        }
+
+        if (ev.target.type === 'checkbox') {
             value = ev.target.checked ? "true" : "false";
         }
 
-        if (ev.target.type == 'checkboxlist') {
+        if (ev.target.type === 'checkboxlist') {
             value = ev.target.value.join(',');
         }
 
         let answers = this.state.answers.map(ans => {
             let newValue = ans.answer;
-            if (ans.question_id == id) newValue = `${value}`;
+            if (ans.question_id === parseInt(id)) newValue = `${value}`;
 
             return ({question_id: ans.question_id, answer: newValue})
         });
@@ -71,7 +77,7 @@ export default class QuestionAnswersInput extends React.Component {
 
     getInput(question, answerValue) {        
         let questionValues = question.values;
-        let {readOnly} = this.props;
+        let {readOnly, ticket} = this.props;
 
         switch(question.type) {
             case 'Text':
@@ -182,9 +188,10 @@ export default class QuestionAnswersInput extends React.Component {
                 } else {
                   return (
                     <div className="form-check abc-checkbox">
-                        <input type="checkbox" id={question.id} checked={(answerValue == "true")}
+                        <input type="checkbox" id={`${ticket.id}_${question.id}`} checked={(answerValue === "true")}
                                onChange={this.handleChange} className="form-check-input" />
-                        <label className="form-check-label" htmlFor={question.id}>
+
+                        <label className="form-check-label" htmlFor={`${ticket.id}_${question.id}`} >
                             {question.label} {!readOnly && question.mandatory ? '*' : ''}
                         </label>
                     </div>
@@ -277,7 +284,7 @@ export default class QuestionAnswersInput extends React.Component {
                           <div className="col-sm-4"> {question.label} {!readOnly && question.mandatory ? '*' : ''}</div>
                           <div className="col-sm-8">                          
                               <CheckboxList
-                                  id={question.id}
+                                  id={`${ticket.id}_${question.id}`}
                                   value={answerValue}
                                   options={questionValues}
                                   onChange={this.handleChange}
@@ -288,7 +295,7 @@ export default class QuestionAnswersInput extends React.Component {
                         <div> {question.label} {!readOnly && question.mandatory ? '*' : ''}</div>
                         <div>                          
                             <CheckboxList
-                                id={question.id}
+                                id={`${ticket.id}_${question.id}`}
                                 value={answerValue}
                                 options={questionValues}
                                 onChange={this.handleChange}
@@ -352,14 +359,14 @@ export default class QuestionAnswersInput extends React.Component {
 
     render() {
         let { answers } = this.state;
-        let { questions, questions_type, readOnly } = this.props;
+        let { questions, questions_type, readOnly, ticket } = this.props;
 
         let orderedQuestions = questions.sort((a, b) => (a.order > b.order) ? 1 : -1);
 
         return (
             <div>
                 {orderedQuestions.filter(q => q.usage === "Both" || q.usage === questions_type).map( q => {
-                    let answer = answers.find(ans => ans.question_id == q.id);
+                    let answer = answers.find(ans => ans.question_id === q.id);
                     let answerValue = answer ? answer.answer : null;
                     return (                      
                         <div className={`row form-group ${readOnly? 'read-only':''}`} key={`question_answer_${q.id}`}>

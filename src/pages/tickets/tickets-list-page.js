@@ -73,8 +73,6 @@ class TicketsListPage extends React.Component {
           loadingTickets, 
           loadingSummits, 
           errors} = this.props;
-          
-        let now = parseInt((new Date().getTime() / 1000).toFixed(0));
 
         if(tickets.length > 0) {
           return (
@@ -96,7 +94,6 @@ class TicketsListPage extends React.Component {
                   summits={summits}
                   summit={summit}
                   extraQuestions={extraQuestions}
-                  now={now}
                   loading={loadingTickets && loadingSummits}
                   loadingSummits={loadingSummits}
                   errors={errors}

@@ -17,6 +17,7 @@ import { Pagination } from 'react-bootstrap';
 import TicketPopup from "../components/ticket-popup";
 
 import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
+import TicketModel from "../models/ticket";
 
 class TicketList extends React.Component {
     constructor(props) {
@@ -53,67 +54,7 @@ class TicketList extends React.Component {
     }
 
     handleTicketStatus(ticket){
-      const status = [
-        { 
-          text: 'UNASSIGNED',
-          icon: 'fa-exclamation-circle',
-          orderClass: 'unset',
-          class: 'ticket-unset'
-        },
-        { 
-          text: 'REQUIRED DETAILS NEEDED',
-          icon: 'fa-exclamation-circle',
-          orderClass: 'warning',
-          class: 'ticket-warning'
-        },
-        { 
-          text: 'READY TO USE',
-          icon: 'fa-check-circle',
-          orderClass: 'complete',
-          class: 'ticket-complete'
-        },
-        { 
-          text: 'CANCELLED',        
-          orderClass: 'cancel',
-          class: 'ticket-cancel'
-        },
-        { 
-          text: 'REFUND REQUESTED',
-          icon: 'fa-fw',
-          orderClass: 'cancel',
-          class: 'ticket-cancel'
-        },
-        { 
-          text: 'REFUNDED',
-          icon: 'fa-fw',
-          orderClass: 'cancel',
-          class: 'ticket-cancel'
-        },
-        { 
-          text: '',
-          icon: 'fa-fw',
-          orderClass: 'past',
-          class: ''
-        },
-      ];
-      if(ticket.status === "Cancelled") {
-        return status[3];
-      }
-      else if(ticket.status === "RefundRequested") {
-        return status[4];
-      } else if (ticket.status === "Refunded") {
-        return status[5];
-      } else if(ticket.owner_id === 0) {
-        return status[0];
-      } else if(this.handlePastSummit(ticket)) {
-        return status[6];
-      } else if (!ticket.owner.first_name || !ticket.owner.last_name) {
-        return status[1];
-      } else if (ticket.owner && ticket.owner.status === "Complete") {
-        return status[2];
-      } else if (ticket.owner && ticket.owner.status === "Incomplete") {
-        return status[1];
-      };
+        return new TicketModel(ticket, this.props.summit, this.props.now).getStatus();
     }
 
     handleTicketDownload() {    

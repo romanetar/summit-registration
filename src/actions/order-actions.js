@@ -17,7 +17,6 @@ import history from '../history'
 import validator from "validator"
 import Swal from 'sweetalert2';
 
-
 import {
     getRequest,
     putRequest,
@@ -46,12 +45,13 @@ export const PAY_RESERVATION                = 'PAY_RESERVATION';
 export const GET_USER_ORDERS                = 'GET_ORDERS';
 export const SELECT_ORDER                   = 'SELECT_ORDER';
 export const REFUND_ORDER                   = 'REFUND_ORDER';
+export const CLEAR_RESERVATION              = 'CLEAR_RESERVATION';
 
 export const handleResetOrder = () => (dispatch, getState) => {
     dispatch(createAction(RESET_ORDER)({}));
 }
 
-const stepDefs = ['start', 'details', 'checkout', 'done'];
+const stepDefs = ['start', 'details', 'checkout', 'done', 'extra'];
 
 export const handleOrderChange = (order, errors = {}) => (dispatch, getState) => {
 
@@ -97,13 +97,13 @@ export const createReservation = (owner_email, owner_first_name, owner_last_name
     tickets = tickets.map(t => {
       t.type_id = t.type_id ? t.type_id : t.ticket_type_id;
       Object.keys(t).forEach((key) => {
-        if(key != "type_id" && key != "promo_code" && key != "attendee_email") delete t[key];
+        if(key !== "type_id" && key !== "promo_code" && key !== "attendee_email") delete t[key];
       });
       return t;
     });
 
     let params = {
-      expand       : 'tickets',
+      expand : 'tickets,tickets.owner',
     };
 
     let normalizedEntity = {owner_email, owner_first_name, owner_last_name, owner_company, tickets };
@@ -163,7 +163,7 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
     };
 
     let params = {
-      expand       : 'tickets',
+      expand : 'tickets',
     };
 
     dispatch(startLoading());
@@ -176,7 +176,8 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
         billing_address_city: purchaseOrder.billing_city,
         billing_address_state: purchaseOrder.billing_state,
         billing_address_country: purchaseOrder.billing_country
-      };            
+      };
+
       return putRequest(
           null,
           createAction(PAY_RESERVATION),
@@ -186,6 +187,11 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
           // entity
       )(params)(dispatch).then((payload) => {                    
               dispatch(stopLoading());
+              if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT){
+                  history.push(stepDefs[4]);
+                  return (payload);
+              }
+              dispatch(createAction(CLEAR_RESERVATION)({}));
               history.push(stepDefs[3]);
               return (payload);
           })
@@ -225,6 +231,11 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
               )(params)(dispatch)
                   .then((payload) => {                    
                       dispatch(stopLoading());
+                      if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT){
+                          history.push(stepDefs[4]);
+                          return (payload);
+                      }
+                      dispatch(createAction(CLEAR_RESERVATION)({}));
                       history.push(stepDefs[3]);
                       return (payload);
                   })
@@ -321,5 +332,40 @@ export const cancelOrder = (order) => (dispatch, getState) => {
 }
 
 
+export const updateOrderTickets = (tickets) => (dispatch, getState) => {
+    let {orderState: { purchaseOrder: {reservation}}} = getState();
+
+    dispatch(startLoading());
+
+    let params = {
+        expand: 'tickets, tickets.owner'
+    };
+
+    tickets = tickets.map( (t) => ({
+        id: t.id,
+        attendee_first_name: t.attendee_first_name,
+        attendee_last_name: t.attendee_last_name,
+        attendee_company: t.attendee_company,
+        attendee_email: t.attendee_email,
+        extra_questions: t.extra_questions,
+        disclaimer_accepted: t.disclaimer_accepted,
+        share_contact_info: t.share_contact_info
+    }));
+
+    return putRequest(
+        null,
+        createAction(CLEAR_RESERVATION),
+        `${window.API_BASE_URL}/api/public/v1/summits/all/orders/${reservation.hash}/tickets`,
+        { 'tickets' : tickets },
+        authErrorHandler
+    )(params)(dispatch)
+        .then(() => {
+            dispatch(stopLoading());
+            history.push(stepDefs[3]);
+        }).catch(e => {
+            dispatch(stopLoading());
+            return (e);
+        });
+};
 
 
