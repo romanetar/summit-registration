@@ -57,6 +57,7 @@ window.OAUTH2_CLIENT_ID         = process.env['OAUTH2_CLIENT_ID'];
 window.SCOPES                   = process.env['SCOPES'];
 window.ALLOWED_USER_GROUPS      = process.env['ALLOWED_USER_GROUPS'];
 window.SUPPORT_EMAIL            = process.env['SUPPORT_EMAIL'];
+window.MAX_TICKET_QTY_TO_EDIT   = process.env['MAX_TICKET_QTY_TO_EDIT'];
 
 class App extends React.PureComponent {
 

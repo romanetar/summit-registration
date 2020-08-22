@@ -26,7 +26,8 @@ import {
     REFUND_ORDER,
     DELETE_RESERVATION,
     DELETE_RESERVATION_SUCCESS,
-    DELETE_RESERVATION_ERROR
+    DELETE_RESERVATION_ERROR,
+    CLEAR_RESERVATION
 } from "../actions/order-actions";
 
 
@@ -93,7 +94,7 @@ const orderReducer = (state = DEFAULT_STATE, action) => {
         case CREATE_RESERVATION_SUCCESS:
             let entity = {...payload.response};
             return {...state, purchaseOrder: {...state.purchaseOrder, reservation: entity, tickets: entity.tickets }, errors: {}, loading: false, loaded: true};
-            break
+            break;
         case CREATE_RESERVATION_ERROR:
             let {tickets} = {...state.purchaseOrder};
             tickets.map(t => {
@@ -113,8 +114,12 @@ const orderReducer = (state = DEFAULT_STATE, action) => {
             noDiscountTix.map(t => t.discount = 0);            
             return {...state, purchaseOrder: {...state.purchaseOrder, reservation: {}, tickets: noDiscountTix}}
         case PAY_RESERVATION:                        
-            return { ...state, purchaseOrder : { ...state.purchaseOrder, checkout : payload.response, reservation: {}}};
+            return { ...state, purchaseOrder : { ...state.purchaseOrder, checkout : payload.response}};
             break;
+        case CLEAR_RESERVATION:{
+            return { ...state, reservation: {}};
+            break;
+        }
         case GET_USER_ORDERS:
             let {data, current_page, total, last_page} = payload.response;
             return {...state, memberOrders: data, current_page, total, last_page};

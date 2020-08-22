@@ -90,7 +90,8 @@ class GuestsLayout extends React.Component {
         })        
         this.setState(
           {
-            tempTicket: { 
+            tempTicket: {
+            id: this.props.ticket.id,
             attendee_email: email, 
             attendee_first_name: first_name, 
             attendee_last_name: last_name, 

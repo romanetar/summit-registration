@@ -34,6 +34,7 @@ class TicketPopup extends React.Component {
           popupCase: '',
           cleanFields: false,          
           tempTicket: {
+            id: 0,
             attendee_email: '',
             attendee_first_name: '',
             attendee_last_name: '',
@@ -73,7 +74,8 @@ class TicketPopup extends React.Component {
           let question = {question_id: q.question_id, answer: q.value};
           formattedQuestions.push(question);
         })        
-        this.setState({tempTicket: { 
+        this.setState({tempTicket: {
+          id: this.props.ticket.id,
           attendee_email: email, 
           attendee_first_name: first_name, 
           attendee_last_name: last_name,
@@ -160,7 +162,8 @@ class TicketPopup extends React.Component {
         if(cleanFields) {
           this.setState((prevState) => {
             return {
-              tempTicket: {                    
+              tempTicket: {
+                id: prevState.tempTicket.id,
                 attendee_first_name: prevState.tempTicket.attendee_first_name,
                 attendee_last_name: prevState.tempTicket.last_name,
                 attendee_company: prevState.tempTicket.attendee_company,
@@ -173,7 +176,8 @@ class TicketPopup extends React.Component {
         } else {
           this.setState((prevState) => {
             return {
-              tempTicket: {                    
+              tempTicket: {
+                id: prevState.tempTicket.id,
                 attendee_first_name: prevState.tempTicket.attendee_first_name,
                 attendee_last_name: prevState.tempTicket.attendee_last_name,
                 attendee_company: prevState.tempTicket.attendee_company,
@@ -187,7 +191,8 @@ class TicketPopup extends React.Component {
       } else {
         this.setState((prevState) => {          
           return {
-            tempTicket: {                    
+            tempTicket: {
+              id: prevState.tempTicket.id,
               attendee_email: prevState.tempTicket.attendee_email,
               attendee_first_name: prevState.tempTicket.attendee_first_name,
               attendee_last_name: prevState.tempTicket.last_name,
@@ -261,6 +266,13 @@ class TicketPopup extends React.Component {
       
       let ticket = this.state.tempTicket;
       let {value, id} = ev.target;
+
+      // remap ids
+      id = id.toString();
+
+      if(id.includes(`${ticket.id}_`)){
+            id = id.split(`${ticket.id}_`)[1];
+      }
 
       if (ev.target.type == 'checkbox') {
         value = ev.target.checked;        

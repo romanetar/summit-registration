@@ -19,6 +19,7 @@ import StepOnePage from "../pages/step-one-page";
 import StepTwoPage from "../pages/step-two-page";
 import StepThreePage from "../pages/step-three-page";
 import StepFourPage from "../pages/step-four-page";
+import StepExtraQuestionsPage from '../pages/step-extra-questions-page';
 import T from "i18n-react/dist/i18n-react";
 
 class InviteesLayout extends React.Component {
@@ -43,6 +44,7 @@ class InviteesLayout extends React.Component {
                         <Route exact path={`${match.url}/register/start`} component={StepOnePage}/>
                         <Route exact path={`${match.url}/register/details`} component={StepTwoPage}/>
                         <Route exact path={`${match.url}/register/checkout`} component={StepThreePage}/>
+                        <Route exact path={`${match.url}/register/extra`} component={StepExtraQuestionsPage}/>
                         <Route exact path={`${match.url}/register/done`} component={StepFourPage}/>
                         <Route render={props => (<Redirect to={`${match.url}/register/start`} />)}/>
                     </Switch>
