@@ -33,6 +33,7 @@ import history from './history'
 import URI from "urijs";
 import SelectSummitPage from './pages/select-summit-page'
 import Timer from './components/timer';
+import IdTokenVerifier from 'idtoken-verifier';
 
 // here is set by default user lang as en
 let language = (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
@@ -81,11 +82,22 @@ class App extends React.PureComponent {
     }    
 
     render() {
-      let {isLoggedUser, onUserAuth, doLogout, getUserInfo, member, backUrl, summit} = this.props;
+      let {isLoggedUser, onUserAuth, doLogout, getUserInfo, member, backUrl, summit, idToken} = this.props;
 
       let url = URI(window.location.href);
       let location = url.pathname();
-      let memberLocation = '/a/member/';      
+      let memberLocation = '/a/member/';
+
+        // get user pic from idtoken claims (IDP)
+        let profile_pic = member ? member.pic : '';
+        if(idToken){
+            let verifier = new IdTokenVerifier({
+                issuer:   window.IDP_BASE_URL,
+                audience: window.OAUTH2_CLIENT_ID
+            });
+            let jwt = verifier.decode(idToken);
+            profile_pic = jwt.payload.picture;
+        }
 
       return (
           <Router history={history}>
@@ -96,7 +108,10 @@ class App extends React.PureComponent {
                       <div className="header-top">                          
                           <HeaderTitle summit={summit}/>
                           <div className="header-user">
-                              <AuthButton isLoggedUser={isLoggedUser} member={member} doLogin={this.onClickLogin.bind(this)} initLogOut={initLogOut} location={location} clearState={this.props.handleResetReducers}/>
+                              <AuthButton isLoggedUser={isLoggedUser} member={member}
+                                          picture={profile_pic}
+                                          doLogin={this.onClickLogin.bind(this)} initLogOut={initLogOut}
+                                          location={location} clearState={this.props.handleResetReducers}/>
                           </div>
                       </div>
                       <div className="header-bottom">
@@ -127,6 +142,7 @@ const mapStateToProps = ({ loggedUserState, baseState, summitState }) => ({
   member: loggedUserState.member,
   summit: summitState.purchaseSummit,
   loading : baseState.loading,
+  idToken:  loggedUserState.idToken,
 })
 
 export default connect(mapStateToProps, {

@@ -61,15 +61,15 @@ AuthButton extends React.Component {
     }
 
     render() {
-        let {isLoggedUser, doLogin, member } = this.props;
-        let profile_pic = member ? member.pic : '';
+        let {isLoggedUser, doLogin, member, picture } = this.props;
+
 
         if (isLoggedUser) {
             return (
                 <div className="user-menu" onMouseEnter={this.toggleLogOut} onMouseLeave={this.toggleLogOut}>
                     <span className="user-greeting">{member && member.first_name ? `Hi ${member.first_name}` : ''}&nbsp;</span>
                     <div className="profile-pic">
-                        <img src={profile_pic} />
+                        <img src={picture} />
                     </div>
                     <div className="dropdown-container">
                         {this.handleMemberMenu() &&
