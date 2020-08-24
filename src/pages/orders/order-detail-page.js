@@ -271,6 +271,7 @@ class OrderDetailPage extends React.Component {
                                               <h4>{this.handleTicketRole(t)}</h4>
                                               {t.discount > 0 && `${(t.discount * 100) / t.raw_cost}% discount`}
                                               <p className={`status ${this.handleTicketStatus(t).class}`}>{this.handleTicketStatus(t).text}</p>
+                                              <h5><br/>{ t.number }</h5>
                                           </div>
                                           <div className="col-sm-5">
                                             <h5>{t.owner ? t.owner.email : ''}</h5>

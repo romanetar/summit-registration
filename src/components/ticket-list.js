@@ -177,12 +177,12 @@ class TicketList extends React.Component {
                           <i className={`fa fa-2x ${this.handleTicketStatus(t).icon} ${this.handleTicketStatus(t).class}`}></i>                             
                       </div>
                       <div className="col-sm-5">
-                          <h4>{this.handleEventName(t)} <br/> {this.handleTicketDate(t)}</h4>
+                          <h4>{this.handleEventName(t)}</h4>  <h5>{this.handleTicketDate(t)}</h5>
                           <p className={`status ${this.handleTicketStatus(t).class}`}>{this.handleTicketStatus(t).text}</p>
                       </div>                      
-                      <div className="col-sm-4">
-                          <h5>{this.handleTicketName(t)}</h5>
-                          {/* <p>{this.handleTicketLocation(t)} </p> */}
+                      <div className="col-sm-5">
+                         <h4>{this.handleTicketName(t)}</h4> <h5>{ t.number }</h5>
+                         <p>  </p>
                       </div>
                       {(t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded") ?
                         <div className="arrow col-sm-2"></div>
@@ -207,6 +207,7 @@ class TicketList extends React.Component {
                           <h4>{this.handleEventName(t)}</h4>
                           <p>{this.handleTicketDate(t)} <br/> {this.handleTicketLocation(t)} </p>
                           <p className={`status ${this.handleTicketStatus(t).class}`}>{this.handleTicketStatus(t).text}</p>
+                          <p>{ t.number }</p>
                       </div>                                            
                       {(t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded") ?
                         <div className="arrow col-sm-2"></div>

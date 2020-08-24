@@ -18,6 +18,7 @@ import T from 'i18n-react/dist/i18n-react';
 
 import '../styles/orders-list-page.less';
 import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
+import { checkout } from 'superagent';
 
 class OrderList extends React.Component {
     constructor(props) {
@@ -251,6 +252,9 @@ class OrderList extends React.Component {
                                         </li>                                      
                                       )
                                     })}                                      
+                                  </ul>
+                                  <ul>
+                                   {o.number}
                                   </ul>
                               </div>
                               <div className="col-sm-2">
