@@ -122,9 +122,7 @@ class StepExtraQuestionsPage extends React.Component {
             return (<div className="step-extra-questions">
 
             <div className="row">
-                <div className="col-md-12">
-                    <a className="btn-primary btn" role="button" href={`/a/${summit.slug}/register/done`}>I don`t have this info right now</a>
-                </div>
+
             </div>
 
             <div className="row">
@@ -166,6 +164,8 @@ class StepExtraQuestionsPage extends React.Component {
                         onClick={this.onTicketsSave}>
                         {T.translate("ticket_popup.save_changes")}
                     </button>
+                    &nbsp;&nbsp;OR&nbsp;&nbsp;
+                    <a className="btn-primary btn" role="button" href={`/a/${summit.slug}/register/done`}>{T.translate("ticket_popup.do_it_later")}</a><br/><br/>{T.translate("ticket_popup.do_it_later_exp")}
                 </div>
             </div>
             </div>

@@ -186,7 +186,9 @@
     "notify_text_2"         : "Email will be sent to",
     "notify_button"         : "Re-Send Notification",
     "cancel_ticket"         : "Cancel Ticket (Request Refund)",
-    "save_changes"          : "Save Changes"
+    "save_changes"          : "Save Changes",
+    "do_it_later"           : "Do this later",
+    "do_it_later_exp"       : "You can do this from the My Orders page also each ticket holder will get an email asking them to complete their own information."
   },
   "confirm_popup": {
     "question_title_cancel"           : "Cancel",
