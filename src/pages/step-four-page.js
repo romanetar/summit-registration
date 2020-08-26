@@ -97,6 +97,8 @@ class StepFourPage extends React.Component {
     render(){
         let {summit, order: {checkout}, order, errors, member} = this.props;
 
+        order.status = 'Paid';
+
         this.purchasedTickets();
 
         return (
