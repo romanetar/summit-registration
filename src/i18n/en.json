@@ -39,7 +39,7 @@
     "free"                  : "Free",
     "sold_out"              : "Sold Out",
     "no_tickets"            : "No tickets for sale!",
-    "getfnid"             : "Get an FNid",
+    "getfnid"             : "Create an FNid",
     "signin"              : "Sign In"
   },
   "step_two": {
@@ -105,7 +105,7 @@
     "member_text"         : "You can proceed directly to the ",
     "member_link_text"    : "My Tickets",
     "member_page_text"    : " page to complete any required details. Or click the My Orders button below if you need to assign tickets.",
-    "required_text"       : "All required information must be entered by (or for) each ticket holder before accessing the show.",
+    "required_text"       : "All required information must be entered by (or for) each Ticket Holder before accessing the show.",
     "register_text"       : "You are currently not signed in.  An FNid is required to manage order(s) and assign ticket(s) ",
     "register_link_text"  : "create one",
     "register_text_2"     : " with the email ",
@@ -114,7 +114,7 @@
     "help_text"           : "For further assistance, please email ",
     "order_no"            : "ORDER NUMBER",
     "manage"              : "My Orders",
-    "getfnid"             : "Get an FNid",
+    "getfnid"             : "Create an FNid",
     "signin"              : "Sign In"
   },
   "guests": {
@@ -176,7 +176,7 @@
     "reassign_someone"      : "Re-Assign to this person",
     "edit_basic_info"       : "Attendee Information",
     "edit_required"         : "* Required Fields",
-    "edit_email"            : "Email",
+    "edit_email"            : "Ticket assigned to email:",
     "edit_first_name"       : "First Name",
     "edit_last_name"        : "Last Name",
     "edit_company"          : "Company",

@@ -106,6 +106,7 @@ class StepFourPage extends React.Component {
                     <div className="col-md-8 order-result">
 
                         <span>
+                        
                           <h3>{T.translate("step_four.thank_you")}</h3>         
                           <br />                                           
                           <span>{T.translate("step_four.order_no")}</span> <br/>
@@ -115,6 +116,8 @@ class StepFourPage extends React.Component {
                         </span>
                           
                         <span>
+                         <br/><br/> 
+                        <h4><StepRow step={this.step} /></h4>
                           <h4>{T.translate("step_four.subtitle")}</h4>
                         </span>
 
