@@ -20,12 +20,10 @@ import StepRow from '../components/step-row';
 import SubmitButtons from "../components/submit-buttons";
 import { handleOrderChange, handleResetOrder } from '../actions/order-actions'
 import {getNow} from '../actions/timer-actions';
-import { Link } from 'react-router-dom';
-
 import history from '../history';
-
 import '../styles/step-one-page.less';
-
+import {doLogin} from "openstack-uicore-foundation/lib/methods";
+import {getBackURL} from '../utils/helpers';
 
 class StepOnePage extends React.Component {
 
@@ -39,6 +37,11 @@ class StepOnePage extends React.Component {
 
         this.handleAddTicket = this.handleAddTicket.bind(this);
         this.handleSubstractTicket = this.handleSubstractTicket.bind(this);
+        this.onClickLogin = this.onClickLogin.bind(this);
+    }
+
+    onClickLogin(ev){
+        doLogin(getBackURL());
     }
 
     componentWillMount() {
@@ -124,11 +127,9 @@ class StepOnePage extends React.Component {
        
                          &nbsp;OR&nbsp;
 
-                         <Link to="/a/member/orders">
-                                    <button className="btn btn-primary manage-btn">
-                                        {T.translate("step_one.signin")}
-                                    </button>
-                                  </Link>
+                       <button className="btn btn-primary manage-btn" onClick={this.onClickLogin}>
+                            {T.translate("step_one.signin")}
+                        </button>
                         </React.Fragment>
                          }
                         
@@ -163,7 +164,7 @@ export default connect (
     {
         handleOrderChange,
         handleResetOrder,
-        getNow
+        getNow,
     }
 )(StepOnePage);
 
