@@ -222,15 +222,20 @@ input::placeholder {
     align-self: flex-end;
 
     nav a {
-      color: var(--color_text_light);
+      color: var(--color_secondary_contrast);
+      text-decoration: none;
 
       &.active {
         border-color: var(--color_primary_contrast);
+        color: var(--color_primary_contrast);
+      }
+
+      &:hover, &:focus {
+        color: var(--color_primary_contrast);
       }
     }
   }
 }
-
 
 
 .header-user {
