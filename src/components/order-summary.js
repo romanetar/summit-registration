@@ -36,9 +36,8 @@ class OrderSummary extends React.Component {
 
 
     render() {
-        // TODO: replace the order[0] with selected order
-        let {order, summit: {ticket_types}, type} = this.props;                
 
+        let {order, summit: {ticket_types}, type} = this.props;
         let ticketTotal = 0;
         let ticketSummary = [];        
 
@@ -129,12 +128,23 @@ class OrderSummary extends React.Component {
                             </div>
                         </div>
                         }
+                        {
+                            order.status === 'Paid' &&
+                            <div className="row order-amount-paid order-row amount-paid-row">
+                                <div className="col-xs-7 text-left">
+                                    {T.translate("order_summary.amount_paid")}
+                                </div>
+                                <div className="col-xs-5 text-right subtotal">
+                                    -${ total.toFixed(2)}
+                                </div>
+                            </div>
+                        }
                         <div className="row total-row">
                             <div className="col-xs-6 text-left">
                                 {T.translate("order_summary.total")}
                             </div>
                             <div className="col-xs-6 text-right total">
-                                ${total.toFixed(2)}
+                                ${ order.status === 'Paid' ? '0.00' : total.toFixed(2)}
                             </div>
                         </div>
                       </div>
@@ -192,12 +202,23 @@ class OrderSummary extends React.Component {
                       </div>
                   </div>
                   }
+                  {
+                      order.status === 'Paid' &&
+                      <div className="row order-amount-paid order-row amount-paid-row">
+                          <div className="col-xs-7 text-left">
+                              {T.translate("order_summary.amount_paid")}
+                          </div>
+                          <div className="col-xs-5 text-right subtotal">
+                              -${ total.toFixed(2)}
+                          </div>
+                      </div>
+                  }
                   <div className="row total-row">
                       <div className="col-xs-6 text-left">
                           {T.translate("order_summary.total")}
                       </div>
                       <div className="col-xs-6 text-right total">
-                          ${total.toFixed(2)}
+                          ${ order.status === 'Paid' ? '0.00' : total.toFixed(2)}
                       </div>
                   </div>
               </div>

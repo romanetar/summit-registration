@@ -24,7 +24,8 @@
     "order_summary"   : "Order Summary",
     "discounts"       : "Discount",
     "refunds"         : "Refund",
-    "total"           : "Total"
+    "total"           : "Total Due",
+    "amount_paid" : "Amount Paid"
   },
   "event_info": {
     "about_title"   : "About the event",
