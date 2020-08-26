@@ -71,29 +71,45 @@ class HeaderTitle extends React.Component {
       }                  
     }
 
+    getHeaderTitle() {
+        const {summit} = this.props;
+        let url = URI(window.location.href);
+        let location = url.pathname();
+        let purchaseLocation = '/register/';
+
+        if (summit && location.match(purchaseLocation)) {
+            return (
+                <>
+                    <h4>
+                        {summit.name ? summit.name : 'Registration'}
+                    </h4>
+                    <h5>{location.match(purchaseLocation) ? this.handleEventDateLocation() : ''}</h5>
+                </>
+            );
+        } else {
+            return (<h4 className="registration-title">Registration</h4>);
+        }
+
+    };
+
 
     render() {
-
-      let {summit} = this.props;
-
-      let url = URI(window.location.href);
-      let location = url.pathname();      
-      let purchaseLocation = '/register/';
+        let {summit} = this.props;
+        let url = URI(window.location.href);
+        let location = url.pathname();
+        let purchaseLocation = '/register/';
 
         return (
-          <div className={`${summit.logo ? 'header-title' : 'header-title header-title--no-logo'}`}>
-              <div className="summit-info">
-                {location.match(purchaseLocation) && summit && summit.logo && 
-                  <img className="summit-logo" src={summit.logo} alt={summit.name ? summit.name : ''}/>
-                }
-                <div className={`${summit.logo ? 'summit-text' : 'summit-text--no-logo'}`}>
-                  <h4>
-                    <b>{!location.match(purchaseLocation) ? 'Registration' : summit && summit.name ? summit.name : 'Registration'}</b>                                
-                  </h4>
-                  <h5>{location.match(purchaseLocation) ? this.handleEventDateLocation() : ''}</h5>
+            <div className={`${summit.logo ? 'header-title' : 'header-title header-title--no-logo'}`}>
+                <div className="summit-info">
+                    {location.match(purchaseLocation) && summit && summit.logo &&
+                        <img className="summit-logo" src={summit.logo} alt={summit.name ? summit.name : ''}/>
+                    }
+                    <div className={`${summit.logo ? 'summit-text' : 'summit-text--no-logo'}`}>
+                        {this.getHeaderTitle()}
+                    </div>
                 </div>
-              </div>              
-          </div>
+            </div>
         );
     }
 }

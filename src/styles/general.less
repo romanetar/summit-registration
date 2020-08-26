@@ -170,7 +170,9 @@ input::placeholder {
   width: 50%;
   display: flex;
   padding-left: 30px;
-  flex-direction: column;      
+  flex-direction: column;
+  color: var(--color_primary_contrast) !important;
+
   h5 {
     margin-top: 5px;
     margin-bottom: 10px;
@@ -187,7 +189,11 @@ input::placeholder {
     }
     h4, h5 {
       margin-top: 5px;
-      margin-bottom: 0px;      
+      margin-bottom: 0px;
+    }
+
+    .registration-title {
+      font-size: 24px;
     }
   }
 }
@@ -214,6 +220,14 @@ input::placeholder {
     width: 100%;
     display: flex;
     align-self: flex-end;
+
+    nav a {
+      color: var(--color_text_light);
+
+      &.active {
+        border-color: var(--color_primary_contrast);
+      }
+    }
   }
 }
 
@@ -226,8 +240,19 @@ input::placeholder {
     justify-content: flex-end;
     align-items: center;
     padding-bottom: 15px;
+
+    button.login {
+      background-color: var(--color_secondary);
+      color: var(--color_text_light);
+
+      &:hover, &:active {
+        background-color: var(--color_secondary) !important;
+      }
+    }
+
     .user-greeting {
       margin-right: 5px;
+      color: var(--color_text_light);
     }
     .dropdown-container {
       display: none;
