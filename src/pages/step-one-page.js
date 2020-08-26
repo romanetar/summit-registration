@@ -20,11 +20,10 @@ import StepRow from '../components/step-row';
 import SubmitButtons from "../components/submit-buttons";
 import { handleOrderChange, handleResetOrder } from '../actions/order-actions'
 import {getNow} from '../actions/timer-actions';
-
 import history from '../history';
-
 import '../styles/step-one-page.less';
-
+import {doLogin} from "openstack-uicore-foundation/lib/methods";
+import {getBackURL} from '../utils/helpers';
 
 class StepOnePage extends React.Component {
 
@@ -38,12 +37,17 @@ class StepOnePage extends React.Component {
 
         this.handleAddTicket = this.handleAddTicket.bind(this);
         this.handleSubstractTicket = this.handleSubstractTicket.bind(this);
+        this.onClickLogin = this.onClickLogin.bind(this);
+    }
+
+    onClickLogin(ev){
+        doLogin(getBackURL());
     }
 
     componentWillMount() {
         this.props.handleResetOrder();
         
-        let {order} = this.props;
+        let {order, member} = this.props;
                 
         order = {
             ...order,
@@ -75,8 +79,9 @@ class StepOnePage extends React.Component {
 
     render(){
 
-        let {summit, order} = this.props;
+        let {summit, order, member} = this.props;
         let now = this.props.getNow();
+        order.status = 'Reserved';
         // filter tickets types
         let ticketsTypesToSell = (Object.entries(summit).length === 0 && summit.constructor === Object) ? [] : summit.ticket_types.filter( tt =>
             // if ticket does not has sales start/end date set could be sell all the registration period
@@ -110,11 +115,29 @@ class StepOnePage extends React.Component {
                                   now <= summit.registration_begin_date &&
                                     history.push('/a/member/orders')
                                   }
+                        {!member &&
+                        <React.Fragment> 
+                                  <br/><br/><br/>
+                                  <h4>Want to checkout faster?  </h4> 
+                                  <a href={`${window.IDP_BASE_URL}/auth/register`}>
+                                    <button className="btn btn-primary manage-btn">
+                                        {T.translate("step_one.getfnid")}
+                                    </button>
+                                    </a>
+       
+                         &nbsp;OR&nbsp;
+
+                       <button className="btn btn-primary manage-btn" onClick={this.onClickLogin}>
+                            {T.translate("step_one.signin")}
+                        </button>
+                        </React.Fragment>
+                         }
+                        
                                 </div>
                             </div>
 
                         </div>
-                        <div className="col-md-4">                        
+                        <div className="col-md-4">             
                         </div>
                     </div>
                     <SubmitButtons step={this.step} canContinue={order.tickets.length > 0} />
@@ -141,7 +164,7 @@ export default connect (
     {
         handleOrderChange,
         handleResetOrder,
-        getNow
+        getNow,
     }
 )(StepOnePage);
 

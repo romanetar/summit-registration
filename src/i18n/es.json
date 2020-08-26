@@ -24,7 +24,8 @@
     "order_summary"   : "Order Summary",
     "discounts"       : "Discount",
     "refunds"         : "Refund",
-    "total"           : "Total"
+    "total"           : "Total Due",
+    "amount_paid" : "Amount Paid"
   },
   "event_info": {
     "about_title"   : "About the event",
@@ -35,15 +36,17 @@
   "step_one": {
     "choose_tickets"        : "Choose your tickets",
     "choose_tickets_desc"   : "a description",
-    "expiration"            : "Promotional pricing available until ",
+    "expiration"            : "Ticket available until ",
     "free"                  : "Free",
     "sold_out"              : "Sold Out",
-    "no_tickets"            : "No tickets for sale!"
+    "no_tickets"            : "No tickets for sale!",
+    "getfnid"             : "Create an FNid",
+    "signin"              : "Sign In"
   },
   "step_two": {
     "basic_info"        : "Purchaser Information",
     "required"          : "Required fields",
-    "have_account"      : "Do you have an fnID account?",
+    "have_account"      : "Do you have an FNid account?",
     "sign_in"           : "Sign in",
     "sign_in_account"   : "to autopopulate this info and manage this order.",
     "first_name"        : "First Name",
@@ -52,7 +55,7 @@
     "company"           : "Company",
     "tickets"           : "Tickets",
     "ticket"            : "Ticket",
-    "asterisks"         : "** Tickets can be assign later",
+    "asterisks"         : "** Tickets can be assigned later",
     "code"              : "Promo Code",
     "assign"            : "Assign to: **",
     "add_ticket"        : "Add additional tickets to this order",
@@ -98,19 +101,22 @@
   },
   "step_four": {
     "thank_you"           : "Thank you for your order!",
-    "subtitle"            : "a subtitle",
-    "manage_text"         : "If you haven't already, you are now able to assign these tickets to individuals on the ",
-    "manage_link_text"    : "manage orders",
-    "page_text"           : " page.",
-    "manage_text_2"       : "You can optionally fill in the required details for the attendee or the attendee can do it themselves when they receive the ticket via email.",
-    "required_text"       : "Please remember all required information must be entered per attendee before the attendee can check in.",
-    "register_text"       : "If you do not have an account ",
+    "subtitle"            : "Complete Ticket Assignment",
+    "member_exclamation"  : "You are signed in with your FNid. ",
+    "member_text"         : "You can proceed directly to the ",
+    "member_link_text"    : "My Tickets",
+    "member_page_text"    : " page to complete any required details. Or click the My Orders button below if you need to assign tickets.",
+    "required_text"       : "All required information must be entered by (or for) each Ticket Holder before accessing the show.",
+    "register_text"       : "You are currently not signed in.  An FNid is required to manage order(s) and assign ticket(s) ",
     "register_link_text"  : "create one",
-    "register_text_2"     : " with your ",
+    "register_text_2"     : " with the email ",
     "register_text_3"     : " used for this purchase, you will then be able to manage your order.",
-    "help_text"           : "For further assistance please email ",
+    "register_email"      : "You will also receive an email with a one click link to get an FNid.",
+    "help_text"           : "For further assistance, please email ",
     "order_no"            : "ORDER NUMBER",
-    "manage"              : "Manage your Orders"
+    "manage"              : "My Orders",
+    "getfnid"             : "Create an FNid",
+    "signin"              : "Sign In"
   },
   "guests": {
     "invalid_thanks"      : "Thanks for coming to fill in the remaining details so we can issue your ticket.",
@@ -118,7 +124,7 @@
     "invalid_button"      : "Send New Link",
     "invalid_contact"     : "If you have any problems please email",
     "hash_regenerated"    : "Please check your new link in your email",
-    "completed_text_1"    : "Thank you for issuing your details. Your ticket has now been issued. You can download it:",
+    "completed_text_1"    : "Thank you for completing your registration. Your ticket has now been issued. Virtual events you can use your FNid to login. In person events you can download your ticket:",
     "completed_button"    : "Download Ticket to",
     "completed_text_2"    : "You will also receive an email confirmation with your ticket.",
     "cancel"              : "Cancel",
@@ -129,8 +135,8 @@
     "empty"               : "There are no active orders so far"
   },
   "no-summit": {    
-    "not-found"           : "Show not found.",
-    "select-list"         : "Please select one from available shows:"
+    "not-found"           : "",
+    "select-list"         : "Please select from available shows:"
   },
   "order_info": {
     "print"               : "Print",
@@ -153,7 +159,7 @@
     "tab_reassign"          : "Re-Assign",
     "tab_edit"              : "Edit Details",
     "tab_edit_read_only"    : "Details",
-    "tab_notify"            : "Notify attendee",
+    "tab_notify"            : "Notify ticket holder",
     "assign_text"           : "Select the option to assign this ticket before",
     "assign_or"             : "Or",
     "assign_me"             : "Assign to Me",
@@ -165,23 +171,25 @@
     "assign_days"           : "days",
     "reassign_text"         : "Select the option to re-assign this ticket from",    
     "reassign_want_text"    : "I want to reassign this ticket to someone else!", 
-    "reassign_enter_email"  : "Enter the email of the person you would like to assign the ticket to below. Please note! an email will be sent to the below address with instructions on how to personalize their newly assigned event ticket.",
+    "reassign_enter_email"  : "Enter the email of the person you would like to assign the ticket to below. Please note! An email will be sent to the below address with instructions on how to complete any additional information required to issue their ticket.",
     "reassign_check"        : "Clean all fields",
     "reassign_me"           : "Re-Assign to Me",
     "reassign_someone"      : "Re-Assign to this person",
-    "edit_basic_info"       : "Basic Information",
+    "edit_basic_info"       : "Attendee Information",
     "edit_required"         : "* Required Fields",
-    "edit_email"            : "Email",
+    "edit_email"            : "Ticket assigned to email:",
     "edit_first_name"       : "First Name",
     "edit_last_name"        : "Last Name",
     "edit_company"          : "Company",
     "edit_required_star"    : " *",
-    "edit_preferences"      : "Preferences",
+    "edit_preferences"      : "Additional Details",
     "notify_text_1"         : "All required details must be completed before",
-    "notify_text_2"         : "Notify the attendee to",
+    "notify_text_2"         : "Email will be sent to",
     "notify_button"         : "Re-Send Notification",
     "cancel_ticket"         : "Cancel Ticket (Request Refund)",
-    "save_changes"          : "Save Changes"
+    "save_changes"          : "Save Changes",
+    "do_it_later"           : "Do this later",
+    "do_it_later_exp"       : "You can do this from the My Orders page also each ticket holder will get an email asking them to complete their own information."
   },
   "confirm_popup": {
     "question_title_cancel"           : "Cancel",
@@ -196,9 +204,13 @@
     "question_text_notification"      : "",
     "question_text_confirm"           : "Are you sure?",
     "cancel"                          : "Cancel",
-    "accept"                          : "Yeah",
+    "accept"                          : "Yes",
     "success_title"                   : "Request Submitted",
     "success_text"                    : "An email notification has been sent to",
     "success_button"                  : "Got it"
+  },
+  "invitees": {
+    "validation_error": "Invitation error",
+    "entity_not_found": "Invitation not found"
   }
 }

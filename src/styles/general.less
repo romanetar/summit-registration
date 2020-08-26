@@ -170,7 +170,9 @@ input::placeholder {
   width: 50%;
   display: flex;
   padding-left: 30px;
-  flex-direction: column;      
+  flex-direction: column;
+  color: var(--color_primary_contrast) !important;
+
   h5 {
     margin-top: 5px;
     margin-bottom: 10px;
@@ -187,7 +189,11 @@ input::placeholder {
     }
     h4, h5 {
       margin-top: 5px;
-      margin-bottom: 0px;      
+      margin-bottom: 0px;
+    }
+
+    .registration-title {
+      font-size: 24px;
     }
   }
 }
@@ -214,9 +220,22 @@ input::placeholder {
     width: 100%;
     display: flex;
     align-self: flex-end;
+
+    nav a {
+      color: var(--color_secondary_contrast);
+      text-decoration: none;
+
+      &.active {
+        border-color: var(--color_primary_contrast);
+        color: var(--color_primary_contrast);
+      }
+
+      &:hover, &:focus {
+        color: var(--color_primary_contrast);
+      }
+    }
   }
 }
-
 
 
 .header-user {
@@ -226,8 +245,19 @@ input::placeholder {
     justify-content: flex-end;
     align-items: center;
     padding-bottom: 15px;
+
+    button.login {
+      background-color: var(--color_secondary);
+      color: var(--color_text_light);
+
+      &:hover, &:active {
+        background-color: var(--color_secondary) !important;
+      }
+    }
+
     .user-greeting {
       margin-right: 5px;
+      color: var(--color_text_light);
     }
     .dropdown-container {
       display: none;
@@ -500,8 +530,9 @@ input::placeholder {
       font-weight: bold;
       margin: 15px 0 20px 0;
     }
+
+
     .order-row {
-      border-bottom: 1px solid lightgray;
       padding: 10px 0;
       margin: 0 5px;
       flex-direction: row;
@@ -514,7 +545,9 @@ input::placeholder {
         margin-left: auto;
       }
     }
+
     .total-row {
+      border-top: 1px solid lightgray;
       padding: 10px 0;
       margin: 0 5px;
       flex-direction: row;
@@ -554,7 +587,6 @@ input::placeholder {
     margin: 15px 0 20px 0;
   }
   .order-row {
-    border-bottom: 1px solid lightgray;
     padding: 10px 0;
     margin: 0 5px;
     div:first-child {
@@ -564,6 +596,7 @@ input::placeholder {
     }
   }
   .total-row {
+    border-top: 1px solid lightgray;
     padding: 10px 0;
     margin: 0 5px;
   }

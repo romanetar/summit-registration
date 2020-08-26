@@ -26,14 +26,15 @@ export default class StepRow extends React.Component {
     }
 
     render() {
-        let {step} = this.props;
+        let {step, optional } = this.props;
+        if(!optional) optional = false;
 
         return (
             <div className="row step-row">
                 <div className="col-md-6">
-                    Step {step} of 4
+                    Step {step} of 4 {optional ? "( optional )": ""}
                 </div>
-                {(step === 2 || step === 3) ?
+                {((step === 2 || step === 3) && !optional)?
                 <div className="col-md-6">                    
                     * {T.translate("step_two.required")}
                 </div>

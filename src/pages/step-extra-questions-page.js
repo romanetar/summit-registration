@@ -12,7 +12,7 @@
  **/
 
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import '../styles/step-extra-questions-page.less';
 import TicketAssignForm from "../components/ticket-assign-form";
 import {updateOrderTickets} from "../actions/order-actions";
@@ -21,40 +21,45 @@ import TicketModel from '../models/ticket';
 import T from "i18n-react";
 import validator from "validator";
 import Swal from 'sweetalert2';
+import OrderSummary from "../components/order-summary";
+import StepRow from "../components/step-row";
 
 class StepExtraQuestionsPage extends React.Component {
 
     constructor(props) {
         super(props);
 
-        let { order } = this.props;
-        let tickets = order.tickets.map((ticket, index) =>  {
-           let t = {
-               id: ticket.id,
-               owner_id: ticket.hasOwnProperty('owner_id') ? ticket.owner_id : (ticket.hasOwnProperty('owner') ? ticket.owner.id: 0),
-               attendee_email: ticket.hasOwnProperty('owner') ? ticket.owner.email : '',
-               attendee_first_name:  ticket.hasOwnProperty('owner') ?  ticket.owner.first_name : '',
-               attendee_last_name: ticket.hasOwnProperty('owner') ? ticket.owner.last_name : '',
-               attendee_company: ticket.hasOwnProperty('owner') ? ticket.owner.company : '',
-               owner: ticket.hasOwnProperty('owner') ? ticket.owner:null,
-               disclaimer_accepted: null,
-               extra_questions: [],
-               errors: {
-                   reassign_email: '',
-                   attendee_email: '',
-                   extra_questions: '',
-               }
-           }
-           return t;
+        let {order} = this.props;
+        let tickets = order.tickets.map((ticket, index) => {
+            let t = {
+                id: ticket.id,
+                owner_id: ticket.hasOwnProperty('owner_id') ? ticket.owner_id : (ticket.hasOwnProperty('owner') ? ticket.owner.id : 0),
+                attendee_email: ticket.hasOwnProperty('owner') ? ticket.owner.email : '',
+                attendee_first_name: ticket.hasOwnProperty('owner') ? ticket.owner.first_name : '',
+                attendee_last_name: ticket.hasOwnProperty('owner') ? ticket.owner.last_name : '',
+                attendee_company: ticket.hasOwnProperty('owner') ? ticket.owner.company : '',
+                owner: ticket.hasOwnProperty('owner') ? ticket.owner : null,
+                disclaimer_accepted: null,
+                extra_questions: [],
+                errors: {
+                    reassign_email: '',
+                    attendee_email: '',
+                    extra_questions: '',
+                }
+            }
+            return t;
         });
 
         this.state = {
-            tickets : tickets
+            tickets: tickets
         };
+
+        this.step = 3;
 
         this.handleTicketCancel = this.handleTicketCancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.onTicketsSave = this.onTicketsSave.bind(this);
+        this.onSkip = this.onSkip.bind(this);
     }
 
 
@@ -62,37 +67,43 @@ class StepExtraQuestionsPage extends React.Component {
 
     }
 
-    onTicketsSave(ev){
-       let { tickets } = this.state;
-       let {summit, getNow, extraQuestions} = this.props;
-
-       let canSave = true;
-       tickets.forEach(function(ticket){
-            // validate each ticket
-           let model = new TicketModel(ticket, summit, getNow());
-
-           if(!model.validateExtraQuestions(extraQuestions)){
-               canSave = false;
-               Swal.fire("Validation Error", "Please answer mandatory questions.", "warning");
-           }
-
-           if(ticket.attendee_email == ''){
-               canSave = false;
-               Swal.fire("Validation Error", "Please assign ticket.", "warning");
-           }
-       });
-
-       if(canSave) this.props.updateOrderTickets(tickets);
+    onSkip(ev){
+        let { history } = this.props;
+        ev.preventDefault();
+        history.push('done');
+        //{`/a/${summit.slug}/register/done`}
+        return null;
     }
 
-    handleChange(ev, ticket){
+    onTicketsSave(ev) {
+        let {tickets} = this.state;
+        let {summit, getNow, extraQuestions} = this.props;
 
-        let currentTicket = { ... this.state.tickets.filter((t) => t.id === ticket.id)[0] };
+        let canSave = true;
+        tickets.forEach(function (ticket) {
+            // validate each ticket
+            let model = new TicketModel(ticket, summit, getNow());
 
+            if (!model.validateExtraQuestions(extraQuestions)) {
+                canSave = false;
+                Swal.fire("Validation Error", "Please answer mandatory questions.", "warning");
+            }
+
+            if (ticket.attendee_email == '') {
+                canSave = false;
+                Swal.fire("Validation Error", "Please assign ticket.", "warning");
+            }
+        });
+
+        if (canSave) this.props.updateOrderTickets(tickets);
+    }
+
+    handleChange(ev, ticket) {
+        let currentTicket = {...this.state.tickets.filter((t) => t.id === ticket.id)[0]};
         let {value, id} = ev.target;
         id = id.toString();
 
-        if(id.includes(`${ticket.id}_`)){
+        if (id.includes(`${ticket.id}_`)) {
             id = id.split(`${ticket.id}_`)[1];
         }
 
@@ -106,81 +117,88 @@ class StepExtraQuestionsPage extends React.Component {
 
         currentTicket[id] = value;
 
-        !validator.isEmail(currentTicket.attendee_email) ?  currentTicket.errors.attendee_email = 'Please enter a valid Email.' : currentTicket.errors.attendee_email = '';
+        !validator.isEmail(currentTicket.attendee_email) ? currentTicket.errors.attendee_email = 'Please enter a valid Email.' : currentTicket.errors.attendee_email = '';
 
-        this.setState({tickets: this.state.tickets.map((t) => {
-            if(t.id === currentTicket.id){
-                return currentTicket;
-            }
-            return t;
-        })});
+        this.setState({
+            tickets: this.state.tickets.map((t) => {
+                if (t.id === currentTicket.id) {
+                    return currentTicket;
+                }
+                return t;
+            })
+        });
     }
 
-    render(){
+    render() {
         let now = this.props.getNow();
-        let {summit, extraQuestions } = this.props;
-            return (<div className="step-extra-questions">
-
-            <div className="row">
-                <div className="col-md-12">
-                    <a className="btn-primary btn" role="button" href={`/a/${summit.slug}/register/done`}>I don`t have this info right now</a>
-                </div>
-            </div>
-
-            <div className="row">
-                {this.state.tickets.map((ticket, index) => {
-                    let model = new TicketModel(ticket, summit, now);
-                    let status = model.getStatus();
-                    return (
-                        <React.Fragment key={ticket.id}>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <h4>{`Ticket # ${index+1}`} <i className={`fa ${status.icon} ${status.class}`}></i></h4>
+        let {summit, extraQuestions, order} = this.props;
+        order.status = 'Paid';
+        return (
+            <div className="step-extra-questions">
+                <OrderSummary order={order} summit={summit} type={'mobile'}/>
+                <div className="row">
+                    <h4><StepRow step={this.step} optional={true}/></h4>
+                    <div className="col-md-8 order-result">
+                    {this.state.tickets.map((ticket, index) => {
+                        let model = new TicketModel(ticket, summit, now);
+                        let status = model.getStatus();
+                        return (
+                            <React.Fragment key={ticket.id}>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <h3>{`Ticket # ${index + 1}`} <i className={`fa ${status.icon} ${status.class}`}></i></h3>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-12">
-                                    <TicketAssignForm key={ticket.id}
-                                        showCancel={false}
-                                        ticket={ticket}
-                                        status={status.text}
-                                        ownedTicket={true}
-                                        orderOwned={true}
-                                        extraQuestions={extraQuestions}
-                                        readOnly={false}
-                                        onChange={this.handleChange}
-                                        cancelTicket={this.handleTicketCancel}
-                                        summit={summit}
-                                        now={now}
-                                        errors={ticket.errors}/>
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <TicketAssignForm key={ticket.id}
+                                                          showCancel={false}
+                                                          ticket={ticket}
+                                                          status={status.text}
+                                                          ownedTicket={true}
+                                                          orderOwned={true}
+                                                          extraQuestions={extraQuestions}
+                                                          readOnly={false}
+                                                          onChange={this.handleChange}
+                                                          cancelTicket={this.handleTicketCancel}
+                                                          summit={summit}
+                                                          now={now}
+                                                          errors={ticket.errors}/>
+                                    </div>
                                 </div>
-                            </div>
-                        </React.Fragment>
-                    );
-                })}
-            </div>
-            <div className="row">
-                <div className="col-md-12">
-                    <button
-                        className="btn btn-primary"
-                        onClick={this.onTicketsSave}>
-                        {T.translate("ticket_popup.save_changes")}
-                    </button>
+                            </React.Fragment>
+                        );
+                    })}
+                    </div>
+                    <div className="col-md-4">
+                        <OrderSummary order={order} summit={summit} type={'desktop'} />
+                    </div>
                 </div>
-            </div>
+                <div className="row">
+                    <div className="col-md-12">
+                        <button
+                            className="btn btn-primary"
+                            onClick={this.onTicketsSave}>
+                            {T.translate("ticket_popup.save_changes")}
+                        </button>
+                        &nbsp;&nbsp;OR&nbsp;&nbsp;
+                        <a className="btn-primary btn" role="button"
+                           href="#" onClick={this.onSkip}>{T.translate("ticket_popup.do_it_later")}</a><br/><br/>{T.translate("ticket_popup.do_it_later_exp")}
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-const mapStateToProps = ({ loggedUserState, summitState, orderState }) => ({
+const mapStateToProps = ({loggedUserState, summitState, orderState}) => ({
     member: loggedUserState.isLoggedUser,
     summit: summitState.purchaseSummit,
-    order:  orderState.purchaseOrder,
+    order: orderState.purchaseOrder,
     extraQuestions: summitState.purchaseSummit.order_extra_questions,
 });
 
-export default connect (
+export default connect(
     mapStateToProps,
     {
         getNow,

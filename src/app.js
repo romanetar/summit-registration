@@ -23,7 +23,6 @@ import LogOutCallbackRoute from './routes/logout-callback-route'
 import AuthButton from './components/auth-button'
 import HeaderTitle from './components/header-title'
 import NavBar from './components/nav-bar'
-import NotFoundPage from './pages/not-found-page'
 import { connect } from 'react-redux'
 import { AjaxLoader } from "openstack-uicore-foundation/lib/components";
 import { onUserAuth, doLogin, doLogout, initLogOut, getUserInfo } from "openstack-uicore-foundation/lib/methods";
@@ -33,6 +32,8 @@ import history from './history'
 import URI from "urijs";
 import SelectSummitPage from './pages/select-summit-page'
 import Timer from './components/timer';
+import IdTokenVerifier from 'idtoken-verifier';
+import {getBackURL} from './utils/helpers';
 
 // here is set by default user lang as en
 let language = (navigator.languages && navigator.languages[0]) || navigator.language || navigator.userLanguage;
@@ -61,31 +62,32 @@ window.MAX_TICKET_QTY_TO_EDIT   = process.env['MAX_TICKET_QTY_TO_EDIT'];
 
 class App extends React.PureComponent {
 
-    getBackURL() {
-      let defaultLocation = '/a/member/orders';      
-      let url      = URI(window.location.href);      
-      let location = url.pathname();
-      if (location === '/') location = defaultLocation
-      let query    = url.search(true);
-      let fragment = url.fragment();      
-      let backUrl  = query.hasOwnProperty('BackUrl') ? query['BackUrl'] : location;
-      if(fragment != null && fragment != ''){
-          backUrl += `#${fragment}`;
-      }
-      return backUrl;
+    constructor(props){
+        super(props);
+        this.onClickLogin = this.onClickLogin.bind(this);
     }
 
     onClickLogin() {
-        this.getBackURL();
-        doLogin(this.getBackURL());        
+        doLogin(getBackURL());
     }    
 
     render() {
-      let {isLoggedUser, onUserAuth, doLogout, getUserInfo, member, backUrl, summit} = this.props;
+      let {isLoggedUser, onUserAuth, doLogout, getUserInfo, member, backUrl, summit, idToken} = this.props;
 
       let url = URI(window.location.href);
       let location = url.pathname();
-      let memberLocation = '/a/member/';      
+      let memberLocation = '/a/member/';
+
+        // get user pic from idtoken claims (IDP)
+        let profile_pic = member ? member.pic : '';
+        if(idToken){
+            let verifier = new IdTokenVerifier({
+                issuer:   window.IDP_BASE_URL,
+                audience: window.OAUTH2_CLIENT_ID
+            });
+            let jwt = verifier.decode(idToken);
+            profile_pic = jwt.payload.picture;
+        }
 
       return (
           <Router history={history}>
@@ -96,7 +98,10 @@ class App extends React.PureComponent {
                       <div className="header-top">                          
                           <HeaderTitle summit={summit}/>
                           <div className="header-user">
-                              <AuthButton isLoggedUser={isLoggedUser} member={member} doLogin={this.onClickLogin.bind(this)} initLogOut={initLogOut} location={location} clearState={this.props.handleResetReducers}/>
+                              <AuthButton isLoggedUser={isLoggedUser} member={member}
+                                          picture={profile_pic}
+                                          doLogin={this.onClickLogin.bind(this)} initLogOut={initLogOut}
+                                          location={location} clearState={this.props.handleResetReducers}/>
                           </div>
                       </div>
                       <div className="header-bottom">
@@ -127,6 +132,7 @@ const mapStateToProps = ({ loggedUserState, baseState, summitState }) => ({
   member: loggedUserState.member,
   summit: summitState.purchaseSummit,
   loading : baseState.loading,
+  idToken:  loggedUserState.idToken,
 })
 
 export default connect(mapStateToProps, {

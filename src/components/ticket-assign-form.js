@@ -13,7 +13,7 @@
 
 import React from 'react'
 import T from "i18n-react/dist/i18n-react";
-import {Input} from 'openstack-uicore-foundation/lib/components'
+import {Input, RawHTML} from 'openstack-uicore-foundation/lib/components'
 import QuestionAnswersInput from './questions-answer-input';
 
 import {daysBetweenDates, getFormatedDate} from '../utils/helpers';
@@ -319,7 +319,11 @@ class TicketAssignForm extends React.Component {
                                 <input type="checkbox" id={`${ticket.id}_disclaimer_accepted`} checked={ticket.disclaimer_accepted}
                                        disabled={readOnly} onChange={this._innerOnChange} className="form-check-input"/>
                                 <label className="form-check-label" htmlFor={`${ticket.id}_disclaimer_accepted`}>
-                                    {summit.registration_disclaimer_content}
+                                    <div className="disclaimer">
+                                        <RawHTML>
+                                            {summit.registration_disclaimer_content}
+                                        </RawHTML>
+                                    </div>
                                 </label>
                             </div>
                         </div>
@@ -332,7 +336,11 @@ class TicketAssignForm extends React.Component {
                                        id={`${ticket.id}_disclaimer_accepted`} checked={ticket.disclaimer_accepted}
                                        disabled={readOnly} onChange={this._innerOnChange} className="form-check-input"/>
                                 <label className="form-check-label" htmlFor={`${ticket.id}_disclaimer_accepted`}>
-                                    {summit.registration_disclaimer_content}
+                                    <div className="disclaimer">
+                                        <RawHTML>
+                                            {summit.registration_disclaimer_content}
+                                        </RawHTML>
+                                    </div>
                                 </label>
                             </div>
                         </div>

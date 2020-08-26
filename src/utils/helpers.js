@@ -1,4 +1,5 @@
 import moment from "moment-timezone";
+import URI from "urijs";
 
 export const daysBetweenDates = (startDate, endDate, timezone) => {
 	let startDay = moment(startDate * 1000).tz(timezone)
@@ -27,9 +28,9 @@ export const getFormatedDate = (datetime, time_zone = false) => {
 	
 	if(time_zone){
 		let formattedTime = moment.unix(datetime)
-		return moment.tz(datetime * 1000, time_zone).format('MMMM Do YYYY')
+		return moment.tz(datetime * 1000, time_zone).format('MMMM DD YYYY')
 	}
-	return moment.unix(datetime).format('MMMM Do YYYY')
+	return moment.unix(datetime).format('MMMM DD YYYY')
 }
 
 export const getFormatedTime = (datetime, time_zone = false) => {
@@ -39,4 +40,18 @@ export const getFormatedTime = (datetime, time_zone = false) => {
 		return moment.tz(datetime * 1000, time_zone).format('HH:mm')
 	}
 	return moment.unix(datetime).format('HH:mm')
+}
+
+export const getBackURL = () => {
+	let defaultLocation = '/a/member/orders';
+	let url      = URI(window.location.href);
+	let location = url.pathname();
+	if (location === '/') location = defaultLocation;
+	let query    = url.search(true);
+	let fragment = url.fragment();
+	let backUrl  = query.hasOwnProperty('BackUrl') ? query['BackUrl'] : location;
+	if(fragment != null && fragment !== ''){
+		backUrl += `#${fragment}`;
+	}
+	return backUrl;
 }
