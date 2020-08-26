@@ -122,6 +122,7 @@ class StepExtraQuestionsPage extends React.Component {
     render() {
         let now = this.props.getNow();
         let {summit, extraQuestions, order} = this.props;
+        order.status = 'Paid';
         return (
             <div className="step-extra-questions">
                 <OrderSummary order={order} summit={summit} type={'mobile'}/>
