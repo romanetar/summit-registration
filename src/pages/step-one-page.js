@@ -78,6 +78,7 @@ class StepOnePage extends React.Component {
 
         let {summit, order, member} = this.props;
         let now = this.props.getNow();
+        order.status = 'Reserved';
         // filter tickets types
         let ticketsTypesToSell = (Object.entries(summit).length === 0 && summit.constructor === Object) ? [] : summit.ticket_types.filter( tt =>
             // if ticket does not has sales start/end date set could be sell all the registration period

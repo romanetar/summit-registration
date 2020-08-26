@@ -22,6 +22,7 @@ import T from "i18n-react";
 import validator from "validator";
 import Swal from 'sweetalert2';
 import OrderSummary from "../components/order-summary";
+import StepRow from "../components/step-row";
 
 class StepExtraQuestionsPage extends React.Component {
 
@@ -53,14 +54,25 @@ class StepExtraQuestionsPage extends React.Component {
             tickets: tickets
         };
 
+        this.step = 3;
+
         this.handleTicketCancel = this.handleTicketCancel.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.onTicketsSave = this.onTicketsSave.bind(this);
+        this.onSkip = this.onSkip.bind(this);
     }
 
 
     handleTicketCancel() {
 
+    }
+
+    onSkip(ev){
+        let { history } = this.props;
+        ev.preventDefault();
+        history.push('done');
+        //{`/a/${summit.slug}/register/done`}
+        return null;
     }
 
     onTicketsSave(ev) {
@@ -127,6 +139,7 @@ class StepExtraQuestionsPage extends React.Component {
             <div className="step-extra-questions">
                 <OrderSummary order={order} summit={summit} type={'mobile'}/>
                 <div className="row">
+                    <h4><StepRow step={this.step} optional={true}/></h4>
                     <div className="col-md-8 order-result">
                     {this.state.tickets.map((ticket, index) => {
                         let model = new TicketModel(ticket, summit, now);
@@ -135,7 +148,7 @@ class StepExtraQuestionsPage extends React.Component {
                             <React.Fragment key={ticket.id}>
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <h4>{`Ticket # ${index + 1}`} <i className={`fa ${status.icon} ${status.class}`}></i></h4>
+                                        <h3>{`Ticket # ${index + 1}`} <i className={`fa ${status.icon} ${status.class}`}></i></h3>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -172,7 +185,7 @@ class StepExtraQuestionsPage extends React.Component {
                         </button>
                         &nbsp;&nbsp;OR&nbsp;&nbsp;
                         <a className="btn-primary btn" role="button"
-                           href={`/a/${summit.slug}/register/done`}>{T.translate("ticket_popup.do_it_later")}</a><br/><br/>{T.translate("ticket_popup.do_it_later_exp")}
+                           href="#" onClick={this.onSkip}>{T.translate("ticket_popup.do_it_later")}</a><br/><br/>{T.translate("ticket_popup.do_it_later_exp")}
                     </div>
                 </div>
             </div>
