@@ -32,7 +32,7 @@ class StepFourPage extends React.Component {
         this.state = {
 
         };
-
+        this.step = 4;
         this.purchasedTickets = this.purchasedTickets.bind(this);
 
     }
@@ -199,7 +199,6 @@ class StepFourPage extends React.Component {
                     <div className="col-md-4">
                       <OrderSummary order={order} summit={summit} type={'desktop'} />
                       <br/>
-                      <center><span className="paid">PAID IN FULL</span></center>
                     </div>
                 </div>
             </div>
