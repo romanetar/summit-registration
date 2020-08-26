@@ -327,16 +327,18 @@ class TicketPopup extends React.Component {
 
     render() {
 
-      let {extraQuestions, status, ticket: {owner, badge, ticket_type_id}, fromTicketList, summit, orderOwned, member, loading, now} = this.props;
+      let {extraQuestions, status, ticket: {owner, badge, ticket_type_id}, fromTicketList, summit, orderOwned, member, loading, now, order} = this.props;
       let {showPopup, tempTicket, tempTicket: {reassign_email, errors}, popupCase, cleanFields} = this.state;
       let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
-
+      let {ticket} = this.props;
         return (!loading &&
         <div className='popup-bg'>
             <div className='popup-form'>
               <div className={`popup-header ${status.orderClass}`}>
                   <div className="popup-title">
                     <h4><b>{this.handleTicketName(ticket_type_id)}</b></h4>
+                    <h5>{ ticket.number }</h5>
+                    <p>Purchased By {order.owner_first_name} {order.owner_last_name} ({order.owner_email})</p>
                     <p>{this.handleTicketRole(badge)}</p>
                     <p className={`status ${status.class}`}>{status.text}</p>
                   </div>

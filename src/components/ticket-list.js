@@ -24,7 +24,8 @@ class TicketList extends React.Component {
         super(props);
 
         this.state = {
-          showPopup: false
+          showPopup: false,
+          showSave:false,
         };  
 
         this.togglePopup = this.togglePopup.bind(this);
@@ -40,7 +41,7 @@ class TicketList extends React.Component {
         this.handleTicketCancel = this.handleTicketCancel.bind(this);
         this.handlePastSummit = this.handlePastSummit.bind(this);
         this.handlePageChange = this.handlePageChange.bind(this);
-        
+        this.toggleSaveMessage = this.toggleSaveMessage.bind(this);
     }
 
     togglePopup(ticket) {
@@ -51,6 +52,10 @@ class TicketList extends React.Component {
           showPopup: !prevState.showPopup
         }
       })
+    }
+
+    toggleSaveMessage(){
+        this.setState({...this.state, showSave: !this.state.showSave });
     }
 
     handleTicketStatus(ticket){
@@ -71,11 +76,26 @@ class TicketList extends React.Component {
       let { member } = this.props;
       
       if(owner.email !== attendee_email) {
-          this.props.removeAttendee(ticket);
-      } else if(owner.email === member.email) {
-          this.props.editOwnedTicket(attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions);      
+          this.props.removeAttendee(ticket).then(() => {
+              this.toggleSaveMessage();
+              window.setTimeout(() => this.toggleSaveMessage(), 1000)
+          });
+          return;
       }
-            
+
+      this.props.editOwnedTicket
+      (
+          attendee_email,
+          attendee_first_name,
+          attendee_last_name,
+          attendee_company,
+          disclaimer_accepted,
+          extra_questions
+      ).then(() => {
+          this.toggleSaveMessage();
+          window.setTimeout(() => this.toggleSaveMessage(), 1000)
+      });
+
     }
 
     handleTicketLocation(ticket) {
@@ -159,7 +179,7 @@ class TicketList extends React.Component {
     render() {
       let { tickets, selectedTicket, extraQuestions, loading, errors, summits, lastPage, currentPage, member, summit,
           loadingSummits, now } = this.props;
-      let { showPopup } = this.state;
+      let { showPopup, showSave } = this.state;
 
       if(loading) {
         return (
@@ -167,7 +187,9 @@ class TicketList extends React.Component {
         )
       } else if (tickets.length > 0 && !loading) {
         return (
-          <div className="tickets-list">            
+
+          <div className="tickets-list">
+            {<span className={`save-flyout ${showSave? 'visible':'hidden'}`}>Ticket Saved</span>}
             <div className="list-desktop">
               {tickets.map((t) => {
                 return (
@@ -182,7 +204,7 @@ class TicketList extends React.Component {
                       </div>                      
                       <div className="col-sm-5">
                          <h4>{this.handleTicketName(t)}</h4> <h5>{ t.number }</h5>
-                         <p>  </p>
+                         <p>Purchased By {t.order.owner_first_name} {t.order.owner_last_name} ({t.order.owner_email})</p>
                       </div>
                       {(t.status === "Cancelled" || t.status === "RefundRequested" || t.status === "Refunded") ?
                         <div className="arrow col-sm-2"></div>
@@ -238,6 +260,7 @@ class TicketList extends React.Component {
             {showPopup ?  
                 <TicketPopup  
                   ticket={selectedTicket}
+                  order={selectedTicket.order}
                   member={member}
                   status={this.handleTicketStatus(selectedTicket)}
                   onChange={this.handleChange}
