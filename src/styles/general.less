@@ -494,12 +494,12 @@ input::placeholder {
   margin: 0 -15px;
   &.open {
     position: fixed;
-    top: 100px;
+    top: 120px;
     height: 100%;
     width: 100%;
     z-index: 5;
     overflow-y: scroll;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 120px);
   }
   .closed {
     display: none;
@@ -621,17 +621,22 @@ input::placeholder {
 @media(max-width: 768px) {
 
   .header {
-    height: 100px;
+    height: 120px;
     margin-top: 0;
     position: absolute;
     width: 100%;
+    padding: 10px 0;
   }
 
   .header-title {        
     width: 80%;
-    margin-top: 15px;
     padding-left: 15px;
     .summit-info {
+      flex-direction: column;
+      align-items: flex-start;
+      .summit-logo {
+        max-height: 40px;
+      }
       .summit-text--no-logo {
         margin-top: 0px;
       }
@@ -659,7 +664,7 @@ input::placeholder {
   }
 
   .primary-layout{
-    margin: 100px 0;
+    margin: 120px 0;
   }
 
   .not-found-summit {

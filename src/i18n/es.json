@@ -61,7 +61,7 @@
     "add_ticket"        : "Add additional tickets to this order",
     "no_tickets"        : "No tickets selected.",
     "placeholders": {
-      "coupon"          : "(Optional)",
+      "coupon"          : "Coupon (Optional)",
       "email"           : "Attendee Email (Optional)"
     },
     "validator": {
