@@ -342,7 +342,7 @@ export default class QuestionAnswersInput extends React.Component {
                               <span>{answerValue}</span>
                               :
                               <RadioList
-                                  id={question.id}
+                                  id={`${ticket.id}_${question.id}`}
                                   value={answerValue}
                                   options={questionValues}
                                   onChange={this.handleChange}
