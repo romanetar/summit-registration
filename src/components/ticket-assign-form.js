@@ -28,10 +28,10 @@ class TicketAssignForm extends React.Component {
             extra_questions: [],
             input_email: false,
             disclaimer_checked: null,
-            firstNameEmpty: this.props.ticket.attendee_first_name === '',
-            lastNameEmpty: this.props.ticket.attendee_last_name === '',
-            companyNameEmpty: this.props.ticket.attendee_company === '',
-            emailNameEmpty: this.props.ticket.attendee_email === '',
+            firstNameEmpty: this.props.ticket.attendee_first_name === '' || !this.props.ticket.attendee_first_name,
+            lastNameEmpty: this.props.ticket.attendee_last_name === ''  || !this.props.ticket.attendee_last_name,
+            companyNameEmpty: this.props.ticket.attendee_company === '' || !this.props.ticket.attendee_company,
+            emailNameEmpty: this.props.ticket.attendee_email === '' || !this.props.ticket.attendee_email,
         };
 
         this.handleFormatReassignDate = this.handleFormatReassignDate.bind(this);
