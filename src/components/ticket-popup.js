@@ -248,6 +248,7 @@ class TicketPopup extends React.Component {
     }
 
     handlePopupSave() {
+
       let {tempTicket: {disclaimer_accepted, attendee_first_name, attendee_last_name, attendee_company, attendee_email, errors}} = this.state;
       let {summit:{registration_disclaimer_mandatory}, member} = this.props;
 
@@ -274,11 +275,11 @@ class TicketPopup extends React.Component {
             id = id.split(`${ticket.id}_`)[1];
       }
 
-      if (ev.target.type == 'checkbox') {
+      if (ev.target.type === 'checkbox') {
         value = ev.target.checked;        
       }
 
-      if (ev.target.type == 'datetime') {
+      if (ev.target.type ==='datetime') {
           value = value.valueOf() / 1000;
       }
       

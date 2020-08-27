@@ -155,6 +155,7 @@ class StepExtraQuestionsPage extends React.Component {
                                 <div className="row">
                                     <div className="col-md-12">
                                         <TicketAssignForm key={ticket.id}
+                                                          shouldEditBasicInfo={true}
                                                           showCancel={false}
                                                           ticket={ticket}
                                                           status={status.text}

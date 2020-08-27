@@ -28,6 +28,10 @@ class TicketAssignForm extends React.Component {
             extra_questions: [],
             input_email: false,
             disclaimer_checked: null,
+            firstNameEmpty: this.props.ticket.attendee_first_name === '',
+            lastNameEmpty: this.props.ticket.attendee_last_name === '',
+            companyNameEmpty: this.props.ticket.attendee_company === '',
+            emailNameEmpty: this.props.ticket.attendee_email === '',
         };
 
         this.handleFormatReassignDate = this.handleFormatReassignDate.bind(this);
@@ -77,8 +81,9 @@ class TicketAssignForm extends React.Component {
 
     render() {
 
-        let {guest, ownedTicket, ticket, extraQuestions, status, summit, orderOwned, readOnly, now} = this.props;
+        let {guest, ownedTicket, ticket, extraQuestions, status, summit, orderOwned, readOnly, now, shouldEditBasicInfo} = this.props;
         let showCancel = true;
+        if(!shouldEditBasicInfo) shouldEditBasicInfo = false;
         if(this.props.hasOwnProperty('showCancel'))
             showCancel = this.props.showCancel;
 
@@ -132,7 +137,7 @@ class TicketAssignForm extends React.Component {
                                     />
                                     :
                                     <span>{ticket.attendee_email}
-                                        {!guest && !readOnly && orderOwned && <span
+                                        {shouldEditBasicInfo && <span
                                             onClick={() => this.setState({input_email: true})}> | <u>Change</u></span>}
                         </span>
                                 }
@@ -167,7 +172,7 @@ class TicketAssignForm extends React.Component {
                   </span>
                             :
                             <React.Fragment>
-                                {input_email ?
+                                {input_email?
                                     <Input
                                         id="attendee_email"
                                         className="form-control"
@@ -191,7 +196,7 @@ class TicketAssignForm extends React.Component {
                         {!readOnly && T.translate("ticket_popup.edit_required_star")}
                     </div>
                     <div className="col-sm-8">
-                        {readOnly ?
+                        {readOnly || (!shouldEditBasicInfo && !this.state.firstNameEmpty)?
                             <span>{ticket.attendee_first_name}</span>
                             :
                             <Input
@@ -207,7 +212,7 @@ class TicketAssignForm extends React.Component {
                 <div className="field-wrapper-mobile">
                     <div>{T.translate("ticket_popup.edit_first_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                     <div>
-                        {readOnly ?
+                        {readOnly || (!shouldEditBasicInfo && !this.state.firstNameEmpty)?
                             <span>{ticket.attendee_first_name}</span>
                             :
                             <Input
@@ -226,7 +231,7 @@ class TicketAssignForm extends React.Component {
                         {!readOnly && T.translate("ticket_popup.edit_required_star")}
                     </div>
                     <div className="col-sm-8">
-                        {readOnly ?
+                        {readOnly || (!shouldEditBasicInfo && !this.state.lastNameEmpty)?
                             <span>{ticket.attendee_last_name}</span>
                             :
                             <Input
@@ -242,7 +247,7 @@ class TicketAssignForm extends React.Component {
                 <div className="field-wrapper-mobile">
                     <div>{T.translate("ticket_popup.edit_last_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                     <div>
-                        {readOnly ?
+                        {readOnly || (!shouldEditBasicInfo && !this.state.lastNameEmpty) ?
                             <span>{ticket.attendee_last_name}</span>
                             :
                             <Input
@@ -262,7 +267,7 @@ class TicketAssignForm extends React.Component {
                         <div
                             className="col-sm-4">{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                         <div className="col-sm-8">
-                            {readOnly ?
+                            {readOnly  || (!shouldEditBasicInfo && !this.state.companyNameEmpty)?
                                 <span>{ticket.attendee_company}</span>
                                 :
                                 <Input
@@ -279,7 +284,7 @@ class TicketAssignForm extends React.Component {
                 <div className="field-wrapper-mobile">
                     <div>{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                     <div>
-                        {readOnly ?
+                        {readOnly || (!shouldEditBasicInfo && !this.state.companyNameEmpty)?
                             <span>{ticket.attendee_company}</span>
                             :
                             <Input
