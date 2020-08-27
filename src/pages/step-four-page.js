@@ -120,7 +120,7 @@ class StepFourPage extends React.Component {
                         <span>
                          <br/><br/> 
                         <h4><StepRow step={this.step} /></h4>
-                          <h4>{T.translate("step_four.subtitle")}</h4>
+                        <h4>{T.translate("step_four.subtitle")}</h4>
                         </span>
 
                         {member &&
@@ -129,9 +129,13 @@ class StepFourPage extends React.Component {
                          <br/> 
                           <strong>{T.translate("step_four.member_exclamation")}</strong>{T.translate("step_four.member_text")}
                         <Link to="/a/member/tickets">
-                          {T.translate("step_four.member_link_text")}
+                          {T.translate("step_four.member_link_tickets")}
                         </Link>
-                        {T.translate("step_four.member_page_text")}                          
+                        {T.translate("step_four.member_text_1")} 
+                        <Link to="/a/member/orders">
+                          {T.translate("step_four.member_link_orders")}
+                        </Link>  
+                        {T.translate("step_four.member_text_2")}                                                                   
                         <br/><br/>
                         </span>
 
@@ -139,11 +143,12 @@ class StepFourPage extends React.Component {
                         <br/>
                         {T.translate("step_four.required_text")}
                         <br/><br/>
-                          <Link to="/a/member/orders">
+                    {/*  <Link to="/a/member/orders">
                             <button className="btn btn-primary manage-btn">
                               {T.translate("step_four.manage")}
                             </button>
                           </Link>
+                        */}
                         </span> 
 
                         </React.Fragment>              
@@ -152,7 +157,8 @@ class StepFourPage extends React.Component {
                         {!member &&
                         <React.Fragment>    
                         
-                          <span>
+
+                  {/*        <span>
                             {T.translate("step_four.register_text")}
                             <a href={`${window.IDP_BASE_URL}/auth/register`}>
                               {T.translate("step_four.register_link_text")}
@@ -171,7 +177,7 @@ class StepFourPage extends React.Component {
                               {T.translate("step_four.getfnid")}
                             </button>
                           </a>
-       
+                
 
                          &nbsp;OR&nbsp;
 
@@ -181,9 +187,10 @@ class StepFourPage extends React.Component {
                             </button>
                           </Link>
                           <br/><br/>
-                          <h4>{T.translate("step_four.register_email")}</h4>
+                            */}
+                          <h5>{T.translate("step_four.register_email")}</h5>
 
-                        </span> 
+                     {/*   </span> */}
 
                         </React.Fragment>  
                         }

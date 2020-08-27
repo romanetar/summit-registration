@@ -139,8 +139,9 @@ class StepExtraQuestionsPage extends React.Component {
             <div className="step-extra-questions">
                 <OrderSummary order={order} summit={summit} type={'mobile'}/>
                 <div className="row">
-                    <h4><StepRow step={this.step} optional={true}/></h4>
+                    <h4><StepRow step={this.step} optional={true}/></h4> 
                     <div className="col-md-8 order-result">
+                    <strong><a href="#" Style="text-decoration: underline;" onClick={this.onSkip}>I want to do this later and receive an email reminder</a></strong>    
                     {this.state.tickets.map((ticket, index) => {
                         let model = new TicketModel(ticket, summit, now);
                         let status = model.getStatus();
@@ -173,7 +174,9 @@ class StepExtraQuestionsPage extends React.Component {
                     })}
                     </div>
                     <div className="col-md-4">
-                        <OrderSummary order={order} summit={summit} type={'desktop'} />
+                        <OrderSummary order={order} summit={summit} type={'desktop'} /><br/>
+                        <br/>
+                        
                     </div>
                 </div>
                 <div className="row">

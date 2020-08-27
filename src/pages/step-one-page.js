@@ -119,14 +119,7 @@ class StepOnePage extends React.Component {
                         <React.Fragment> 
                                   <br/><br/><br/>
                                   <h4>Want to checkout faster?  </h4> 
-                                  <a href={`${window.IDP_BASE_URL}/auth/register`}>
-                                    <button className="btn btn-primary manage-btn">
-                                        {T.translate("step_one.getfnid")}
-                                    </button>
-                                    </a>
-       
-                         &nbsp;OR&nbsp;
-
+ 
                        <button className="btn btn-primary manage-btn" onClick={this.onClickLogin}>
                             {T.translate("step_one.signin")}
                         </button>
