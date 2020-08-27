@@ -1,29 +1,9 @@
+@import 'animations.less';
+@import 'popups.less';
+
 .order-detail {
 
   position: relative;
-
-  .save-flyout{
-    position: absolute;
-    opacity: 0;
-    background-color: green;
-    color: white;
-    font-size: 21px;
-    padding: 10px;
-    top: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 999999999;
-  }
-
-  .visible {
-    opacity: 1;
-    transition: opacity 3s 3s;
-  }
-
-  .hidden {
-    opacity: 0;
-    transition: visibility 0s 2s, opacity 2s linear;
-  }
 
   .order-detail__title {
         background-color: #F9F9F9;

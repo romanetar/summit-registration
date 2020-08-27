@@ -13,7 +13,7 @@
 
 import React from 'react'
 import { Pagination } from 'react-bootstrap';
-
+import { CSSTransition } from "react-transition-group";
 import TicketPopup from "../components/ticket-popup";
 
 import { daysBetweenDates, getFormatedDate } from '../utils/helpers';
@@ -77,8 +77,8 @@ class TicketList extends React.Component {
       
       if(owner.email !== attendee_email) {
           this.props.removeAttendee(ticket).then(() => {
-              this.toggleSaveMessage();
-              window.setTimeout(() => this.toggleSaveMessage(), 1000)
+              window.setTimeout(() => this.toggleSaveMessage(), 500);
+              window.setTimeout(() => this.toggleSaveMessage(), 2000);
           });
           return;
       }
@@ -92,8 +92,8 @@ class TicketList extends React.Component {
           disclaimer_accepted,
           extra_questions
       ).then(() => {
-          this.toggleSaveMessage();
-          window.setTimeout(() => this.toggleSaveMessage(), 1000)
+          window.setTimeout(() => this.toggleSaveMessage(), 500);
+          window.setTimeout(() => this.toggleSaveMessage(), 2000);
       });
 
     }
@@ -179,7 +179,7 @@ class TicketList extends React.Component {
     render() {
       let { tickets, selectedTicket, extraQuestions, loading, errors, summits, lastPage, currentPage, member, summit,
           loadingSummits, now } = this.props;
-      let { showPopup, showSave } = this.state;
+      let { showPopup } = this.state;
 
       if(loading) {
         return (
@@ -189,7 +189,14 @@ class TicketList extends React.Component {
         return (
 
           <div className="tickets-list">
-            {<span className={`save-flyout ${showSave? 'visible':'hidden'}`}>Ticket Saved</span>}
+            <CSSTransition
+                unmountOnExit
+                in={this.state.showSave}
+                timeout={2000}
+                classNames="fade-in-out"
+            >
+                <span className="save-flyout">Ticket Saved</span>
+            </CSSTransition>
             <div className="list-desktop">
               {tickets.map((t) => {
                 return (

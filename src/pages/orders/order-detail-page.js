@@ -17,7 +17,7 @@ import cloneDeep from "lodash.clonedeep";
 import OrderSummary from "../../components/order-summary";
 import TicketPopup from "../../components/ticket-popup";
 import TicketOptions from "../../components/ticket-options";
-
+import { CSSTransition } from "react-transition-group";
 import { selectTicket, getTicketPDF, assignAttendee, editOwnedTicket, handleTicketChange, refundTicket, removeAttendee, resendNotification } from '../../actions/ticket-actions';
 import { cancelOrder } from '../../actions/order-actions';
 
@@ -146,29 +146,29 @@ class OrderDetailPage extends React.Component {
   handleTicketUpdate(tempTicket) {    
     let { attendee_first_name, attendee_last_name, attendee_email, attendee_company, extra_questions, disclaimer_accepted, owner } = tempTicket;    
     let { member } = this.props;
-    
+
     if (owner && owner.email) {
       if(owner.email !== attendee_email) {
         this.props.removeAttendee(tempTicket).then(() => {
-          this.toggleSaveMessage();
-          window.setTimeout(() => this.toggleSaveMessage(), 1000)
+          window.setTimeout(() => this.toggleSaveMessage(), 500);
+          window.setTimeout(() => this.toggleSaveMessage(), 2000);
         });
       } else if(owner.email === member.email) {
         let updateOrder = true;
         this.props.editOwnedTicket(attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions, updateOrder).then(() => {
-          this.toggleSaveMessage();
-          window.setTimeout(() => this.toggleSaveMessage(), 1000)
+          window.setTimeout(() => this.toggleSaveMessage(), 500);
+          window.setTimeout(() => this.toggleSaveMessage(), 2000);
         });
       } else {
         this.props.assignAttendee(attendee_email, attendee_first_name, attendee_last_name, attendee_company, extra_questions).then(() => {
-          this.toggleSaveMessage();
-          window.setTimeout(() => this.toggleSaveMessage(), 1000)
+          window.setTimeout(() => this.toggleSaveMessage(), 500);
+          window.setTimeout(() => this.toggleSaveMessage(), 2000);
         });
       }
     } else {
       this.props.assignAttendee(attendee_email, attendee_first_name, attendee_last_name, attendee_company, extra_questions).then(() => {
-        this.toggleSaveMessage();
-        window.setTimeout(() => this.toggleSaveMessage(), 1000)
+        window.setTimeout(() => this.toggleSaveMessage(), 500);
+        window.setTimeout(() => this.toggleSaveMessage(), 2000);
       });
     }
   }   
@@ -250,7 +250,7 @@ class OrderDetailPage extends React.Component {
 
   render() {
       let {order, summit, ticket, errors, extraQuestions, member, orderLoading, summitLoading} = this.props;
-      let { showPopup, showSave } = this.state;
+      let { showPopup } = this.state;
       let now = this.props.getNow();
 
       let loading = summitLoading || orderLoading;
@@ -258,7 +258,14 @@ class OrderDetailPage extends React.Component {
       if(!loading) {
       return (
           <div className="order-detail">
-             {<span className={`save-flyout ${showSave? 'visible':'hidden'}`}>Ticket Saved</span>}
+            <CSSTransition
+                unmountOnExit
+                in={this.state.showSave}
+                timeout={2000}
+                classNames="fade-in-out"
+            >
+              <span className="save-flyout">Ticket Saved</span>
+            </CSSTransition>
               <OrderSummary order={order} summit={summit} type={'mobile'} />
               <div className="row" style={showPopup? {overflow: 'hidden'} : {overflow: 'auto'}}>
                   <div className="col-md-8">
