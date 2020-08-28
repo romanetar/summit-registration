@@ -108,7 +108,7 @@
     "member_text_1"       : " page to review your tickets and complete any required details. Or the ", 
     "member_link_orders"  : "My Orders",
     "member_text_2"       : " page to see orders and assign tickets in an order.",
-    "required_text"       : "All required information must be entered by (or for) each Ticket Holder before accessing the show.",
+    "required_text"       : "All required information must be entered by (or for) each Ticket Holder before accessing the show. You access the event by following the link in the ticket email and logging in with your FNid.",
     "register_text"       : "An FNid is required to manage order(s) and assign ticket(s) ",
     "register_link_text"  : "create one",
     "register_text_2"     : " with the email ",
