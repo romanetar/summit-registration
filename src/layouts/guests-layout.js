@@ -240,6 +240,7 @@ class GuestsLayout extends React.Component {
                 <TicketAssignForm
                     now={this.props.getNow()}
                     ticket={tempTicket}
+                    owner={owner}
                     onChange={this.handleChange}
                     extraQuestions={order_extra_questions}
                     errors={errors}

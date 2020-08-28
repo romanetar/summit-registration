@@ -81,14 +81,12 @@ class TicketAssignForm extends React.Component {
 
     render() {
 
-        let {guest, ownedTicket, ticket, extraQuestions, status, summit, orderOwned, readOnly, now, shouldEditBasicInfo} = this.props;
+        let {guest, ownedTicket, owner, ticket, extraQuestions, status, summit, orderOwned, readOnly, now, shouldEditBasicInfo} = this.props;
         let showCancel = true;
         if(!shouldEditBasicInfo) shouldEditBasicInfo = false;
         if(this.props.hasOwnProperty('showCancel'))
             showCancel = this.props.showCancel;
-
         let {extra_questions, input_email} = this.state;
-
         return (
             <div className="ticket-assign-form">
                 <div className="row popup-basic-info">
@@ -196,7 +194,7 @@ class TicketAssignForm extends React.Component {
                         {!readOnly && T.translate("ticket_popup.edit_required_star")}
                     </div>
                     <div className="col-sm-8">
-                        {readOnly || (!shouldEditBasicInfo && !this.state.firstNameEmpty)?
+                        {readOnly || (owner && owner.first_name)?
                             <span>{ticket.attendee_first_name}</span>
                             :
                             <Input
@@ -212,7 +210,7 @@ class TicketAssignForm extends React.Component {
                 <div className="field-wrapper-mobile">
                     <div>{T.translate("ticket_popup.edit_first_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                     <div>
-                        {readOnly || (!shouldEditBasicInfo && !this.state.firstNameEmpty)?
+                        {readOnly || (owner && owner.first_name)?
                             <span>{ticket.attendee_first_name}</span>
                             :
                             <Input
@@ -231,7 +229,7 @@ class TicketAssignForm extends React.Component {
                         {!readOnly && T.translate("ticket_popup.edit_required_star")}
                     </div>
                     <div className="col-sm-8">
-                        {readOnly || (!shouldEditBasicInfo && !this.state.lastNameEmpty)?
+                        {readOnly || (owner && owner.last_name)?
                             <span>{ticket.attendee_last_name}</span>
                             :
                             <Input
@@ -247,7 +245,7 @@ class TicketAssignForm extends React.Component {
                 <div className="field-wrapper-mobile">
                     <div>{T.translate("ticket_popup.edit_last_name")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                     <div>
-                        {readOnly || (!shouldEditBasicInfo && !this.state.lastNameEmpty) ?
+                        {readOnly || (owner && owner.last_name) ?
                             <span>{ticket.attendee_last_name}</span>
                             :
                             <Input
@@ -267,7 +265,7 @@ class TicketAssignForm extends React.Component {
                         <div
                             className="col-sm-4">{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                         <div className="col-sm-8">
-                            {readOnly  || (!shouldEditBasicInfo && !this.state.companyNameEmpty)?
+                            {readOnly ?
                                 <span>{ticket.attendee_company}</span>
                                 :
                                 <Input
@@ -284,7 +282,7 @@ class TicketAssignForm extends React.Component {
                 <div className="field-wrapper-mobile">
                     <div>{T.translate("ticket_popup.edit_company")}{!readOnly && T.translate("ticket_popup.edit_required_star")}</div>
                     <div>
-                        {readOnly || (!shouldEditBasicInfo && !this.state.companyNameEmpty)?
+                        {readOnly ?
                             <span>{ticket.attendee_company}</span>
                             :
                             <Input
