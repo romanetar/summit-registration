@@ -187,16 +187,20 @@ class StepExtraQuestionsPage extends React.Component {
                         
                     </div>
                 </div>
-                <div className="row">
+                <div className="row submit-buttons-wrapper">
                     <div className="col-md-12">
                         <button
                             className="btn btn-primary"
                             onClick={this.onTicketsSave}>
                             {T.translate("ticket_popup.save_changes")}
                         </button>
-                        &nbsp;&nbsp;OR&nbsp;&nbsp;
-                        <a className="btn-primary btn" role="button"
-                           href="#" onClick={this.onSkip}>{T.translate("ticket_popup.do_it_later")}</a><br/><br/>{T.translate("ticket_popup.do_it_later_exp")}
+                        <span className="or">OR</span>
+                        <a className="back-btn" href="#" onClick={this.onSkip}>
+                            {T.translate("ticket_popup.do_it_later")}
+                            <i className="fa fa-chevron-right" aria-hidden="true"></i>
+                        </a>
+                        <br/><br/>
+                        {T.translate("ticket_popup.do_it_later_exp")}
                     </div>
                 </div>
             </div>
