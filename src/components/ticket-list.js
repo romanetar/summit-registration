@@ -13,6 +13,8 @@
 
 import React from 'react'
 import { Pagination } from 'react-bootstrap';
+import Alert from 'react-bootstrap/lib/Alert';
+import T from "i18n-react/dist/i18n-react";
 import { CSSTransition } from "react-transition-group";
 import TicketPopup from "../components/ticket-popup";
 
@@ -195,7 +197,11 @@ class TicketList extends React.Component {
                 timeout={2000}
                 classNames="fade-in-out"
             >
-                <span className="save-flyout">Ticket Saved</span>
+                <React.Fragment>                    
+                    <Alert bsStyle="success col-sm-8 col-sm-offset-2">
+                        {T.translate("tickets.save_message")}
+                    </Alert>
+                </React.Fragment>
             </CSSTransition>
             <div className="list-desktop">
               {tickets.map((t) => {

@@ -13,6 +13,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import Alert from 'react-bootstrap/lib/Alert';
+import T from "i18n-react/dist/i18n-react";
 import cloneDeep from "lodash.clonedeep";
 import OrderSummary from "../../components/order-summary";
 import TicketPopup from "../../components/ticket-popup";
@@ -250,7 +252,7 @@ class OrderDetailPage extends React.Component {
 
   render() {
       let {order, summit, ticket, errors, extraQuestions, member, orderLoading, summitLoading} = this.props;
-      let { showPopup } = this.state;
+      let { showPopup, showSave } = this.state;
       let now = this.props.getNow();
 
       let loading = summitLoading || orderLoading;
@@ -258,14 +260,6 @@ class OrderDetailPage extends React.Component {
       if(!loading) {
       return (
           <div className="order-detail">
-            <CSSTransition
-                unmountOnExit
-                in={this.state.showSave}
-                timeout={2000}
-                classNames="fade-in-out"
-            >
-              <span className="save-flyout">Ticket Saved</span>
-            </CSSTransition>
               <OrderSummary order={order} summit={summit} type={'mobile'} />
               <div className="row" style={showPopup? {overflow: 'hidden'} : {overflow: 'auto'}}>
                   <div className="col-md-8">
@@ -273,6 +267,19 @@ class OrderDetailPage extends React.Component {
                       <h4><b>{summit.name}</b></h4>
                       {this.handleTicketDate()} <br /> {this.handleSummitLocation()}
                     </div>
+                    <CSSTransition
+                        unmountOnExit
+                        in={this.state.showSave}
+                        timeout={2000}
+                        classNames="fade-in-out"
+                    >
+                        <React.Fragment>
+                            <br />
+                            <Alert bsStyle="success">
+                              {T.translate("tickets.save_message")}
+                            </Alert>
+                        </React.Fragment>
+                    </CSSTransition>
                     <div className="ticket-list">
                       {summit.ticket_types.map((s, index) => {                        
                         return (

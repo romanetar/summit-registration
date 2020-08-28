@@ -25,7 +25,7 @@
     "discounts"       : "Discount",
     "refunds"         : "Refund",
     "total"           : "Total Due",
-    "amount_paid" : "Amount Paid"
+    "amount_paid"     : "Amount Paid"
   },
   "event_info": {
     "about_title"   : "About the event",
@@ -101,17 +101,19 @@
   },
   "step_four": {
     "thank_you"           : "Thank you for your order!",
-    "subtitle"            : "Complete Ticket Assignment",
+    "subtitle"            : "Your Order is Now Complete",
     "member_exclamation"  : "You are signed in with your FNid. ",
     "member_text"         : "You can proceed directly to the ",
-    "member_link_text"    : "My Tickets",
-    "member_page_text"    : " page to complete any required details. Or click the My Orders button below if you need to assign tickets.",
+    "member_link_tickets" : "My Tickets",
+    "member_text_1"       : " page to review your tickets and complete any required details. Or the ", 
+    "member_link_orders"  : "My Orders",
+    "member_text_2"       : " page to see orders and assign tickets in an order.",
     "required_text"       : "All required information must be entered by (or for) each Ticket Holder before accessing the show.",
-    "register_text"       : "You are currently not signed in.  An FNid is required to manage order(s) and assign ticket(s) ",
+    "register_text"       : "An FNid is required to manage order(s) and assign ticket(s) ",
     "register_link_text"  : "create one",
     "register_text_2"     : " with the email ",
     "register_text_3"     : " used for this purchase, you will then be able to manage your order.",
-    "register_email"      : "You will also receive an email with a one click link to get an FNid.",
+    "register_email"      : "You will receive an email with a one click link to sign up for an FNid so you can manage your order.",
     "help_text"           : "For further assistance, please email ",
     "order_no"            : "ORDER NUMBER",
     "manage"              : "My Orders",
@@ -148,7 +150,8 @@
     "calendar"            : "Add to Calendar"
   },
   "tickets": {
-    "empty"               : "There are no tickets so far"
+    "empty"               : "There are no tickets so far",
+    "save_message"        : "Thank you! Your information has been saved and ticket updated."
   },
   "nav_bar": {
     "my-orders"           : "My Orders",

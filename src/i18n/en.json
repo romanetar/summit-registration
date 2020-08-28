@@ -25,7 +25,7 @@
     "discounts"       : "Discount",
     "refunds"         : "Refund",
     "total"           : "Total Due",
-    "amount_paid": "Amount Paid"
+    "amount_paid"     : "Amount Paid"
   },
   "event_info": {
     "about_title"   : "About the event",
@@ -150,7 +150,8 @@
     "calendar"            : "Add to Calendar"
   },
   "tickets": {
-    "empty"               : "There are no tickets so far"
+    "empty"               : "There are no tickets so far",
+    "save_message"        : "Thank you! Your information has been saved and ticket updated."
   },
   "nav_bar": {
     "my-orders"           : "My Orders",
