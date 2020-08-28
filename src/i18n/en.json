@@ -55,9 +55,9 @@
     "company"           : "Company",
     "tickets"           : "Tickets",
     "ticket"            : "Ticket",
-    "asterisks"         : "** Tickets can be assigned later",
-    "code"              : "Promo Code",
-    "assign"            : "Assign to: **",
+    "asterisks"         : "Note: tickets can be assigned later and each assignee will receive an immediate email to complete their details.",
+    "code"              : "Promo Code:",
+    "assign"            : "Assign to:",
     "add_ticket"        : "Add additional tickets to this order",
     "no_tickets"        : "No tickets selected.",
     "placeholders": {
@@ -192,7 +192,7 @@
     "cancel_ticket"         : "Cancel Ticket (Request Refund)",
     "save_changes"          : "Save Changes",
     "do_it_later"           : "Do this later",
-    "do_it_later_exp"       : "You can do this from the My Orders page also each ticket holder will get an email asking them to complete their own information."
+    "do_it_later_exp"       : "You can do this later from the My Orders page. Each assigned attendee will be reminded by email until it is done."
   },
   "confirm_popup": {
     "question_title_cancel"           : "Cancel",

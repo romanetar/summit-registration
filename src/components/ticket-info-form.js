@@ -76,10 +76,10 @@ class TicketInfoForm extends React.Component {
                 <div className="ticket-info-wrapper">
                   <hr/>
                     <div className="row">
-                        <div className="col-md-8">
+                        <div className="col-md-6">
                             <h3>{ticketType.name} {T.translate("step_two.tickets")} {orderedTickets.length > 0 ? `(${orderedTickets.length})` : ''}</h3>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-md-6">
                             <h5>{T.translate("step_two.asterisks")}</h5>
                         </div>
                     </div>
