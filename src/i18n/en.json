@@ -197,6 +197,8 @@
   "confirm_popup": {
     "question_title_cancel"           : "Cancel",
     "question_text_cancel"            : "Are you sure you want to cancel the ticket and request a refund?",
+    "question_title_cancel_order"     : "Cancel Order",
+    "question_text_cancel_order"      : "Are you sure you want to cancel this entire order including all tickets?",
     "question_title_assign"           : "Assign Request",
     "question_text_assign"            : "Are you sure you want to clean all the fields?",
     "question_title_reassign"         : "Re-Assign Request",

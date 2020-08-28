@@ -19,6 +19,7 @@ import cloneDeep from "lodash.clonedeep";
 import OrderSummary from "../../components/order-summary";
 import TicketPopup from "../../components/ticket-popup";
 import TicketOptions from "../../components/ticket-options";
+import ConfirmPopup from '../../components/confirm-popup';
 import { CSSTransition } from "react-transition-group";
 import { selectTicket, getTicketPDF, assignAttendee, editOwnedTicket, handleTicketChange, refundTicket, removeAttendee, resendNotification } from '../../actions/ticket-actions';
 import { cancelOrder } from '../../actions/order-actions';
@@ -37,6 +38,7 @@ class OrderDetailPage extends React.Component {
     this.state = {
       showPopup: false,
       showSave:false,
+      cancelOrderPopup: false,
     };  
 
     this.togglePopup = this.togglePopup.bind(this);
@@ -136,9 +138,16 @@ class OrderDetailPage extends React.Component {
     this.props.getTicketPDF();
   }
 
-  handleOrderCancel(){
+  handleOrderCancel(ev){
     let {order} = this.props;
-    this.props.cancelOrder(order);
+    this.setState((prevState, props) => {
+      return {
+        cancelOrderPopup: !prevState.cancelOrderPopup
+      }
+    })
+    if(ev === true) {      
+      this.props.cancelOrder(order);
+    }
   }
 
   handleTicketCancel(ticket) {
@@ -252,7 +261,7 @@ class OrderDetailPage extends React.Component {
 
   render() {
       let {order, summit, ticket, errors, extraQuestions, member, orderLoading, summitLoading} = this.props;
-      let { showPopup, showSave } = this.state;
+      let { showPopup, showSave, cancelOrderPopup } = this.state;
       let now = this.props.getNow();
 
       let loading = summitLoading || orderLoading;
@@ -375,6 +384,13 @@ class OrderDetailPage extends React.Component {
                   summit={summit}
                   errors={errors}
                   now={this.props.getNow()}
+                />  
+              : null  
+              }
+              {cancelOrderPopup ?  
+                <ConfirmPopup
+                  popupCase={'cancel-order'}
+                  closePopup={this.handleOrderCancel.bind(this)}                  
                 />  
               : null  
               }

@@ -40,6 +40,13 @@ class ConfirmPopup extends React.Component {
                             <p>{T.translate("confirm_popup.question_text_cancel")}</p>    
                         </React.Fragment>
                       );                 
+                  case 'cancel-order':
+                    return (
+                      <React.Fragment>
+                          <h4>{T.translate("confirm_popup.question_title_cancel_order")}</h4>            
+                          <p>{T.translate("confirm_popup.question_text_cancel_order")}</p>    
+                      </React.Fragment>
+                  );
                   case 'assign':
                       return (
                         <React.Fragment>
