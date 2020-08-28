@@ -162,6 +162,7 @@ export const deleteReservation = () => (dispatch, getState) => {
 }
 
 export const payReservation = (card=null, stripe=null) => (dispatch, getState) => {
+
     let {orderState: { purchaseOrder, purchaseOrder: {reservation}}, summitState: {purchaseSummit}} = getState();
 
     let success_message = {
@@ -169,6 +170,8 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
         html: T.translate("book_meeting.reservation_created"),
         type: 'success'
     };
+
+    let hasTicketExtraQuestion = purchaseSummit.order_extra_questions.filter((q) => q.usage === 'Ticket' || q.usage === 'Both' ).length > 0;
 
     let params = {
       expand : 'tickets',
@@ -195,7 +198,8 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
           // entity
       )(params)(dispatch).then((payload) => {                    
               dispatch(stopLoading());
-              if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT){
+              // if we reach the required qty of tix to update and we have extra questions for tix ..
+              if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT && hasTicketExtraQuestion){
                   history.push(stepDefs[4]);
                   return (payload);
               }
@@ -239,7 +243,7 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
               )(params)(dispatch)
                   .then((payload) => {                    
                       dispatch(stopLoading());
-                      if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT){
+                      if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT && hasTicketExtraQuestion){
                           history.push(stepDefs[4]);
                           return (payload);
                       }
