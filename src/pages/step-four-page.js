@@ -40,6 +40,10 @@ class StepFourPage extends React.Component {
     componentDidMount() {
       let {order:{checkout}} = this.props;
       const stepDefs = ['start', 'details', 'checkout', 'done'];
+      let {summit} = this.props;
+      if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
+            history.push('/a');
+      }
       if(Object.entries(checkout).length === 0 && checkout.constructor === Object) {
         history.push(stepDefs[0]);
       } else {
@@ -96,7 +100,7 @@ class StepFourPage extends React.Component {
 
     render(){
         let {summit, order: {checkout}, order, errors, member} = this.props;
-
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ) return null;
         order.status = 'Paid';
 
         this.purchasedTickets();

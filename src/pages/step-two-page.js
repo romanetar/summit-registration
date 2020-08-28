@@ -85,6 +85,10 @@ class StepTwoPage extends React.Component {
     }
 
     componentDidMount() {
+        let {summit, history} = this.props;
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
+            history.push('/a');
+        }
         window.scrollTo(0, 0);
     }
 
@@ -140,7 +144,7 @@ class StepTwoPage extends React.Component {
     render(){
         let {summit, order, errors, member} = this.props;
         let {dirty} = this.state;
-
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ) return null;
         return (
             <div className="step-two">
                 <OrderSummary order={order} summit={summit} type={'mobile'} />

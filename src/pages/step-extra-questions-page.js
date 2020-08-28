@@ -62,6 +62,12 @@ class StepExtraQuestionsPage extends React.Component {
         this.onSkip = this.onSkip.bind(this);
     }
 
+    componentDidMount() {
+        let {summit, history} = this.props;
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
+            history.push('/a');
+        }
+    }
 
     handleTicketCancel() {
 
@@ -134,6 +140,7 @@ class StepExtraQuestionsPage extends React.Component {
     render() {
         let now = this.props.getNow();
         let {summit, extraQuestions, order} = this.props;
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ) return null;
         order.status = 'Paid';
         return (
             <div className="step-extra-questions">

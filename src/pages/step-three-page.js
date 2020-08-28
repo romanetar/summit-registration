@@ -10,7 +10,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  **/
-
 import React from 'react';
 import { connect } from 'react-redux';
 import cloneDeep from "lodash.clonedeep";
@@ -22,8 +21,6 @@ import {findElementPos} from "openstack-uicore-foundation/lib/methods";
 import { Elements, StripeProvider } from 'react-stripe-elements';
 import PaymentInfoForm from "../components/payment-info-form";
 import BillingInfoForm from "../components/billing-info-form";
-
-
 import '../styles/step-three-page.less';
 import history from '../history';
 import URI from "urijs";
@@ -73,8 +70,12 @@ class StepThreePage extends React.Component {
     }
 
     componentDidMount() {
-        let {order:{reservation}} = this.props;
-        const stepDefs = ['start', 'details', 'checkout', 'done'];                  
+        let {order:{reservation}, summit} = this.props;
+        const stepDefs = ['start', 'details', 'checkout', 'done'];
+
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
+            history.push('/a');
+        }
 
         if(Object.entries(reservation).length === 0 && reservation.constructor === Object) {
           history.push(stepDefs[0]);
@@ -143,16 +144,17 @@ class StepThreePage extends React.Component {
 
     render(){
         let {summit, order, errors, stripeForm} = this.props;
+        if((Object.entries(summit).length === 0 && summit.constructor === Object) ) return null;
         let {card, stripe, dirty} = this.state;
         let publicKey = null;
         for(let profile of summit.payment_profiles){
-            if(profile.application_type == 'Registration'){
+            if(profile.application_type === 'Registration'){
                 publicKey = profile.test_mode_enabled ? profile.test_publishable_key : profile.live_publishable_key;
                 break;
             }
         }
 
-        console.log(`stripe publisable key ${publicKey}`)
+        console.log(`stripe publisable key ${publicKey}`);
 
         return (
             <div className="step-three">
