@@ -313,7 +313,7 @@ class TicketAssignForm extends React.Component {
                     />
                 </React.Fragment>
                 }
-                {(guest || ownedTicket) && (summit.registration_disclaimer_mandatory && summit.registration_disclaimer_content) &&
+                {(summit.registration_disclaimer_mandatory && summit.registration_disclaimer_content) &&
                 <React.Fragment>
                     <hr/>
                     <div className="row field-wrapper">
