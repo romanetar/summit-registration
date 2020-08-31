@@ -125,6 +125,10 @@ class GuestsLayout extends React.Component {
       let errors = cloneDeep(this.props.errors);
       let {value, id} = ev.target;
 
+      if(id.includes(`${ticket.id}_`)){
+        id = id.split(`${ticket.id}_`)[1];
+      }
+
       if (ev.target.type == 'checkbox') {
         value = ev.target.checked;        
       }
