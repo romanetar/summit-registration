@@ -36,7 +36,7 @@
   "step_one": {
     "choose_tickets"        : "Choose your tickets",
     "choose_tickets_desc"   : "a description",
-    "expiration"            : "Ticket available until ",
+    "expiration"            : "Tickets available until ",
     "free"                  : "Free",
     "sold_out"              : "Sold Out",
     "no_tickets"            : "No tickets for sale!",
