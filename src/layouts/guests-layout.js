@@ -219,7 +219,7 @@ class GuestsLayout extends React.Component {
             <button className="btn btn-primary" onClick={() => this.handleHashRegenerate()}>{T.translate("guests.invalid_button")}</button>
             <br/><br/>            
             <p>
-              {T.translate("guests.invalid_contact")} <br/><u><a href={`mailto:${window.SUPPORT_EMAIL}`}>{window.SUPPORT_EMAIL}</a></u>.
+              {T.translate("guests.invalid_contact")} <br/><u><a href={`mailto:${summit.hasOwnProperty('support_email') && summit.support_email ? summit.support_email : window.SUPPORT_EMAIL}`}>{summit.hasOwnProperty('support_email') && summit.support_email ? summit.support_email : window.SUPPORT_EMAIL}</a></u>.
             </p>
           </div>
         )

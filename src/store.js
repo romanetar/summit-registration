@@ -49,8 +49,6 @@ const onRehydrateComplete = () => {
     window.accessToken  = store.getState().loggedUserState.accessToken;
     window.idToken      = store.getState().loggedUserState.idToken;
     window.sessionState = store.getState().loggedUserState.sessionState;
-    if(store.getState().purchaseSummit.hasOwnProperty('support_email'))
-        window.SUPPORT_EMAIL = store.getState().purchaseSummit.support_email;
 };
 
 export const persistor = persistStore(store, null, onRehydrateComplete);

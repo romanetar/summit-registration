@@ -58,21 +58,17 @@ const summitReducer = (state = DEFAULT_STATE, action) => {
               let cachedSummits = [...new Set(state.summits.filter(s => s.id !== entity.id))];              
               return {...state, purchaseSummit: {...entity, is_virtual: true}, summits: [ ...cachedSummits, entity ]};
             }
-            window.SUPPORT_EMAIL = purchaseSummit.support_email;
             return {...state, purchaseSummit: {...entity, is_virtual: true}, summits: [ ...cachedSummits ]};
             break;
         case SUMMIT_NOT_FOUND:
             return {...state, purchaseSummit: {}};
         case SELECT_PURCHASE_SUMMIT:
-            window.SUPPORT_EMAIL = payload.support_email;
             return {...state, purchaseSummit: payload };
         case GET_SUMMIT_BY_ID:
             let summit = payload.response;
-            window.SUPPORT_EMAIL = summit.support_email;
             return {...state, summits: [ ...state.summits, summit ]};
         case SELECT_SUMMIT:
             // from now on, all shows/summits are marked as virtual
-            window.SUPPORT_EMAIL = payload.support_email;
             return {...state, selectedSummit: {...payload, is_virtual: true}};
             break;
         case GET_SUMMIT_REFUND_POLICY:
