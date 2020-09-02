@@ -80,7 +80,7 @@ class TicketInfoForm extends React.Component {
                             <h3>{ticketType.name} {T.translate("step_two.tickets")} {orderedTickets.length > 0 ? `(${orderedTickets.length})` : ''}</h3>
                         </div>
                         <div className="col-md-6">
-                            <h5>{T.translate("step_two.asterisks")}</h5>
+                            <h5><strong>{T.translate("step_two.asterisks_bold")}</strong>{T.translate("step_two.asterisks")}</h5>
                         </div>
                     </div>
                     { orderedTickets.map((tix, i) => (                  

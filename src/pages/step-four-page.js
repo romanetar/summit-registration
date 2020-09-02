@@ -143,17 +143,7 @@ class StepFourPage extends React.Component {
                         <br/><br/>
                         </span>
 
-                        <span>
-                        <br/>
-                        {T.translate("step_four.required_text")}
-                        <br/><br/>
-                    {/*  <Link to="/a/member/orders">
-                            <button className="btn btn-primary manage-btn">
-                              {T.translate("step_four.manage")}
-                            </button>
-                          </Link>
-                        */}
-                        </span> 
+  
 
                         </React.Fragment>              
                         }
@@ -199,7 +189,17 @@ class StepFourPage extends React.Component {
                         </React.Fragment>  
                         }
 
-                                    
+                        <span>
+                        <br/>
+                        {T.translate("step_four.required_text")}
+                        <br/><br/>
+                        {/*  <Link to="/a/member/orders">
+                            <button className="btn btn-primary manage-btn">
+                              {T.translate("step_four.manage")}
+                            </button>
+                          </Link>
+                        */}
+                        </span>                
             
                       
 
