@@ -45,10 +45,6 @@ class StepOnePage extends React.Component {
     }
 
     componentDidMount() {
-        let {summit} = this.props;
-        if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
-            history.push('/a');
-        }
     }
 
     componentWillMount() {

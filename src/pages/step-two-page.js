@@ -85,10 +85,6 @@ class StepTwoPage extends React.Component {
     }
 
     componentDidMount() {
-        let {summit, history} = this.props;
-        if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
-            history.push('/a');
-        }
         window.scrollTo(0, 0);
     }
 

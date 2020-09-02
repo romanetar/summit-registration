@@ -63,10 +63,6 @@ class StepExtraQuestionsPage extends React.Component {
     }
 
     componentDidMount() {
-        let {summit, history} = this.props;
-        if((Object.entries(summit).length === 0 && summit.constructor === Object) ){
-            history.push('/a');
-        }
     }
 
     handleTicketCancel() {
@@ -77,7 +73,6 @@ class StepExtraQuestionsPage extends React.Component {
         let { history } = this.props;
         ev.preventDefault();
         history.push('done');
-        //{`/a/${summit.slug}/register/done`}
         return null;
     }
 
