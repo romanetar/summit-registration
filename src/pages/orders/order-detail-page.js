@@ -164,14 +164,9 @@ class OrderDetailPage extends React.Component {
           window.setTimeout(() => this.toggleSaveMessage(), 500);
           window.setTimeout(() => this.toggleSaveMessage(), 2000);
         });
-      } else if(owner.email === member.email) {
+      } else {
         let updateOrder = true;
         this.props.editOwnedTicket(attendee_email, attendee_first_name, attendee_last_name, attendee_company, disclaimer_accepted, extra_questions, updateOrder).then(() => {
-          window.setTimeout(() => this.toggleSaveMessage(), 500);
-          window.setTimeout(() => this.toggleSaveMessage(), 2000);
-        });
-      } else {
-        this.props.assignAttendee(attendee_email, attendee_first_name, attendee_last_name, attendee_company, extra_questions).then(() => {
           window.setTimeout(() => this.toggleSaveMessage(), 500);
           window.setTimeout(() => this.toggleSaveMessage(), 2000);
         });
