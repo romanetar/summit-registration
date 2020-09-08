@@ -178,7 +178,7 @@ class StepFourPage extends React.Component {
                           </Link>
                           <br/><br/>
                             */}
-                          <h5>{T.translate("step_four.register_email")}</h5>
+                          <h5><strong>{T.translate("step_four.register_email_bold")}</strong> {T.translate("step_four.register_email")}</h5>
 
                      {/*   </span> */}
 
