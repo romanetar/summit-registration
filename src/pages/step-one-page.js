@@ -82,11 +82,11 @@ class StepOnePage extends React.Component {
 
     render(){
 
-        let {summit, order, member} = this.props;
+        let {summit, order, member, now} = this.props;
 
         if((Object.entries(summit).length === 0 && summit.constructor === Object) ) return null;
 
-        let now = this.props.getNow();
+        // let now = this.props.getNow();
         order.status = 'Reserved';
         // filter tickets types
         let ticketsTypesToSell = (Object.entries(summit).length === 0 && summit.constructor === Object) ? [] : summit.ticket_types.filter( tt =>
@@ -151,10 +151,11 @@ class StepOnePage extends React.Component {
     }
 }
 
-const mapStateToProps = ({ loggedUserState, summitState, orderState }) => ({
+const mapStateToProps = ({ loggedUserState, summitState, orderState, timerState }) => ({
     member: loggedUserState.member,
     summit: summitState.purchaseSummit,
     order:  orderState.purchaseOrder,
+    now: timerState.now,
     errors:  orderState.errors
 })
 
