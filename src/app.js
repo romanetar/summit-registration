@@ -49,7 +49,11 @@ if (language.length > 2) {
 
 //console.log(`user language is ${language}`);
 
-T.setTexts(require(`./i18n/${language}.json`));
+if (language === 'en' || language === 'es') {
+  T.setTexts(require(`./i18n/${language}.json`));
+} else {
+  T.setTexts(require(`./i18n/en.json`));
+}
 
 window.IDP_BASE_URL             = process.env['IDP_BASE_URL'];
 window.API_BASE_URL             = process.env['API_BASE_URL'];
