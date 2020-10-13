@@ -322,7 +322,7 @@ class TicketPopup extends React.Component {
 
     handleFormatReassignDate() {
       let {summit} = this.props;
-      let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
+      let reassign_date = summit.reassign_ticket_till_date && summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
       return getFormatedDate(reassign_date, summit.time_zone_id);
     }
 
@@ -330,7 +330,7 @@ class TicketPopup extends React.Component {
 
       let {extraQuestions, status, ticket: {owner, badge, ticket_type_id}, fromTicketList, summit, orderOwned, member, loading, now, order} = this.props;
       let {showPopup, tempTicket, tempTicket: {reassign_email, errors}, popupCase, cleanFields} = this.state;
-      let reassign_date = summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
+      let reassign_date = summit.reassign_ticket_till_date && summit.reassign_ticket_till_date < summit.end_date ? summit.reassign_ticket_till_date : summit.end_date;
       let {ticket} = this.props;
         return (!loading &&
         <div className='popup-bg'>
