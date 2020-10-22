@@ -91,10 +91,16 @@ class StepThreePage extends React.Component {
           let {country, region, locality, postal_code, street_address} = address;
           order = {
             ...order, 
-            billing_country: country ? country : '',
-            billing_address: street_address ? street_address : '',
-            billing_city: locality ? locality : '',
-            billing_state: region ? region : '',
+            // billing_country: country ? country : '',
+            // billing_address: street_address ? street_address : '',
+            // billing_city: locality ? locality : '',
+            // billing_state: region ? region : '',
+
+            billing_country: country ? country : 'US',
+            billing_address: street_address ? street_address : 'NA',
+            billing_city: locality ? locality : 'NA',
+            billing_state: region ? region : 'NA',
+
             billing_zipcode: postal_code ? postal_code : '',
           };
         }       
@@ -118,6 +124,7 @@ class StepThreePage extends React.Component {
     async handleStripe(ev, stripe) {        
         let {order} = this.props;
         let stripeErrors = Object.values(ev).filter(x => x.required === true && x.message === '');
+
         if(stripeErrors.length === 3) { 
             let {card} = await stripe.createToken({              
               name: `${order.first_name} ${order.last_name}`,
@@ -155,9 +162,9 @@ class StepThreePage extends React.Component {
         return (
             <div className="step-three">
                 <OrderSummary order={order} summit={summit} type={'mobile'} />
-                <StepRow step={this.step} />
-                    <div className="row">
-                        <div className="col-md-8">
+                <StepRow step={this.step} totalSteps={4} />
+                <div className="row">
+                    <div className="col-md-8">
                         {order.reservation.discount_amount !== order.reservation.raw_amount &&
                             <StripeProvider apiKey={publicKey}>
                                 <Elements>
@@ -168,16 +175,16 @@ class StepThreePage extends React.Component {
                                 </Elements>
                             </StripeProvider>
                         }
-                            <BillingInfoForm 
-                                onChange={this.handleChange}
-                                order={order} 
-                                summit={summit}                                
-                                errors={dirty ? errors : {}} />
-                        </div>
-                        <div className="col-md-4">
-                            <OrderSummary order={order} summit={summit} type={'desktop'} />
-                        </div>
+                        <BillingInfoForm 
+                            onChange={this.handleChange}
+                            order={order} 
+                            summit={summit}                                
+                            errors={dirty ? errors : {}} />
                     </div>
+                    <div className="col-md-4">
+                        <OrderSummary order={order} summit={summit} type={'desktop'} />
+                    </div>
+                </div>
                 <SubmitButtons 
                     step={this.step} 
                     stripe={stripe} 

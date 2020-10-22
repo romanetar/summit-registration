@@ -88,9 +88,10 @@ export const validateStripe = (value) => (dispatch, getState) => {
     dispatch(createAction(VALIDATE_STRIPE)({value}));
 }
 
-export const createReservation = (owner_email, owner_first_name, owner_last_name, owner_company, tickets) => (dispatch, getState) => {
+export const createReservation = (owner_email, owner_first_name, owner_last_name, owner_company, tickets, ticket_types) => (dispatch, getState) => {
     let { summitState } = getState();    
     let { purchaseSummit }  = summitState;
+    const isFree = ticket_types.length > 0 && ticket_types[0].cost === 0;
 
     dispatch(startLoading());
 
@@ -126,7 +127,7 @@ export const createReservation = (owner_email, owner_first_name, owner_last_name
     )(params)(dispatch)
         .then((payload) => {
             dispatch(stopLoading());
-            history.push(stepDefs[2]);
+            history.push(isFree ? stepDefs[4] : stepDefs[2]);   //free tickets -> skip billing step
             return (payload)
         })
         .catch(e => {
