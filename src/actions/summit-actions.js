@@ -187,9 +187,9 @@ export const selectPurchaseSummit = (slug) => (dispatch, getState) => {
 
   const { ticket_types } = summit;
 
-  const totalSteps = ticket_types.length > 0 && ticket_types[0].cost === 0 ? 3 : 4; 
+  //const totalSteps = ticket_types.length > 0 && ticket_types[0].cost === 0 ? 3 : 4; 
 
-  dispatch(setTotalSteps(totalSteps));
+  dispatch(setTotalSteps(4));
 
   history.push(`/a/${slug}/`);
 };

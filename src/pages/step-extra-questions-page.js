@@ -70,7 +70,7 @@ class StepExtraQuestionsPage extends React.Component {
     }
 
     onSkip(ev){
-        let { history } = this.props;
+        let { history, match } = this.props;
         ev.preventDefault();
         history.push('done');
         return null;
