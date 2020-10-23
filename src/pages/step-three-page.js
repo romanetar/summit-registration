@@ -95,12 +95,6 @@ class StepThreePage extends React.Component {
             // billing_address: street_address ? street_address : '',
             // billing_city: locality ? locality : '',
             // billing_state: region ? region : '',
-
-            billing_country: country ? country : 'US',
-            billing_address: street_address ? street_address : 'NA',
-            billing_city: locality ? locality : 'NA',
-            billing_state: region ? region : 'NA',
-
             billing_zipcode: postal_code ? postal_code : '',
           };
         }       
