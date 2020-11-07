@@ -90,8 +90,8 @@ export const validateStripe = (value) => (dispatch, getState) => {
 
 export const createReservation = (owner_email, owner_first_name, owner_last_name, owner_company, tickets, ticket_types) => (dispatch, getState) => {
     let { summitState } = getState();    
-    let { purchaseSummit }  = summitState;
-    const isFree = ticket_types.length > 0 && ticket_types[0].cost === 0;
+    let { purchaseSummit }  = summitState;    
+    const isFree = ticket_types.length > 0 && tickets.every(t => ticket_types.find(tt => tt.id === t.type_id).cost === 0);
 
     dispatch(startLoading());
 
