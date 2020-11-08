@@ -215,16 +215,16 @@ export const payReservation = (card=null, stripe=null) => (dispatch, getState) =
               if(isFree) {
                 dispatch(createAction(CLEAR_RESERVATION)({}));
                 history.push(stepDefs[4]);
-              }
-              // if we reach the required qty of tix to update and we have extra questions for tix ..
-              if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT && (hasTicketExtraQuestion || mandatoryDisclaimer)){
+                return (payload);
+              } else if(reservation.hasOwnProperty('tickets') && reservation.tickets.length <= window.MAX_TICKET_QTY_TO_EDIT && (hasTicketExtraQuestion || mandatoryDisclaimer)){
+                // if we reach the required qty of tix to update and we have extra questions for tix ..
                   history.push(stepDefs[3]);
                   return (payload);
-              }
+              } else {
               dispatch(createAction(CLEAR_RESERVATION)({}));
- 
               history.push(stepDefs[4]);
               return (payload);
+              }              
           })
           .catch(e => {
               dispatch(stopLoading());
