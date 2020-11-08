@@ -71,10 +71,13 @@ class StepExtraQuestionsPage extends React.Component {
 
     onSkip(ev) {
         let { history, match, order } = this.props;
+        const stepDefs = ['start', 'details', 'checkout', 'extra', 'done'];
         ev.preventDefault();
         if(!order.checkout.id) {
             this.props.payReservation();
-        }        
+        } else {
+            history.push(stepDef[4]);
+        }
         return null;
     }
 
@@ -100,6 +103,7 @@ class StepExtraQuestionsPage extends React.Component {
 
         if (canSave) {
             if(!order.checkout.id) {
+                this.props.updateOrderTickets(tickets);
                 this.props.payReservation();
             }
             this.props.updateOrderTickets(tickets);

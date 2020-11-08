@@ -393,7 +393,11 @@ export const updateOrderTickets = (tickets) => (dispatch, getState) => {
     )(params)(dispatch)
         .then(() => {
             dispatch(stopLoading());
-            history.push(stepDefs[4]);
+            // is is free, the payReservation method should perform the navigation
+            const isFree = reservation.discount_amount === reservation.raw_amount;
+            if(!isFree) {
+              history.push(stepDefs[4]);
+            }            
         }).catch(e => {
             dispatch(stopLoading());
             return (e);
