@@ -74,8 +74,7 @@ class StepExtraQuestionsPage extends React.Component {
         ev.preventDefault();
         if(!order.checkout.id) {
             this.props.payReservation();
-        }
-        history.push('done');
+        }        
         return null;
     }
 

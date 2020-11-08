@@ -17,7 +17,7 @@ import T from 'i18n-react/dist/i18n-react'
 import history from '../history'
 import { createReservation, payReservation, deleteReservation } from '../actions/order-actions'
 
-const stepDefs = ['start', 'details', 'checkout', 'done'];
+const stepDefs = ['start', 'details', 'checkout', 'extra', 'done'];
 
 class SubmitButtons extends React.Component {
 
