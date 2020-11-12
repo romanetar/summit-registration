@@ -202,7 +202,7 @@ class OrderList extends React.Component {
       let {summits} = this.props;
       let summit = summits.find(s => s.id === order.summit_id);
       let dateRange = daysBetweenDates(summit.start_date, summit.end_date, summit.time_zone_id);      
-      if(dateRange.length > 1) {
+      if (dateRange.length > 1) {
         let startDate = getFormatedDate(dateRange[0], summit.time_zone_id);
         let endDate = getFormatedDate(dateRange[dateRange.length-1], summit.time_zone_id);
         let startMonth = startDate.split(' ')[0];
@@ -219,9 +219,6 @@ class OrderList extends React.Component {
         return summitDate;
       }          
     }
-
-
-
 
     render() {
 
